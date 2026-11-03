@@ -50,7 +50,7 @@ for (const sz of sizes) {
   await step(2);
   await T('touchMove', [[joyX + 60, joyY - 10, 1], [q[0] - 70, q[1] - 40, 2]]);
   await step(3);
-  const aiming = await pg.evaluate(() => ({ aim: !!GAME.input.aim, ind: GAME.world.ind.rect.visible || GAME.world.ind.circle.visible || GAME.world.ind.cone.visible, joyStill: GAME.input.joy.active }));
+  const aiming = await pg.evaluate(() => ({ aim: !!GAME.input.aim, ind: GAME.world.rangeVisual.area.root.visible || GAME.world.rangeVisual.range.root.visible, joyStill: GAME.input.joy.active }));
   await T('touchEnd', [[q[0] - 70, q[1] - 40, 2]]); // 조준 손가락(2)만 뗌 → 조이스틱 손가락(1)은 유지
   await step(10);
   const afterCast = await pg.evaluate(() => ({ qcd: GAME.player.cds.Q > GAME.sim.time, aimCleared: !GAME.input.aim, joyActive: GAME.input.joy.active, ptrs: GAME.input.ptrs.size }));

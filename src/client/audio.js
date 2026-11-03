@@ -1,16 +1,19 @@
 // WebAudio 효과음 + 화면별 Runway 오케스트라 음악. 음원은 같은 사이트에서 스트리밍한다.
+import {CombatAudio} from './combatAudio.js';
 const MUSIC = { title: 'title', select: 'select', menu: 'select', battle: 'battle' };
 export class Audio {
   constructor() {
     this.ctx = null; this.vol = { master: 0.7, sfx: 0.8, music: 0.4 };
-    this.last = {};
+    this.last = {};this.combat=new CombatAudio(this);
     this.musicOn = null; this.musicVoice = null; this.musicVoices = new Set(); this.musicEpoch = 0;
   }
   init() {
     if (this.ctx) return;
     try {
       this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-      this.master = this.ctx.createGain(); this.master.connect(this.ctx.destination);
+      this.master = this.ctx.createGain();
+      this.limiter=this.ctx.createDynamicsCompressor();this.limiter.threshold.value=-8;this.limiter.knee.value=10;this.limiter.ratio.value=6;this.limiter.attack.value=.003;this.limiter.release.value=.16;
+      this.master.connect(this.limiter);this.limiter.connect(this.ctx.destination);
       this.sfxG = this.ctx.createGain(); this.sfxG.connect(this.master);
       this.musG = this.ctx.createGain(); this.musG.connect(this.master);
       this.applyVol();
@@ -21,7 +24,10 @@ export class Audio {
       for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
     } catch (e) { this.ctx = null; }
   }
-  applyVol() { if (!this.ctx) return; this.master.gain.value = this.vol.master; this.sfxG.gain.value = this.vol.sfx; this.musG.gain.value = this.vol.music; }
+  applyVol() { if (!this.ctx) return; this.master.gain.value = this.vol.master; this.sfxG.gain.value = this.vol.sfx; this.musG.gain.cancelScheduledValues(this.ctx.currentTime); this.musG.gain.setValueAtTime(this.vol.music,this.ctx.currentTime); }
+  async loadCombat(ids){this.init();if(this.ctx)await this.combat.load(ids);}
+  playCombat(id,kind,options){return this.combat.play(id,kind,options);}
+  duckMusic(){if(!this.ctx)return;const g=this.musG.gain,t=this.ctx.currentTime;g.cancelAndHoldAtTime(t);g.linearRampToValueAtTime(this.vol.music*.55,t+.06);g.linearRampToValueAtTime(this.vol.music,t+1.4);}
   suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); }
   resume() {
     if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});

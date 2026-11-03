@@ -5,6 +5,7 @@ import { buildGrid } from './map/grid.js';
 import { loadModelTemplates } from './render/champVisual.js';
 import { loadMapAssets } from './render/mapAssets.js';
 import { loadHeroAssets } from './render/heroAssets.js';
+import { loadIndicatorAssets } from './render/rangeIndicators.js';
 import { createRenderer, QUALITY } from './render/scene.js';
 import { renderPortraits } from './client/icons.js';
 import { SelectScreen, autoPicks } from './client/select.js';
@@ -162,7 +163,7 @@ async function startGame(picks, net = null) {
   if (!renderer) renderer = createRenderer($('#game'), q);
   renderer.setSize(innerWidth, innerHeight, false);
   bar.style.width = '15%';
-  await loadMapAssets(k => { bar.style.width = Math.round(15 + k * 40) + '%'; });
+  await Promise.all([loadMapAssets(k => { bar.style.width = Math.round(15 + k * 40) + '%'; }),loadIndicatorAssets(),audio.loadCombat(picks.map(p=>p.id))]);
   await new Promise((r) => setTimeout(r, 20));
   if(net&&!net.matchId){L.classList.add('hidden');return;}
   if(net){const deadline=performance.now()+10000;while(!net.initialState&&net.matchId&&performance.now()<deadline)await new Promise(r=>setTimeout(r,50));if(!net.initialState)throw new Error('경기 서버의 초기 상태를 받지 못했습니다. 다시 참여해 주세요.');}

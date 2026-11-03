@@ -11,7 +11,7 @@ import { applySnapshot } from '../net/wire.js';
 
 export class Game {
   constructor({ renderer, picks, settings, portraits, mobile, seed, onEnd, onProgress, online }) {
-    this.online = online || null;
+    this.online = online || null;this.audio=audio;
     this.renderer = renderer; this.settings = settings; this.portraits = portraits; this.mobile = mobile; this.onEnd = onEnd;
     this.picks = picks;
     this.sim = new Sim({ seed: seed ?? (Math.random() * 1e9) | 0, picks });
@@ -162,6 +162,7 @@ export class Game {
     clearTimeout(this.endTimer);
     if(this.online?.game===this)this.online.game=null;
     this.world.fx.hero.dispose();
+    this.world.rangeVisual.dispose();audio.combat.stop();
     window.removeEventListener('resize', this._onResize);
     document.removeEventListener('visibilitychange', this._onVis);
     this.input.destroy();

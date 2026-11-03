@@ -1,0 +1,582 @@
+{
+  "provider": "Runway",
+  "estimatedCredits": 132,
+  "assets": [
+    {
+      "id": "pang-attack",
+      "champion": "pang",
+      "kind": "attack",
+      "label": "김두영 기본 공격",
+      "duration": 0.9,
+      "promptText": "Crystal staff fires a liquid magic bolt, glass tick and airy snap. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "pang-hit",
+      "champion": "pang",
+      "kind": "hit",
+      "label": "김두영 피격",
+      "duration": 0.65,
+      "promptText": "Magic strikes an alchemist cloth robe, soft solid thud and tiny glass chink. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "pang-Q",
+      "champion": "pang",
+      "kind": "Q",
+      "label": "김두영 파열 약병",
+      "duration": 1.4,
+      "promptText": "Alchemist potion bottle whips through air and bursts into sparkling liquid and crisp glass. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "pang-W",
+      "champion": "pang",
+      "kind": "W",
+      "label": "김두영 생기 처방",
+      "duration": 1.4,
+      "promptText": "Healing elixir blooms with warm crystal chimes and a gentle rising liquid shimmer. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "pang-E",
+      "champion": "pang",
+      "kind": "E",
+      "label": "김두영 응고 지대",
+      "duration": 1.4,
+      "promptText": "Sticky magical liquid splashes outward with viscous bubbles and a low mystical fizz. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "pang-R",
+      "champion": "pang",
+      "kind": "R",
+      "label": "김두영 생명의 대조제",
+      "duration": 2.8,
+      "promptText": "A grand life-restoring alchemical sanctuary opens, rich crystalline swell, cascading liquid light and radiant magical pulse. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "koo-attack",
+      "champion": "koo",
+      "kind": "attack",
+      "label": "구자현 기본 공격",
+      "duration": 0.9,
+      "promptText": "Heavy knight shield swings, short steel whoosh and weighty metallic knock. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "koo-hit",
+      "champion": "koo",
+      "kind": "hit",
+      "label": "구자현 피격",
+      "duration": 0.65,
+      "promptText": "An attack hits thick steel armor, solid metal clang and deep cushioned thump. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "koo-Q",
+      "champion": "koo",
+      "kind": "Q",
+      "label": "구자현 철벽 강타",
+      "duration": 1.4,
+      "promptText": "Tower shield slams forward with a huge metallic smack, ringing steel and dust. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "koo-W",
+      "champion": "koo",
+      "kind": "W",
+      "label": "구자현 요새 자세",
+      "duration": 1.4,
+      "promptText": "Interlocking steel armor locks into fortress stance, resonant latch and deep protective hum. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "koo-E",
+      "champion": "koo",
+      "kind": "E",
+      "label": "구자현 중갑 돌진",
+      "duration": 1.4,
+      "promptText": "Armored knight bursts forward, scraping steel and forceful rushing air. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "koo-R",
+      "champion": "koo",
+      "kind": "R",
+      "label": "구자현 수호자의 진격",
+      "duration": 2.8,
+      "promptText": "Massive guardian charge, short ominous metal rise, thunderous armored rush and heavy ground-shaking impact. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "bang-attack",
+      "champion": "bang",
+      "kind": "attack",
+      "label": "방지욱 기본 공격",
+      "duration": 0.9,
+      "promptText": "Twin assassin daggers slash sharply, two fast airy cuts and silver ring. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "bang-hit",
+      "champion": "bang",
+      "kind": "hit",
+      "label": "방지욱 피격",
+      "duration": 0.65,
+      "promptText": "An attack strikes dark leather armor, tight dry impact and faint metallic tick. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "bang-Q",
+      "champion": "bang",
+      "kind": "Q",
+      "label": "방지욱 그림자 칼날",
+      "duration": 1.4,
+      "promptText": "An enchanted throwing dagger launches with a razor whistle and shadowy sting. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "bang-W",
+      "champion": "bang",
+      "kind": "W",
+      "label": "방지욱 잔영 교란",
+      "duration": 1.4,
+      "promptText": "Shadow decoy materializes with an airy inverted whisper and glassy phantom shimmer. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "bang-E",
+      "champion": "bang",
+      "kind": "E",
+      "label": "방지욱 측면 침투",
+      "duration": 1.4,
+      "promptText": "Assassin dashes through shadow with a short dark suction burst and razor flick. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "bang-R",
+      "champion": "bang",
+      "kind": "R",
+      "label": "방지욱 허상의 포위",
+      "duration": 2.8,
+      "promptText": "Four spectral assassins converge, rapidly alternating sharp blade cuts, spectral sweeps and a powerful final silvery slash. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "park-attack",
+      "champion": "park",
+      "kind": "attack",
+      "label": "팽재현 기본 공격",
+      "duration": 0.9,
+      "promptText": "Large blacksmith hammer swings, heavy air displacement and compact iron clonk. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "park-hit",
+      "champion": "park",
+      "kind": "hit",
+      "label": "팽재현 피격",
+      "duration": 0.65,
+      "promptText": "A weapon strikes rugged forged armor, low iron knock and small ember crackle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "park-Q",
+      "champion": "park",
+      "kind": "Q",
+      "label": "팽재현 단조 타격",
+      "duration": 1.4,
+      "promptText": "Forge hammer smashes the ground, crushing iron impact, scattered stone and hot sparks. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "park-W",
+      "champion": "park",
+      "kind": "W",
+      "label": "팽재현 담금질",
+      "duration": 1.4,
+      "promptText": "Hot steel is quenched, sudden steam hiss, resonant metal and glowing protective energy. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "park-E",
+      "champion": "park",
+      "kind": "E",
+      "label": "팽재현 쇄도",
+      "duration": 1.4,
+      "promptText": "Heavy forge warrior lunges, scraping metal rush with a fiery impact. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "park-R",
+      "champion": "park",
+      "kind": "R",
+      "label": "팽재현 거인의 모루",
+      "duration": 2.8,
+      "promptText": "A gigantic celestial anvil descends, rising hot metal resonance, enormous forged iron crash and deep rumbling sparks. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "jung-attack",
+      "champion": "jung",
+      "kind": "attack",
+      "label": "이선용 기본 공격",
+      "duration": 0.9,
+      "promptText": "Polished knight sword cuts through air, bright steel swish and short resonant ring. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "jung-hit",
+      "champion": "jung",
+      "kind": "hit",
+      "label": "이선용 피격",
+      "duration": 0.65,
+      "promptText": "An attack hits ornate knight plate, clean metal clink and weighty armor impact. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "jung-Q",
+      "champion": "jung",
+      "kind": "Q",
+      "label": "이선용 여명 베기",
+      "duration": 1.4,
+      "promptText": "Radiant sword launches a crescent of light, clean broad metal slash and luminous wave. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "jung-W",
+      "champion": "jung",
+      "kind": "W",
+      "label": "이선용 수호의 맹세",
+      "duration": 1.4,
+      "promptText": "Holy shield blossoms, clear crystal bell and warm protective energy bloom. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "jung-E",
+      "champion": "jung",
+      "kind": "E",
+      "label": "이선용 빛의 진입",
+      "duration": 1.4,
+      "promptText": "Knight dashes in a flash of dawn light, bright wind sweep and compact radiant impact. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "jung-R",
+      "champion": "jung",
+      "kind": "R",
+      "label": "이선용 여명의 성역",
+      "duration": 2.8,
+      "promptText": "A vast dawn sanctuary unfolds, majestic luminous resonance, layered crystal bells and a broad warm protective shockwave. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cha-attack",
+      "champion": "cha",
+      "kind": "attack",
+      "label": "사공민 기본 공격",
+      "duration": 0.9,
+      "promptText": "Recurve bow releases one arrow, taut string snap and fast feathered whistle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cha-hit",
+      "champion": "cha",
+      "kind": "hit",
+      "label": "사공민 피격",
+      "duration": 0.65,
+      "promptText": "An attack hits ranger leather armor, dry leather thud and quiver rattle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cha-Q",
+      "champion": "cha",
+      "kind": "Q",
+      "label": "사공민 관통 화살",
+      "duration": 1.4,
+      "promptText": "A powerful piercing arrow releases, sharp bowstring crack and long clean aerodynamic whistle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cha-W",
+      "champion": "cha",
+      "kind": "W",
+      "label": "사공민 정밀 조준",
+      "duration": 1.4,
+      "promptText": "Archer focus activates, tiny mechanical click and a rising clear precision chime. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cha-E",
+      "champion": "cha",
+      "kind": "E",
+      "label": "사공민 회피 기동",
+      "duration": 1.4,
+      "promptText": "Ranger evades quickly, short cloth flick and crisp lateral air rush. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cha-R",
+      "champion": "cha",
+      "kind": "R",
+      "label": "사공민 폭풍 사격",
+      "duration": 2.8,
+      "promptText": "Storm volley of twelve enchanted arrows, rapid staccato bowstring releases and overlapping rushing whistles with a sharp finishing accent. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "sagong-attack",
+      "champion": "sagong",
+      "kind": "attack",
+      "label": "차동호 기본 공격",
+      "duration": 0.9,
+      "promptText": "Celestial orb releases one star bolt, bright crystalline ping and cosmic pulse. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "sagong-hit",
+      "champion": "sagong",
+      "kind": "hit",
+      "label": "차동호 피격",
+      "duration": 0.65,
+      "promptText": "Magic hits a celestial mage robe, soft impact and tiny glassy star crackle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "sagong-Q",
+      "champion": "sagong",
+      "kind": "Q",
+      "label": "차동호 유성편",
+      "duration": 1.4,
+      "promptText": "A meteor shard launches, sharp sparkling celestial attack and thin comet whistle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "sagong-W",
+      "champion": "sagong",
+      "kind": "W",
+      "label": "차동호 중력 우물",
+      "duration": 1.4,
+      "promptText": "A gravity well opens, deep restrained suction, orbiting crystalline pulses and inward implosion. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "sagong-E",
+      "champion": "sagong",
+      "kind": "E",
+      "label": "차동호 궤도 변경",
+      "duration": 1.4,
+      "promptText": "Instant celestial teleport, sharp airy disappearance and glittering reappearance. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "sagong-R",
+      "champion": "sagong",
+      "kind": "R",
+      "label": "차동호 성좌 붕괴",
+      "duration": 2.8,
+      "promptText": "Seven meteors fall from a collapsing constellation, shimmering cosmic rise followed by staggered deep magical impacts and crystal cascades. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cho-attack",
+      "champion": "cho",
+      "kind": "attack",
+      "label": "조강희 기본 공격",
+      "duration": 0.9,
+      "promptText": "Leaf-shaped spear thrusts, fast woody shaft whoosh and clean metal tip zing. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cho-hit",
+      "champion": "cho",
+      "kind": "hit",
+      "label": "조강희 피격",
+      "duration": 0.65,
+      "promptText": "An attack hits forest leather armor, solid hide thud and light wood knock. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cho-Q",
+      "champion": "cho",
+      "kind": "Q",
+      "label": "조강희 송곳니 찌르기",
+      "duration": 1.4,
+      "promptText": "Serrated forest spear lunges, sharp concentrated air pierce and emerald energy crack. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cho-W",
+      "champion": "cho",
+      "kind": "W",
+      "label": "조강희 숲의 숨결",
+      "duration": 1.4,
+      "promptText": "Forest healing breath, soft leaves and wooden resonance with luminous green chimes. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cho-E",
+      "champion": "cho",
+      "kind": "E",
+      "label": "조강희 도약 사냥",
+      "duration": 1.4,
+      "promptText": "Forest hunter leaps and lands, swift air arc followed by an earthy compact thud. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "cho-R",
+      "champion": "cho",
+      "kind": "R",
+      "label": "조강희 태고의 추적",
+      "duration": 2.8,
+      "promptText": "An ancient forest spirit awakens for the hunt, deep animal-like magical resonance, rustling energy and a forceful emerald pulse. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "kim-attack",
+      "champion": "kim",
+      "kind": "attack",
+      "label": "정석호 기본 공격",
+      "duration": 0.9,
+      "promptText": "Arcane shoulder cannon fires once, punchy magical recoil and violet electric snap. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "kim-hit",
+      "champion": "kim",
+      "kind": "hit",
+      "label": "정석호 피격",
+      "duration": 0.65,
+      "promptText": "An attack hits bronze machinery armor, tight metal clang and crystal rattle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "kim-Q",
+      "champion": "kim",
+      "kind": "Q",
+      "label": "정석호 마력 포탄",
+      "duration": 1.4,
+      "promptText": "Arcane mortar launches a heavy magical shell, deep recoil, energized whistle and compact blast. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "kim-W",
+      "champion": "kim",
+      "kind": "W",
+      "label": "정석호 감응 지뢰",
+      "duration": 1.4,
+      "promptText": "Small arcane mine arms, delicate metal click, crystal charging chirp and soft pulse. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "kim-E",
+      "champion": "kim",
+      "kind": "E",
+      "label": "정석호 반동 사격",
+      "duration": 1.4,
+      "promptText": "Close-range arcane cannon recoil blast, sharp explosive thump and rushing backward air. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "kim-R",
+      "champion": "kim",
+      "kind": "R",
+      "label": "정석호 비전 포격망",
+      "duration": 2.8,
+      "promptText": "Eight arcane artillery shells bombard a battlefield, layered magical launch pulses, descending whistles and staggered bass impacts. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "lee-attack",
+      "champion": "lee",
+      "kind": "attack",
+      "label": "박철호 기본 공격",
+      "duration": 0.9,
+      "promptText": "Magic conductor baton flicks one sonic bolt, clear glassy pluck and focused airy pulse. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "lee-hit",
+      "champion": "lee",
+      "kind": "hit",
+      "label": "박철호 피격",
+      "duration": 0.65,
+      "promptText": "An attack hits a conductor robe, soft impact and a short muted metallic chime. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "lee-Q",
+      "champion": "lee",
+      "kind": "Q",
+      "label": "박철호 파동 선율",
+      "duration": 1.4,
+      "promptText": "A focused harmonic wave fires, crisp resonant chime bending into a clean sonic sweep. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "lee-W",
+      "champion": "lee",
+      "kind": "W",
+      "label": "박철호 평온의 화음",
+      "duration": 1.4,
+      "promptText": "Protective harmonic shield opens, three warm glass chimes and a rounded shimmering bloom. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "lee-E",
+      "champion": "lee",
+      "kind": "E",
+      "label": "박철호 행진 박자",
+      "duration": 1.4,
+      "promptText": "Magical marching tempo gives speed, two crisp resonant taps and a bright rising swish. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "lee-R",
+      "champion": "lee",
+      "kind": "R",
+      "label": "박철호 거대한 공명",
+      "duration": 2.8,
+      "promptText": "A huge resonant sonic wave erupts, powerful sustained crystalline chord-like impact, expanding harmonic shockwave and sparkling decay. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "choi-attack",
+      "champion": "choi",
+      "kind": "attack",
+      "label": "최길용 기본 공격",
+      "duration": 0.9,
+      "promptText": "Cryogenic pistol fires one icy shot, pressure pop, brittle crystal snap and cold hiss. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "choi-hit",
+      "champion": "choi",
+      "kind": "hit",
+      "label": "최길용 피격",
+      "duration": 0.65,
+      "promptText": "An attack strikes frozen armor, brittle ice clink and a solid compact impact. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "choi-Q",
+      "champion": "choi",
+      "kind": "Q",
+      "label": "최길용 냉각 탄환",
+      "duration": 1.4,
+      "promptText": "Ice bullet launches, sharp compressed cold snap with a thin crystalline whistle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "choi-W",
+      "champion": "choi",
+      "kind": "W",
+      "label": "최길용 서리 장막",
+      "duration": 1.4,
+      "promptText": "A veil of frost spreads outward, delicate ice growth crackles, chilled wind and tiny crystal bells. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "choi-E",
+      "champion": "choi",
+      "kind": "E",
+      "label": "최길용 빙판 활주",
+      "duration": 1.4,
+      "promptText": "Ice skating dash, a clean frozen scrape sweeping into a short crystalline shield chime. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "choi-R",
+      "champion": "choi",
+      "kind": "R",
+      "label": "최길용 절대 영도",
+      "duration": 2.8,
+      "promptText": "Absolute-zero detonation, short cold pressure rise, enormous sharp ice fracture and deep magical frost blast with sparkling crystalline debris. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "flame-attack",
+      "champion": "flame",
+      "kind": "attack",
+      "label": "불꽃남자 기본 공격",
+      "duration": 0.9,
+      "promptText": "A small fire bolt snaps from a hand, immediate hot whoosh, dry pop and ember fizz. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "flame-hit",
+      "champion": "flame",
+      "kind": "hit",
+      "label": "불꽃남자 피격",
+      "duration": 0.65,
+      "promptText": "An attack hits a fire mage, compact body impact with a brief ember crackle. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "flame-Q",
+      "champion": "flame",
+      "kind": "Q",
+      "label": "불꽃남자 화염구",
+      "duration": 1.4,
+      "promptText": "A dense fireball launches and flares, sharp fiery whoosh with punchy hot ignition. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "flame-W",
+      "champion": "flame",
+      "kind": "W",
+      "label": "불꽃남자 불기둥",
+      "duration": 1.4,
+      "promptText": "A pillar of fire erupts upward, rapid ignition burst and focused roaring flame. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "flame-E",
+      "champion": "flame",
+      "kind": "E",
+      "label": "불꽃남자 화염 질주",
+      "duration": 1.4,
+      "promptText": "Fire mage dashes through hot air, fast searing sweep and crackling ember trail. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    },
+    {
+      "id": "flame-R",
+      "champion": "flame",
+      "kind": "R",
+      "label": "불꽃남자 업화 폭풍",
+      "duration": 2.8,
+      "promptText": "An infernal firestorm swirls into a huge final blast, layered rushing flames, powerful low rumble and explosive ember shower. Immediate onset, polished high fantasy MOBA game sound, controlled punch and clear detail, short clean decay. Isolated one-shot, no speech, no vocals, no background music or ambience."
+    }
+  ]
+}

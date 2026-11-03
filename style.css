@@ -237,6 +237,47 @@ canvas.mm { display: block; border-radius: 4px; cursor: pointer; }
 .mobile.mirror #m-top-right { right: auto; left: calc(6px + var(--sal)); }
 .mobile.mirror #m-enemies { left: auto; right: calc(162px * var(--btn) + var(--sar)); }
 
+/* Mobile battlefield controls: open center, left movement and right combat arc. */
+.mobile #m-controls{position:absolute;inset:0;pointer-events:none;z-index:8}
+.mobile #m-controls .interactive{pointer-events:auto}
+.mobile #joy{width:calc(140px * var(--joy-s));height:calc(140px * var(--joy-s));border:1px solid #82d5df70;background:radial-gradient(circle, #0e344050 0 40%,transparent 41% 64%,#8cdde51a 65% 67%,#091e2b45 68%);box-shadow:inset 0 0 22px #4cc5dd18,0 0 0 5px #07182228;opacity:.58}
+.mobile #joy:after{content:'';position:absolute;inset:12%;border:1px solid #accaba40;border-radius:50%;pointer-events:none}
+.mobile #joy .knob{width:43%;height:43%;border:2px solid #77d7dfb0;background:radial-gradient(circle at 38% 30%,#347482a0,#102b3bc9 65%);box-shadow:inset 0 0 12px #82e9ef33,0 3px 14px #0007}
+.mobile #joy .knob i{position:absolute;inset:33%;transform:rotate(45deg);border:1px solid #b6edf5a0;background:#65cee433}
+.mobile #joy.active{opacity:.95;border-color:#a5eaf4;box-shadow:0 0 20px #5cd0de30}
+.joy-label{position:absolute;bottom:7%;left:0;right:0;text-align:center;font-size:10px;letter-spacing:3px;color:#c9e6e9aa;pointer-events:none}
+.mobile .mskill{border:2px solid #7fc4cb;background:#061a27;box-shadow:0 0 0 3px #0b1c2baa,inset 0 0 0 2px #c5e9e844,0 3px 12px #0008;overflow:visible;width:calc(64px * var(--btn));height:calc(64px * var(--btn))}
+.mobile .mskill img,.mobile .mskill .cd{border-radius:50%}
+.mobile .mskill img{padding:3px;object-fit:cover;filter:saturate(.88)}
+.mobile .mskill.big{width:calc(98px * var(--btn));height:calc(98px * var(--btn));border:2px solid #bdeae6;background:radial-gradient(circle at 36% 28%,#307084dc,#103342eb 58%,#051522);box-shadow:0 0 0 4px #071a23aa,inset 0 0 0 4px #60bac340,inset 0 0 22px #54d4df30,0 4px 16px #0009}
+.attack-emblem{position:absolute;width:58%;height:58%;top:12%;left:21%;fill:#b3efec;filter:drop-shadow(0 0 7px #7de8ef70);pointer-events:none}
+.mobile .mskill .lbl{bottom:12%;font-size:calc(11px * var(--btn));color:#cae8e6;letter-spacing:2px}
+.mobile .mskill.r{width:calc(76px * var(--btn));height:calc(76px * var(--btn));border-color:#ddc789;box-shadow:0 0 0 3px #1e281fcc,0 0 17px #b3e9d024,inset 0 0 12px #ffe5aa40}
+.skill-letter{position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);min-width:20px;padding:1px 4px;background:#071923;border:1px solid #75a7af;border-radius:6px;text-align:center;font-size:calc(10px * var(--btn));color:#b9e9f0;pointer-events:none}
+.mskill.r .skill-letter{color:#f6df9e;border-color:#af9456;min-width:38px}
+.mobile .mskill.small{width:max(40px,calc(48px * var(--btn)));height:max(40px,calc(48px * var(--btn)));background:radial-gradient(circle at 35% 25%,#1e4958dd,#071b27dc);border:1px solid #719fa3aa;display:block;box-shadow:0 0 0 2px #06182066,inset 0 0 10px #1e677a33}
+.mobile .mskill.small svg{position:absolute;width:55%;height:55%;left:22.5%;top:10%;fill:none;stroke:#b4e0e4;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.utility-label{position:absolute;bottom:7%;left:0;right:0;font-size:max(8px,calc(9px * var(--btn)));color:#b9d9df;text-align:center;pointer-events:none}
+.mobile .mskill.utility{border-color:#ad9c6eaa}
+.mobile .mskill.shop svg{stroke:#e9cd83}.mobile .mskill.potion svg{stroke:#82d7c2}.mobile .mskill.recall svg{stroke:#7ecde8}
+.mobile .mskill.target-control{opacity:.7;box-shadow:none}.mobile .mskill.camera-control{opacity:.65;box-shadow:none}
+.mobile .mskill.pressed{border-color:#e6ffff;box-shadow:0 0 0 4px #74e4ec44,0 0 25px #67f2ff65;opacity:1}
+.mobile .mskill.locked img{filter:grayscale(1) brightness(.35)}.mobile .mskill.nomana img{filter:saturate(.1) brightness(.5)}
+.mobile .mskill .lvlup{left:50%;transform:translateX(-50%);top:-23px;width:30px;height:23px;border-radius:9px;background:#d8b969;color:#17262c;border:1px solid #ffefb7;box-shadow:0 0 9px #e6c26766;z-index:4}
+.mobile #m-mm{border:1px solid #8bb1ae88;background:#071721b8;padding:2px;border-radius:8px;overflow:hidden}
+.mobile #m-mm canvas{width:calc(132px * var(--btn));height:calc(132px * var(--btn))}
+.mobile #m-enemies{left:calc(145px * var(--btn) + var(--sal));gap:5px}.mobile #m-enemies .pt{width:calc(32px * var(--btn));height:calc(32px * var(--btn));border-width:1px}
+.mobile.mirror #m-enemies{right:calc(145px * var(--btn) + var(--sar));left:auto}
+.mobile #m-top-right .mbtn{width:calc(36px * var(--btn));height:calc(36px * var(--btn));border:1px solid #62858e88;background:#0b223178;font-size:8px}
+.mobile #m-top-right .mbtn i{font-size:16px}
+.mobile #topbar{background:#07131d75;border-color:#729b9b44;border-radius:0 0 12px 12px;padding:2px 10px;min-width:142px}
+.mobile #topbar .clock{font-size:12px}.mobile #topbar .tw{font-size:8px}.mobile #topbar .k0,.mobile #topbar .k1{font-size:16px}
+.mobile #m-hpbar{top:calc(57px + var(--sat));width:min(210px,25vw);padding:3px 5px;background:#07131d66;border-color:#74949a44;border-radius:5px;opacity:.86}
+.mobile #m-hpbar .row1{font-size:9px}.mobile #m-hpbar .bar{height:7px}.mobile #m-hpbar .bar .t{display:none}
+.mobile #m-cancel{width:calc(65px * var(--btn));height:calc(65px * var(--btn));border:2px solid #85d7dc;background:#0c354870;box-shadow:0 0 20px #6be5f02b;color:#beffff;flex-direction:column;gap:0}
+.mobile #m-cancel b{font-size:30px;font-weight:400;line-height:30px}.mobile #m-cancel span{font-size:9px}
+.mobile #m-cancel.hot{border-color:#ff9a8e;background:#782a2bd9;color:#fff}
+
 /* ================= 캐릭터 선택 (시안 재현: 남색 마법 전당 + 금장 패널) ================= */
 #select.sel2 { display: block; padding: 0; background: #040c1a; --u: min(0.62vw, 1.13vh); font-size: calc(var(--u) * 1.4); }
 #select.sel2 #sel-stage { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }

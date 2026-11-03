@@ -1,0 +1,582 @@
+{
+  "provider": "Runway",
+  "estimatedCredits": 132,
+  "assets": [
+    {
+      "id": "bang-attack",
+      "label": "방지욱 기본 공격",
+      "file": "public/audio/combat/bang/attack.mp3",
+      "taskId": "cf213957-8bfe-411c-ab9a-7b70eeca1e91",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "bang-E",
+      "label": "방지욱 측면 침투",
+      "file": "public/audio/combat/bang/E.mp3",
+      "taskId": "6755ca29-f15c-4bfc-94c4-39d17b3d8f6f",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "bang-hit",
+      "label": "방지욱 피격",
+      "file": "public/audio/combat/bang/hit.mp3",
+      "taskId": "656675f9-3164-422d-85de-19a97a44c3e0",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "bang-Q",
+      "label": "방지욱 그림자 칼날",
+      "file": "public/audio/combat/bang/Q.mp3",
+      "taskId": "6a67883f-230b-4075-8a82-ed8c54d1d7a5",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "bang-R",
+      "label": "방지욱 허상의 포위",
+      "file": "public/audio/combat/bang/R.mp3",
+      "taskId": "50958432-9d67-4d89-be71-2da2f3fb170c",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "bang-W",
+      "label": "방지욱 잔영 교란",
+      "file": "public/audio/combat/bang/W.mp3",
+      "taskId": "6a703b6b-b9eb-463f-ac5a-5936da2f70b5",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "cha-attack",
+      "label": "사공민 기본 공격",
+      "file": "public/audio/combat/cha/attack.mp3",
+      "taskId": "d7758b29-de27-41b8-ab81-3a395a7cf1e4",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "cha-E",
+      "label": "사공민 회피 기동",
+      "file": "public/audio/combat/cha/E.mp3",
+      "taskId": "9196aff3-01f6-40fb-9e51-faf23a8580dd",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "cha-hit",
+      "label": "사공민 피격",
+      "file": "public/audio/combat/cha/hit.mp3",
+      "taskId": "f9d41110-7876-4148-b07b-2c16534c84fc",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "cha-Q",
+      "label": "사공민 관통 화살",
+      "file": "public/audio/combat/cha/Q.mp3",
+      "taskId": "635ad8f4-9bd5-41a0-9cd8-e6b5d7bc653a",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "cha-R",
+      "label": "사공민 폭풍 사격",
+      "file": "public/audio/combat/cha/R.mp3",
+      "taskId": "57650750-fa36-4fab-9d3a-2c50ccace720",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "cha-W",
+      "label": "사공민 정밀 조준",
+      "file": "public/audio/combat/cha/W.mp3",
+      "taskId": "4b649bca-9818-4fc3-9867-007afdcf175f",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "cho-attack",
+      "label": "조강희 기본 공격",
+      "file": "public/audio/combat/cho/attack.mp3",
+      "taskId": "33e5a931-be28-4d46-baaa-f3752dce0b08",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "cho-E",
+      "label": "조강희 도약 사냥",
+      "file": "public/audio/combat/cho/E.mp3",
+      "taskId": "3065c4b9-966e-4176-87df-790a2f9a3b90",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "cho-hit",
+      "label": "조강희 피격",
+      "file": "public/audio/combat/cho/hit.mp3",
+      "taskId": "40f2063b-8532-467b-a4e5-7ef2621394c5",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "cho-Q",
+      "label": "조강희 송곳니 찌르기",
+      "file": "public/audio/combat/cho/Q.mp3",
+      "taskId": "977d66b4-bd6a-4d21-a520-30fbd558dac2",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "cho-R",
+      "label": "조강희 태고의 추적",
+      "file": "public/audio/combat/cho/R.mp3",
+      "taskId": "a2682e16-60ff-4d81-9ecb-9831e1e229c8",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "cho-W",
+      "label": "조강희 숲의 숨결",
+      "file": "public/audio/combat/cho/W.mp3",
+      "taskId": "64149d82-5328-4278-ac85-5c0c2f48b778",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "choi-attack",
+      "label": "최길용 기본 공격",
+      "file": "public/audio/combat/choi/attack.mp3",
+      "taskId": "a996ac2f-4d92-47c1-9932-4a7823f96ed5",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "choi-E",
+      "label": "최길용 빙판 활주",
+      "file": "public/audio/combat/choi/E.mp3",
+      "taskId": "c2520244-0eeb-4156-90cd-60432d32875a",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "choi-hit",
+      "label": "최길용 피격",
+      "file": "public/audio/combat/choi/hit.mp3",
+      "taskId": "3f4dfeb2-231a-468a-8a5f-04039a32bb5d",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "choi-Q",
+      "label": "최길용 냉각 탄환",
+      "file": "public/audio/combat/choi/Q.mp3",
+      "taskId": "10c52e07-0ff0-420e-a0f6-fa90d78bb3d2",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "choi-R",
+      "label": "최길용 절대 영도",
+      "file": "public/audio/combat/choi/R.mp3",
+      "taskId": "569d9900-a7ae-4627-a495-b44c777fd969",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "choi-W",
+      "label": "최길용 서리 장막",
+      "file": "public/audio/combat/choi/W.mp3",
+      "taskId": "77550e08-78d4-4215-b1dc-91ad6c24f54f",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "flame-attack",
+      "label": "불꽃남자 기본 공격",
+      "file": "public/audio/combat/flame/attack.mp3",
+      "taskId": "ff59a89d-bef0-4321-a28c-5e75e6a4ffa9",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "flame-E",
+      "label": "불꽃남자 화염 질주",
+      "file": "public/audio/combat/flame/E.mp3",
+      "taskId": "eba35db8-a189-4c03-9829-7b5ce5e83b49",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "flame-hit",
+      "label": "불꽃남자 피격",
+      "file": "public/audio/combat/flame/hit.mp3",
+      "taskId": "f9cc2afa-c6cf-433f-be08-189fe8e38b69",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "flame-Q",
+      "label": "불꽃남자 화염구",
+      "file": "public/audio/combat/flame/Q.mp3",
+      "taskId": "2c5e5462-7a80-4171-80d2-2e9ba5078a73",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "flame-R",
+      "label": "불꽃남자 업화 폭풍",
+      "file": "public/audio/combat/flame/R.mp3",
+      "taskId": "72462827-63a0-4fb3-ba49-c30098762f0b",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "flame-W",
+      "label": "불꽃남자 불기둥",
+      "file": "public/audio/combat/flame/W.mp3",
+      "taskId": "2423dab1-ea03-4723-8198-9fc4c446acf3",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "jung-attack",
+      "label": "이선용 기본 공격",
+      "file": "public/audio/combat/jung/attack.mp3",
+      "taskId": "cefe49cb-de95-4e0d-874f-a8165c386062",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "jung-E",
+      "label": "이선용 빛의 진입",
+      "file": "public/audio/combat/jung/E.mp3",
+      "taskId": "f330bf25-8bbc-4fa9-aec3-d105b525e291",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "jung-hit",
+      "label": "이선용 피격",
+      "file": "public/audio/combat/jung/hit.mp3",
+      "taskId": "eefbc87c-c1b1-4569-aea1-a4e4bb559e56",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "jung-Q",
+      "label": "이선용 여명 베기",
+      "file": "public/audio/combat/jung/Q.mp3",
+      "taskId": "066e5d13-00a4-436c-880e-a94a98c32f82",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "jung-R",
+      "label": "이선용 여명의 성역",
+      "file": "public/audio/combat/jung/R.mp3",
+      "taskId": "2265eb9a-3e3e-47c1-ba43-72ab1fcf1c8e",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "jung-W",
+      "label": "이선용 수호의 맹세",
+      "file": "public/audio/combat/jung/W.mp3",
+      "taskId": "fd9a68c2-226c-42c9-a6e2-1f10b0f1fa07",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "kim-attack",
+      "label": "정석호 기본 공격",
+      "file": "public/audio/combat/kim/attack.mp3",
+      "taskId": "e41f5804-505e-416d-af6e-d5710bd96c46",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "kim-E",
+      "label": "정석호 반동 사격",
+      "file": "public/audio/combat/kim/E.mp3",
+      "taskId": "c3f5f3e1-bdc1-41a4-bc85-d9b1f5c1227f",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "kim-hit",
+      "label": "정석호 피격",
+      "file": "public/audio/combat/kim/hit.mp3",
+      "taskId": "eed2385d-bb84-4da5-a776-8829561c466b",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "kim-Q",
+      "label": "정석호 마력 포탄",
+      "file": "public/audio/combat/kim/Q.mp3",
+      "taskId": "951cfd19-6ae3-4274-9a99-79fc4915d5c0",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "kim-R",
+      "label": "정석호 비전 포격망",
+      "file": "public/audio/combat/kim/R.mp3",
+      "taskId": "014a9457-e7ea-4640-a7ec-229bf141027e",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "kim-W",
+      "label": "정석호 감응 지뢰",
+      "file": "public/audio/combat/kim/W.mp3",
+      "taskId": "cf57eff7-998e-4c01-8e77-5d4a2e508c16",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "koo-attack",
+      "label": "구자현 기본 공격",
+      "file": "public/audio/combat/koo/attack.mp3",
+      "taskId": "b2e9bf61-2d89-4008-906e-c9f9d5424358",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "koo-E",
+      "label": "구자현 중갑 돌진",
+      "file": "public/audio/combat/koo/E.mp3",
+      "taskId": "d9513dc0-3ffc-41b4-9b1e-d877441077d0",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "koo-hit",
+      "label": "구자현 피격",
+      "file": "public/audio/combat/koo/hit.mp3",
+      "taskId": "06e98a42-81ec-42cc-8208-a332d641c1b5",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "koo-Q",
+      "label": "구자현 철벽 강타",
+      "file": "public/audio/combat/koo/Q.mp3",
+      "taskId": "40ea4222-7bfb-46b6-907e-4799f20d89da",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "koo-R",
+      "label": "구자현 수호자의 진격",
+      "file": "public/audio/combat/koo/R.mp3",
+      "taskId": "56b42d87-a3c9-46d0-b89d-70502d30dd11",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "koo-W",
+      "label": "구자현 요새 자세",
+      "file": "public/audio/combat/koo/W.mp3",
+      "taskId": "f8b73a0a-1906-4456-95f3-cfb24e10e59f",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "lee-attack",
+      "label": "박철호 기본 공격",
+      "file": "public/audio/combat/lee/attack.mp3",
+      "taskId": "a6ed8757-5b56-439f-8e60-a793fdece68d",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "lee-E",
+      "label": "박철호 행진 박자",
+      "file": "public/audio/combat/lee/E.mp3",
+      "taskId": "4121f8eb-b3c7-422a-9ba0-bff922fbf1e9",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "lee-hit",
+      "label": "박철호 피격",
+      "file": "public/audio/combat/lee/hit.mp3",
+      "taskId": "67aeca39-4d55-49bf-95c8-c1a024d1863a",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "lee-Q",
+      "label": "박철호 파동 선율",
+      "file": "public/audio/combat/lee/Q.mp3",
+      "taskId": "b3833028-6ff5-4338-8c47-576332e054f3",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "lee-R",
+      "label": "박철호 거대한 공명",
+      "file": "public/audio/combat/lee/R.mp3",
+      "taskId": "a164f158-3fa6-4dab-8305-86b2848d2e72",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "lee-W",
+      "label": "박철호 평온의 화음",
+      "file": "public/audio/combat/lee/W.mp3",
+      "taskId": "cd5fab9c-7db4-4435-a23b-e5be1eed8ed9",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "pang-attack",
+      "label": "김두영 기본 공격",
+      "file": "public/audio/combat/pang/attack.mp3",
+      "taskId": "a71c8e4a-ec84-4c97-8499-bd6aaa0d26a8",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "pang-E",
+      "label": "김두영 응고 지대",
+      "file": "public/audio/combat/pang/E.mp3",
+      "taskId": "53d84880-8249-4341-8553-d613a53bb912",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "pang-hit",
+      "label": "김두영 피격",
+      "file": "public/audio/combat/pang/hit.mp3",
+      "taskId": "fba4ec37-7a9b-4a5c-8e96-00c3423afac5",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "pang-Q",
+      "label": "김두영 파열 약병",
+      "file": "public/audio/combat/pang/Q.mp3",
+      "taskId": "eafceb13-b5bb-4a7f-90e9-87eeb4f4df5b",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "pang-R",
+      "label": "김두영 생명의 대조제",
+      "file": "public/audio/combat/pang/R.mp3",
+      "taskId": "f45159b3-b496-4cf9-a4b9-e63aa8a1ab0f",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "pang-W",
+      "label": "김두영 생기 처방",
+      "file": "public/audio/combat/pang/W.mp3",
+      "taskId": "3a62b5fd-e3e1-47a9-a85a-3fa796b88361",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "park-attack",
+      "label": "팽재현 기본 공격",
+      "file": "public/audio/combat/park/attack.mp3",
+      "taskId": "137ef7ac-b44f-4d66-ad6b-1783af9655cb",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "park-E",
+      "label": "팽재현 쇄도",
+      "file": "public/audio/combat/park/E.mp3",
+      "taskId": "08c86a8e-dab9-4bfb-904a-d91516836b04",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "park-hit",
+      "label": "팽재현 피격",
+      "file": "public/audio/combat/park/hit.mp3",
+      "taskId": "835d70d2-4e66-4c71-b09b-eef7b6a8d810",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "park-Q",
+      "label": "팽재현 단조 타격",
+      "file": "public/audio/combat/park/Q.mp3",
+      "taskId": "4026d16d-19e2-49ef-b5d4-75addd8cb0ae",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "park-R",
+      "label": "팽재현 거인의 모루",
+      "file": "public/audio/combat/park/R.mp3",
+      "taskId": "bb25fc18-f491-4fe1-a05b-94ea0d300963",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "park-W",
+      "label": "팽재현 담금질",
+      "file": "public/audio/combat/park/W.mp3",
+      "taskId": "05726639-1024-494d-b555-2b555add2555",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "sagong-attack",
+      "label": "차동호 기본 공격",
+      "file": "public/audio/combat/sagong/attack.mp3",
+      "taskId": "c288871e-b100-4454-9f17-f32780da3bee",
+      "duration": 0.88,
+      "bytes": 15089
+    },
+    {
+      "id": "sagong-E",
+      "label": "차동호 궤도 변경",
+      "file": "public/audio/combat/sagong/E.mp3",
+      "taskId": "f936ad20-c754-4d16-af51-f74617661398",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "sagong-hit",
+      "label": "차동호 피격",
+      "file": "public/audio/combat/sagong/hit.mp3",
+      "taskId": "4ada1c7e-4e96-4b6d-b38c-3fa5c3f4566b",
+      "duration": 0.64,
+      "bytes": 11327
+    },
+    {
+      "id": "sagong-Q",
+      "label": "차동호 유성편",
+      "file": "public/audio/combat/sagong/Q.mp3",
+      "taskId": "754fd34b-862b-4cf7-8f61-10caac66d9f4",
+      "duration": 1.36,
+      "bytes": 23030
+    },
+    {
+      "id": "sagong-R",
+      "label": "차동호 성좌 붕괴",
+      "file": "public/audio/combat/sagong/R.mp3",
+      "taskId": "9509f7f2-6c58-4b9d-aa04-12bbb887f20d",
+      "duration": 2.76,
+      "bytes": 45182
+    },
+    {
+      "id": "sagong-W",
+      "label": "차동호 중력 우물",
+      "file": "public/audio/combat/sagong/W.mp3",
+      "taskId": "6c85bf9d-1e0b-4728-af49-a605aca2c91d",
+      "duration": 1.36,
+      "bytes": 23030
+    }
+  ]
+}

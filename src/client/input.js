@@ -140,7 +140,7 @@ export class PCInput {
       if (sk.t === 'point' && a.dist > sk.range) point = { x: p.x + a.dir.x * sk.range, z: p.z + a.dir.z * sk.range };
       this.w.showAim(p, sk, point, a.dir, !this.sim.canCast(p, this.aiming).ok);
       if (sk.t === 'enemy' || sk.t === 'ally') { const t = this.targetFor(this.aiming, sk); this.w.markTarget(t && t !== p ? t : null, sk.t === 'ally'); }
-    } else if (this.amove) this.w.showRange(p, p.s.range + 2.5);
+    } else if (this.amove) this.w.showRange(p, p.s.range);
     else { this.w.hideIndicators(); }
     // 마우스 아래 적 강조
     const hov = this.w.pickUnit(this.mx, this.my, (u) => u.team !== p.team && this.sim.canTarget(p, u));
@@ -176,30 +176,34 @@ export class TouchInput {
     const hud = document.getElementById('hud');
     const wrap = document.createElement('div'); wrap.id = 'm-controls'; wrap.className = 'm-only';
     const p = this.p;
-    const btn = (cls, html, data) => { const b = document.createElement('div'); b.className = 'mskill interactive ' + cls; b.innerHTML = html; Object.assign(b.dataset, data); wrap.appendChild(b); return b; };
+    const btn = (cls, html, data) => { const b = document.createElement('div'); b.className = 'mskill interactive ' + cls; b.innerHTML = html; Object.assign(b.dataset, data); b.setAttribute('role','button');wrap.appendChild(b); return b; };
+    const icon=(path,label)=>`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="${path}"/></svg><span class="utility-label">${label}</span>`;
     this.els = { wrap, skills: {} };
-    this.els.joy = document.createElement('div'); this.els.joy.id = 'joy'; this.els.joy.innerHTML = '<div class="knob"></div>'; wrap.appendChild(this.els.joy);
-    this.els.atk = btn('big', `<div class="sw"></div><div class="lbl">공격</div>`, { ctl: 'attack' });
+    this.els.joy = document.createElement('div'); this.els.joy.id = 'joy'; this.els.joy.setAttribute('aria-label','캐릭터 이동 패드');this.els.joy.innerHTML = '<div class="knob"><i></i></div><div class="joy-compass"></div><span class="joy-label">이동</span>'; wrap.appendChild(this.els.joy);
+    this.els.atk = btn('big', `<svg class="attack-emblem" viewBox="0 0 80 80" aria-hidden="true"><path d="M19 9l36 40-8 8L9 19V9zM61 9h10v10L34 57l-9-8zM13 57l10-10 10 10-7 7-6-3-5 10-7-7 10-5zM57 47l10 10-5 5 10 5-7 7-6-11-6 2-7-8z"/></svg><div class="lbl">공격</div>`, { ctl: 'attack' });
     for (const s of SLOTS) {
-      const b = btn(s === 'R' ? 'r' : '', `<img src="${skillIcon(p.def, s)}"><div class="cd"></div><div class="cdt"></div><button class="lvlup hidden" data-lv="${s}">+</button>`, { ctl: 'skill', slot: s });
+      const b = btn(s === 'R' ? 'r' : '', `<img src="${skillIcon(p.def, s)}"><div class="cd"></div><div class="cdt"></div><span class="skill-letter">${s==='R'?'궁극기':s}</span><button class="lvlup hidden" data-lv="${s}" aria-label="${p.def.skills[s].name} 레벨 올리기">+</button>`, { ctl: 'skill', slot: s });
+      b.setAttribute('aria-label',p.def.skills[s].name);
       b.setAttribute('data-slot', s);
       this.els.skills[s] = b;
     }
-    this.els.tChamp = btn('small', '영웅', { ctl: 'tattack', kind: 'champion' });
-    this.els.tMinion = btn('small', '미니언', { ctl: 'tattack', kind: 'minion' });
-    this.els.tTower = btn('small', '건물', { ctl: 'tattack', kind: 'structure' });
-    this.els.recall = btn('small', '귀환', { ctl: 'recall' });
-    this.els.potion = btn('small', '물약', { ctl: 'potion' });
-    this.els.shop = btn('small', '상점', { ctl: 'shop' });
-    this.els.cam = btn('small', '카메라', { ctl: 'camback' });
-    this.els.cancel = document.createElement('div'); this.els.cancel.id = 'm-cancel'; this.els.cancel.className = 'hidden'; this.els.cancel.textContent = '취소'; wrap.appendChild(this.els.cancel);
+    this.els.tChamp = btn('small target-control', icon('M20 5l10 6-3 15-7 9-7-9-3-15zM15 16l5 4 5-4','영웅'), { ctl: 'tattack', kind: 'champion' });
+    this.els.tMinion = btn('small target-control', icon('M10 15l10-8 10 8-3 16H13zM15 21h2M23 21h2','미니언'), { ctl: 'tattack', kind: 'minion' });
+    this.els.tTower = btn('small target-control', icon('M11 7v10h18V7h-5v5h-8V7zM14 17v15h12V17M9 33h22','건물'), { ctl: 'tattack', kind: 'structure' });
+    this.els.recall = btn('small utility recall', icon('M10 31h20M15 26V14l5-9 5 9v12M8 26c-8-12 1-23 12-23M8 26l-2-8M8 26l8-2','귀환'), { ctl: 'recall' });
+    this.els.potion = btn('small utility potion', icon('M16 6h8M17 6v9l-7 14q-2 6 10 6t10-6l-7-14V6M13 24h14','물약'), { ctl: 'potion' });
+    this.els.shop = btn('small utility shop', icon('M8 15h24l-2 18H10zM14 15V9q6-8 12 0v6M17 23h6M20 20v6','상점'), { ctl: 'shop' });
+    this.els.cam = btn('small camera-control', icon('M8 12h7l3-5h7l3 5h5v19H8zM26 21a6 6 0 1 1-12 0 6 6 0 0 1 12 0','시점'), { ctl: 'camback' });
+    for(const b of wrap.querySelectorAll('[data-ctl]:not([data-slot])'))b.setAttribute('aria-label',b.textContent.trim());
+    this.els.cancel = document.createElement('div'); this.els.cancel.id = 'm-cancel'; this.els.cancel.className = 'hidden'; this.els.cancel.innerHTML = '<b>×</b><span>취소</span>'; wrap.appendChild(this.els.cancel);
     hud.appendChild(wrap);
     wrap.querySelectorAll('[data-lv]').forEach((b) => b.addEventListener('pointerdown', (e) => { e.stopPropagation(); this.g.levelSkill(b.dataset.lv); }));
   }
   layout() {
-    const S = this.g.settings, b = S.btnSize, W = innerWidth, H = innerHeight;
+    const S = this.g.settings, W = innerWidth, H = innerHeight;
+    const fit=Math.max(.76,Math.min(1,W/900,H/430)),b=Math.min(S.btnSize,1.08)*fit;this.controlScale=b;
     const root = document.documentElement;
-    root.style.setProperty('--btn', b); root.style.setProperty('--btn-alpha', S.btnAlpha); root.style.setProperty('--joy-s', S.joySize);
+    root.style.setProperty('--btn', b); root.style.setProperty('--btn-alpha', S.btnAlpha); root.style.setProperty('--joy-s', S.joySize*fit);
     const cs = getComputedStyle(root);
     const sa = { t: parseFloat(cs.getPropertyValue('--sat')) || 0, r: parseFloat(cs.getPropertyValue('--sar')) || 0, b: parseFloat(cs.getPropertyValue('--sab')) || 0, l: parseFloat(cs.getPropertyValue('--sal')) || 0 };
     this.sa = sa;
@@ -207,23 +211,27 @@ export class TouchInput {
     document.getElementById('hud').classList.toggle('mirror', !!mir);
     const X = (x) => (mir ? W - x : x); // 좌우 반전
     // 공격 버튼 (오른쪽 아래, 엄지 영역)
-    const ax = W - sa.r - 130 * b, ay = H - sa.b - 128 * b;
+    const ax = W - sa.r - 90 * b, ay = H - sa.b - 90 * b;
     const place = (el, x, y) => { el.style.left = X(x) + 'px'; el.style.top = y + 'px'; };
     place(this.els.atk, ax, ay);
-    const arc = (ang, r) => [ax + Math.cos((ang * Math.PI) / 180) * r * b, ay + Math.sin((ang * Math.PI) / 180) * r * b];
-    const sp = { Q: arc(180, 112), W: arc(-130, 112), E: arc(-92, 114), R: arc(-54, 122) };
+    const sp = { Q:[ax-107*b,ay+16*b],W:[ax-122*b,ay-75*b],E:[ax-57*b,ay-144*b],R:[ax+15*b,ay-196*b] };
     for (const s of SLOTS) place(this.els.skills[s], ...sp[s]);
-    place(this.els.tChamp, ax - 70 * b, ay + 78 * b);
-    place(this.els.tMinion, ax + 4 * b, ay + 92 * b);
-    place(this.els.tTower, ax + 74 * b, ay + 70 * b);
-    place(this.els.recall, ax - 196 * b, ay + 84 * b);
-    place(this.els.potion, ax - 254 * b, ay + 84 * b);
-    place(this.els.shop, ax - 312 * b, ay + 84 * b);
-    place(this.els.cam, ax - 206 * b, ay - 92 * b);
+    place(this.els.tChamp,W-sa.r-27*b,ay-130*b);
+    place(this.els.tMinion,W-sa.r-27*b,ay-54*b);
+    place(this.els.tTower,W-sa.r-27*b,ay+40*b);
+    place(this.els.shop,W-sa.r-260*b,H-sa.b-36*b);
+    place(this.els.recall,W-sa.r-326*b,H-sa.b-36*b);
+    place(this.els.potion,W-sa.r-392*b,H-sa.b-36*b);
+    if(W<H){
+      place(this.els.shop,W-sa.r-30,H-sa.b-290);
+      place(this.els.recall,W-sa.r-30,H-sa.b-344);
+      place(this.els.potion,W-sa.r-30,H-sa.b-398);
+    }
+    place(this.els.cam,W-sa.r-27*b,sa.t+80*b);
     this.els.cancel.style.left = W / 2 + 'px'; this.els.cancel.style.top = (sa.t + 46 * b) + 'px'; // 취소 영역: 화면 상단 중앙 — 최대 조준 드래그(110px) 범위 밖이라 일반 조준과 겹치지 않음
     // 조이스틱 기본 위치
-    const jr = 75 * S.joySize;
-    this.joyHome = { x: X(sa.l + 40 + jr + 40 * (S.joyPos - 1) * 2), y: H - sa.b - 40 - jr - 40 * (S.joyPos - 1) };
+    const jr = this.joyRadius = 70*S.joySize*fit;
+    this.joyHome = { x: X(sa.l + 28*fit + jr + 50 * (S.joyPos - 1)), y: H - sa.b - 28*fit - jr - 35 * (S.joyPos - 1) };
     if (!this.joy.active) { this.els.joy.style.left = this.joyHome.x + 'px'; this.els.joy.style.top = this.joyHome.y + 'px'; }
     this.anchors = { atk: [X(ax), ay], skills: Object.fromEntries(SLOTS.map((s) => [s, [X(sp[s][0]), sp[s][1]]])) };
   }
@@ -308,13 +316,15 @@ export class TouchInput {
   // ---- 조이스틱 ----
   startJoy(e) {
     const S = this.g.settings;
-    this.joy = { active: true, id: e.pointerId, ox: e.clientX, oy: e.clientY, x: 0, y: 0 };
+    const fixed=Math.hypot(e.clientX-this.joyHome.x,e.clientY-this.joyHome.y)<this.joyRadius*1.4;
+    const ox=fixed?this.joyHome.x:Math.max(this.joyRadius+this.sa.l,Math.min(innerWidth-this.sa.r-this.joyRadius,e.clientX)),oy=fixed?this.joyHome.y:Math.min(innerHeight-this.sa.b-this.joyRadius,Math.max(this.joyRadius+this.sa.t,e.clientY));
+    this.joy = { active: true, id: e.pointerId, ox, oy, x: 0, y: 0 };
     this.ptrs.set(e.pointerId, { ctl: 'joy' });
-    this.els.joy.style.left = e.clientX + 'px'; this.els.joy.style.top = e.clientY + 'px';
+    this.els.joy.style.left = ox + 'px'; this.els.joy.style.top = oy + 'px';this.els.joy.classList.add('active');this.moveJoy(e);
   }
   moveJoy(e) {
     const S = this.g.settings;
-    const R = 75 * S.joySize;
+    const R = this.joyRadius;
     let dx = e.clientX - this.joy.ox, dy = e.clientY - this.joy.oy;
     const d = Math.hypot(dx, dy);
     if (d > R) { dx = (dx / d) * R; dy = (dy / d) * R; }
@@ -326,6 +336,7 @@ export class TouchInput {
   endJoy() {
     if (!this.joy.active) return;
     this.joy = { active: false, id: null, ox: 0, oy: 0, x: 0, y: 0 };
+    this.els.joy.classList.remove('active');
     this.els.joy.firstChild.style.transform = 'translate(-50%, -50%)';
     this.els.joy.style.left = this.joyHome.x + 'px'; this.els.joy.style.top = this.joyHome.y + 'px';
     this.sim.cmdJoy(this.p, 0, 0);
@@ -383,7 +394,7 @@ export class TouchInput {
     const allies = this.sim.champions.filter((c) => c.team === this.p.team && !c.dead);
     box.innerHTML = allies.map((c) => `<div class="pt" data-uid="${c.id}"><img src="${this.g.portraits[c.def.id]}"><div class="hp" style="width:${(c.hp / c.s.hp) * 100}%"></div><span>${c === this.p ? '나' : c.name}</span></div>`).join('');
     // 조준 드래그 경로와 겹치지 않도록 스킬 묶음 바깥쪽(이동 쪽)에 세로로 배치
-    const b = this.g.settings.btnSize, mir = this.g.settings.mirror;
+    const b = this.controlScale, mir = this.g.settings.mirror;
     const colW = 60 * b, colH = allies.length * 62 * b;
     box.style.flexDirection = 'column';
     const x = mir ? anchor[0] + 230 * b : anchor[0] - 230 * b - colW;
@@ -393,7 +404,7 @@ export class TouchInput {
   }
   moveAim(e) {
     const A = this.aim; if (!A) return;
-    const p = this.p, sk = A.sk, b = this.g.settings.btnSize;
+    const p = this.p, sk = A.sk, b = this.controlScale;
     A.dx = e.clientX - A.ax; A.dy = e.clientY - A.ay;
     const dlen = Math.hypot(A.dx, A.dy);
     if (dlen > 14 * b) A.drag = true;
@@ -414,7 +425,7 @@ export class TouchInput {
     this.updateAimPreview();
   }
   computeAim() {
-    const A = this.aim, p = this.p, sk = A.sk, b = this.g.settings.btnSize;
+    const A = this.aim, p = this.p, sk = A.sk, b = this.controlScale;
     const maxDrag = 110 * b;
     const len = Math.hypot(A.dx, A.dy);
     // 화면 방향 → 월드 방향 (카메라 정면 = -Z, 오른쪽 = +X)
@@ -515,7 +526,7 @@ export class TouchInput {
       if (t.dead || !t.visibleTo[p.team] || dist(t, p) > p.s.range + 9) { this.lock = null; this.hud.showMsg('대상 고정 해제 (시야/사거리 이탈)', true); }
     }
     if (this.aim) this.updateAimPreview();
-    else this.w.markTarget(this.lock || (p.target && !p.target.dead && p.target.visibleTo[p.team] ? p.target : null));
+    else {if(this.attackHeld)this.w.showRange(p,p.s.range);else this.w.rangeVisual.hide();this.w.markTarget(this.lock || (p.target && !p.target.dead && p.target.visibleTo[p.team] ? p.target : null));}
     // 적 초상화 (시야 내 적만, 탭으로 고정)
     this.ptT = (this.ptT || 0) - dt;
     if (this.ptT <= 0) {

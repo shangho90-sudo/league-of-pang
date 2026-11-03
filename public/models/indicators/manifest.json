@@ -1,0 +1,22 @@
+{
+  "provider": "Tripo",
+  "model": "P1-20260311",
+  "assets": [
+    {
+      "id": "crystal-star",
+      "file": "public/models/indicators/crystal-star.glb",
+      "taskId": "99e22ee2-57c7-435a-9d08-86dc59c00015",
+      "credits": 30,
+      "triangles": 1854,
+      "bytes": 60708
+    },
+    {
+      "id": "crystal-arrow",
+      "file": "public/models/indicators/crystal-arrow.glb",
+      "taskId": "4a283217-de66-45bb-8ad3-486d1671646e",
+      "credits": 30,
+      "triangles": 2557,
+      "bytes": 98164
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "model": "P1-20260311",
+  "scenario": "toy",
+  "sourceDirectory": "_art/tripo-indicators",
+  "runtimeDirectory": "public/models/indicators",
+  "estimatedCredits": 60,
+  "assets": [
+    {"id":"crystal-star","name":"pang-range-crystal-star","faces":1800,"prompt":"A single ornate four-point arcane crystal star, flat symmetric diamond-shaped sigil, beveled faceted sapphire crystal, four sharp long tips and intricate angular inner facets, elegant fantasy spell targeting corner ornament, very shallow relief, isolated object, no base, no environment, no text"},
+    {"id":"crystal-arrow","name":"pang-range-crystal-arrow","faces":2400,"prompt":"A single elongated crystalline magical arrowhead, slender tapered icy spear point with three swept-back angular fins and layered faceted ridges, elegant sharp fantasy spell aiming marker, compact flat silhouette with very shallow relief, isolated object, no handle, no base, no environment, no text"}
+  ]
+}

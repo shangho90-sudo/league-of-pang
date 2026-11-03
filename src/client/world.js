@@ -11,6 +11,7 @@ import { weaponTip } from '../render/champVisual.js';
 import { ChampionView, MinionView, MonsterView, TurretView, NexusView, DecoyView } from './units.js';
 import { FX } from './fx.js';
 import { audio } from './audio.js';
+import { RangeIndicators } from '../render/rangeIndicators.js';
 
 const STATUS_LABEL = { stun: ['기절', '#ffd84a'], airborne: ['공중', '#ffb04a'], root: ['속박', '#8adf5a'], slow: ['둔화', '#6ab0ff'], silence: ['침묵', '#c08aff'], haste: ['가속', '#7af0e0'], fortress: ['요새', '#c0c8d8'], sanctum: ['성역', '#ffe08a'], untargetable: ['무적', '#b06aff'], mark: ['표식', '#b06aff'], aim: ['조준', '#9ae8ff'], chaseR: ['추적', '#9adf5a'], hot: ['회복', '#6af08a'], armorUp: ['방어', '#c0c8d8'] };
 const SHOW_STATUS = ['stun', 'airborne', 'root', 'slow', 'silence', 'untargetable', 'mark', 'haste', 'fortress', 'sanctum', 'hot'];
@@ -49,38 +50,21 @@ export class World {
     onProgress(0.8);
   }
   buildIndicators() {
+    this.rangeVisual = new RangeIndicators(this.scene,this.q);
     const mat = (c, o) => new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: o, depthWrite: false, side: THREE.DoubleSide });
     this.ind = {
-      range: new THREE.Mesh(new THREE.RingGeometry(0.97, 1, 72).rotateX(-Math.PI / 2), mat(0x9ad8ff, 0.55)),
-      circle: new THREE.Mesh(new THREE.CircleGeometry(1, 48).rotateX(-Math.PI / 2), mat(0x7ac8ff, 0.22)),
-      circleEdge: new THREE.Mesh(new THREE.RingGeometry(0.94, 1, 48).rotateX(-Math.PI / 2), mat(0xcfeaff, 0.85)),
-      rect: new THREE.Mesh(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2).translate(0, 0, 0.5), mat(0x7ac8ff, 0.25)),
-      cone: new THREE.Mesh(new THREE.CircleGeometry(1, 32, -Math.PI / 6, Math.PI / 3).rotateX(-Math.PI / 2), mat(0x7ac8ff, 0.25)),
       target: new THREE.Mesh(new THREE.RingGeometry(0.75, 0.95, 32).rotateX(-Math.PI / 2), mat(0xff5a4a, 0.9)),
       allyTarget: new THREE.Mesh(new THREE.RingGeometry(0.75, 0.95, 32).rotateX(-Math.PI / 2), mat(0x6af08a, 0.95)),
     };
     for (const m of Object.values(this.ind)) { m.visible = false; m.renderOrder = 7; this.indicator.add(m); }
   }
-  hideIndicators() { for (const m of Object.values(this.ind)) m.visible = false; }
+  hideIndicators() { this.rangeVisual.hide();for (const m of Object.values(this.ind)) m.visible = false; }
   // 스킬 조준 표시 (판정과 같은 수치 사용)
   showAim(u, sk, point, dir, invalid = false) {
     this.hideIndicators();
-    const y = groundHeight(u.x, u.z) + 0.1;
-    const col = invalid ? 0xff6a5a : 0x7ac8ff;
-    for (const k of ['circle', 'rect', 'cone', 'circleEdge']) this.ind[k].material.color.set(col);
-    if (sk.range) { this.ind.range.visible = true; this.ind.range.position.set(u.x, y, u.z); this.ind.range.scale.setScalar(sk.range); }
-    const ang = Math.atan2(dir.x, dir.z);
-    if (sk.t === 'point') {
-      const r = sk.radius || 1;
-      for (const k of ['circle', 'circleEdge']) { const m = this.ind[k]; m.visible = true; m.position.set(point.x, groundHeight(point.x, point.z) + 0.11, point.z); m.scale.setScalar(r); }
-    } else if (sk.t === 'dir') {
-      if (sk.angle) { const m = this.ind.cone; m.visible = true; m.geometry.dispose(); m.geometry = new THREE.CircleGeometry(1, 32, Math.PI / 2 - (sk.angle * Math.PI) / 360, (sk.angle * Math.PI) / 180).rotateX(-Math.PI / 2); m.position.set(u.x, y, u.z); m.scale.setScalar(sk.range); m.rotation.y = ang - Math.PI / 2 + Math.PI / 2; m.rotation.y = ang; m.geometry.rotateY(-Math.PI / 2); }
-      else { const m = this.ind.rect; m.visible = true; m.position.set(u.x, y, u.z); m.scale.set(sk.width || 1.2, 1, sk.range); m.rotation.y = ang; }
-    } else if (sk.t === 'self' && sk.radius) {
-      for (const k of ['circle', 'circleEdge']) { const m = this.ind[k]; m.visible = true; m.position.set(u.x, y, u.z); m.scale.setScalar(sk.radius); }
-    }
+    this.rangeVisual.aim(u,sk,point,dir,invalid);
   }
-  showRange(u, r) { const m = this.ind.range; m.visible = true; m.position.set(u.x, groundHeight(u.x, u.z) + 0.1, u.z); m.scale.setScalar(r); }
+  showRange(u, r) { this.rangeVisual.showRange(u,r); }
   markTarget(t, ally = false) {
     const m = ally ? this.ind.allyTarget : this.ind.target;
     if (!t) { m.visible = false; return; }
@@ -129,15 +113,23 @@ export class World {
   }
 
   // ---------- 이벤트 → 이펙트·사운드 ----------
+  combatSound(u,kind,player){
+    if(!u?.def||!this.unitVisible(u))return false;
+    const center=this.camera.target,dx=u.x-center.x,dz=u.z-center.z,d=Math.hypot(dx,dz);
+    if(d>30)return true;
+    return audio.playCombat(u.def.id,kind,{unitId:u.id,volume:u===player?1:Math.max(.08,.55*(1-d/30)),pan:(dx+dz)/24});
+  }
   handleEvents(events, player) {
     const fx = this.fx;
     const visAt = (x, z) => this.isVisibleAt(x, z);
     for (const e of events) {
       switch (e.type) {
+        case 'attackStart': if(e.u.kind==='champion')this.combatSound(e.u,'attack',player);break;
         case 'dmg': {
           const t = e.t, s = e.src;
           const vis = this.unitVisible(t);
           if (!vis) break;
+          if(t.kind==='champion'&&e.amt>0)this.combatSound(t,'hit',player);
           const y = groundHeight(t.x, t.z) + (t.kind === 'turret' ? 3 : 1.0);
           const col = e.dmgType === 'magic' ? 0xb48aff : e.dmgType === 'true' ? 0xffffff : 0xffc27a;
           if (e.basic) {
@@ -184,7 +176,7 @@ export class World {
           break;
         }
         case 'proj': if (e.p.src.kind === 'champion' && (e.p.src === player || this.unitVisible(e.p.src))) audio.play(e.p.vis === 'arrow' || e.p.vis === 'pierceArrow' ? 'arrow' : 'zap', e.p.src === player ? 0.7 : 0.25); else if (e.p.vis === 'turret' && this.isVisibleAt(e.p.x, e.p.z)) audio.play('turret', 0.4); break;
-        case 'cast': if (e.u === player || this.unitVisible(e.u)) { fx.hero.cast(e.u,e.slot); audio.play(e.slot === 'R' ? 'ult' : 'cast', e.u === player ? 1 : 0.4); if (e.slot === 'R') fx.ring(e.u.x, e.u.z, 0.5, 2.2, e.u.def.accent, 0.5, { y: groundHeight(e.u.x, e.u.z) + 0.15 }); } break;
+        case 'cast': if (e.u === player || this.unitVisible(e.u)) { fx.hero.cast(e.u,e.slot); if(!this.combatSound(e.u,e.slot,player))audio.play(e.slot === 'R' ? 'ult' : 'cast', e.u === player ? 1 : 0.4); if (e.slot === 'R') fx.ring(e.u.x, e.u.z, 0.5, 2.2, e.u.def.accent, 0.5, { y: groundHeight(e.u.x, e.u.z) + 0.15 }); } break;
         case 'recall': audio.play('recall', e.u === player ? 1 : 0.2); break;
         case 'recallDone': fx.column(e.u.x, e.u.z, TEAM_COLORS[e.u.team].main, 0.8, 4, 0.9); break;
         case 'fx': if (e.x == null || visAt(e.x, e.z) || (e.u && this.unitVisible(e.u))) this.namedFx(e); break;
@@ -322,6 +314,7 @@ export class World {
   // ---------- 프레임 ----------
   update(dt, alpha, player) {
     this.time += dt;
+    this.rangeVisual.update(this.time);
     sharedUniforms.uTime.value = this.time;
     const sim = this.sim;
     // 뷰 동기화
