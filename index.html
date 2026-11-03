@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="screen-orientation" content="landscape">
+  <title>리그 오브 팽재현</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #rotate { display: none; position: fixed; inset: 0; z-index: 999; background: #0b1016; color: #e6ecf2; align-items: center; justify-content: center; flex-direction: column; font-size: 18px; gap: 12px; text-align: center; }
+    @media (orientation: portrait) and (pointer: coarse) { #rotate { display: flex; } }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <canvas id="overlay"></canvas>
+  <div id="hud"></div>
+  <div id="title" class="hidden"></div>
+  <div id="select" class="hidden"></div>
+  <div id="loading" class="hidden"></div>
+  <div id="result" class="hidden"></div>
+  <div id="rotate"><div style="font-size:48px">⟲</div>기기를 가로로 돌려 주세요<br><small style="color:#9aa8b6">모바일은 가로 화면 기준으로 제작되었습니다</small></div>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>

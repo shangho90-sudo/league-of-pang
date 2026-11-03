@@ -1,0 +1,93 @@
+{
+ "pang": {
+  "Q": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 4416,
+   "fx": [
+    "fx:glassBurst"
+   ],
+   "msg": ""
+  },
+  "W": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 0,
+   "fx": [
+    "heal",
+    "fx:healBurst",
+    "status"
+   ],
+   "msg": ""
+  },
+  "E": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 53,
+   "fx": [
+    "fx:gooSplash",
+    "status",
+    "heal"
+   ],
+   "msg": ""
+  },
+  "R": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 18,
+   "fx": [
+    "status",
+    "shield",
+    "fx:grandElixir",
+    "heal"
+   ],
+   "msg": ""
+  },
+  "errs": []
+ },
+ "jung": {
+  "Q": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 4378,
+   "fx": [
+    "fx:swordArc",
+    "fx:impact",
+    "shield",
+    "fx:ironShield"
+   ],
+   "msg": ""
+  },
+  "W": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 0,
+   "fx": [
+    "shield",
+    "fx:oathShield"
+   ],
+   "msg": ""
+  },
+  "E": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 107,
+   "fx": [
+    "fx:chargeTrail",
+    "fx:lightLand"
+   ],
+   "msg": ""
+  },
+  "R": {
+   "cast": true,
+   "cd": true,
+   "dmgToEnemy": 0,
+   "fx": [
+    "fx:sanctumRise",
+    "status"
+   ],
+   "msg": ""
+  },
+  "errs": []
+ }
+}

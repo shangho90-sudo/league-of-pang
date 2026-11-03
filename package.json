@@ -1,0 +1,25 @@
+{
+  "name": "league-of-pang",
+  "version": "0.1.0",
+  "description": "리그 오브 팽재현 — 4대4 3D AOS (PC·모바일 웹)",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --format=esm --minify --outfile=dist/main.js",
+    "serve": "npx serve .",
+    "sim": "node tools/headless.mjs 1 3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@gltf-transform/core": "^4.5.1",
+    "@gltf-transform/extensions": "^4.5.1",
+    "@gltf-transform/functions": "^4.5.1",
+    "esbuild": "^0.28.2",
+    "meshoptimizer": "^1.3.0",
+    "sharp": "^0.35.5",
+    "three": "^0.187.0"
+  },
+  "type": "module",
+  "private": true
+}

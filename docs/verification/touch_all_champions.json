@@ -1,0 +1,435 @@
+{
+ "summary": "40/40 skills cast via touch drag",
+ "results": {
+  "pang": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4416,
+    "fx": [
+     "fx:glassBurst"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "heal",
+     "fx:healBurst",
+     "status"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 53,
+    "fx": [
+     "fx:gooSplash",
+     "status",
+     "heal"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 18,
+    "fx": [
+     "status",
+     "shield",
+     "fx:grandElixir",
+     "heal"
+    ],
+    "msg": ""
+   }
+  },
+  "koo": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4360,
+    "fx": [
+     "shield",
+     "fx:ironShield",
+     "fx:shieldBash"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "status",
+     "fx:fortress"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 124,
+    "fx": [
+     "fx:dust",
+     "fx:impact",
+     "shield",
+     "fx:ironShield"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 125,
+    "fx": [
+     "fx:chargeTrail",
+     "status",
+     "fx:impact",
+     "fx:groundSlam",
+     "shield"
+    ],
+    "msg": ""
+   }
+  },
+  "bang": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4378,
+    "fx": [
+     "status",
+     "fx:impact",
+     "shield",
+     "fx:ironShield"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "status",
+     "fx:afterimage"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "fx:afterimage"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 427,
+    "fx": [
+     "status",
+     "fx:phantomRing",
+     "fx:phantomSlash"
+    ],
+    "msg": ""
+   }
+  },
+  "park": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4390,
+    "fx": [
+     "fx:hammerSlam"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "shield",
+     "fx:quench"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 153,
+    "fx": [
+     "status",
+     "fx:impact"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 270,
+    "fx": [
+     "fx:anvilDrop",
+     "status",
+     "fx:anvilImpact"
+    ],
+    "msg": ""
+   }
+  },
+  "jung": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4378,
+    "fx": [
+     "fx:swordArc",
+     "fx:impact",
+     "shield",
+     "fx:ironShield"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "shield",
+     "fx:oathShield"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 107,
+    "fx": [
+     "fx:chargeTrail",
+     "fx:lightLand"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "fx:sanctumRise",
+     "status"
+    ],
+    "msg": ""
+   }
+  },
+  "cha": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4422,
+    "fx": [
+     "fx:impact"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "status",
+     "fx:aimFocus"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "fx:windStep"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 506,
+    "fx": [
+     "fx:bowFire",
+     "fx:impact"
+    ],
+    "msg": ""
+   }
+  },
+  "sagong": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4407,
+    "fx": [
+     "fx:starHit"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 125,
+    "fx": [
+     "status",
+     "fx:gravityCollapse"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "fx:blink",
+     "fx:starBurst"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 168,
+    "fx": [
+     "fx:meteorFall",
+     "fx:meteorImpact"
+    ],
+    "msg": ""
+   }
+  },
+  "cho": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4382,
+    "fx": [
+     "fx:thrust",
+     "shield",
+     "fx:ironShield"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "status",
+     "fx:forestBreath",
+     "heal"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 134,
+    "fx": [
+     "status",
+     "fx:beastLand"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "status",
+     "fx:primalAura"
+    ],
+    "msg": ""
+   }
+  },
+  "kim": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4520,
+    "fx": [
+     "fx:arcaneBlast",
+     "shield",
+     "fx:ironShield"
+    ],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 72,
+    "fx": [
+     "status",
+     "fx:mineBlast"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 101,
+    "fx": [
+     "fx:recoilBlast"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 214,
+    "fx": [
+     "fx:cannonFire",
+     "fx:arcaneBlast"
+    ],
+    "msg": ""
+   }
+  },
+  "lee": {
+   "Q": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 4402,
+    "fx": [],
+    "msg": ""
+   },
+   "W": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "shield",
+     "fx:harmonyPulse",
+     "fx:chordReady"
+    ],
+    "msg": ""
+   },
+   "E": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 0,
+    "fx": [
+     "status",
+     "fx:marchPulse"
+    ],
+    "msg": ""
+   },
+   "R": {
+    "cast": true,
+    "cd": true,
+    "dmgToEnemy": 119,
+    "fx": [
+     "fx:resonanceWave",
+     "status"
+    ],
+    "msg": ""
+   }
+  }
+ }
+}

@@ -1,0 +1,30 @@
+import { chromium } from 'playwright';
+import http from 'http'; import fs from 'fs'; import path from 'path';
+const root = process.cwd();
+const srv = http.createServer((q, s) => { const p = path.join(root, decodeURIComponent(q.url.split('?')[0])); if (!fs.existsSync(p) || fs.statSync(p).isDirectory()) { s.writeHead(404); return s.end(); } s.writeHead(200, {'Content-Type': {'.html':'text/html','.js':'text/javascript','.css':'text/css'}[path.extname(p)] || 'application/octet-stream'}); fs.createReadStream(p).pipe(s); }).listen(8128);
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+const ctx = await b.newContext({ viewport: { width: 844, height: 390 }, hasTouch: true, isMobile: true });
+const pg = await ctx.newPage();
+await pg.goto('http://localhost:8128/index.html?autostart=pang&seed=9&manual=1&mobile=1&q=low');
+await pg.waitForFunction('window.READY', null, { timeout: 300000 });
+const cdp = await ctx.newCDPSession(pg);
+const T = (type, pts) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: pts.map(([x, y, i]) => ({ x, y, id: i })) });
+await pg.evaluate(() => { const sim = GAME.sim, p = GAME.player; GAME.ais.forEach((a) => (a.next = 1e9)); p.x = 0; p.z = 4; p.skillLv.W = 3; p.mp = p.s.mp; p.hp = p.s.hp * 0.5;
+  const a = sim.champions.find((c) => c.team === p.team && c !== p); a.x = -2; a.z = 5; a.hp = a.s.hp * 0.4; window.__ally = a; window.__heals = [];
+  const orig = GAME.processEvents.bind(GAME); GAME.processEvents = () => { for (const e of sim.events) if (e.type === 'heal' && e.src === p) __heals.push(e.t === p ? 'self' : e.t.name); orig(); }; sim.updateVision(); STEP(2); });
+const w = await pg.evaluate(() => { const r = document.querySelector('.mskill[data-slot="W"]').getBoundingClientRect(); return [(r.left + r.right) / 2, (r.top + r.bottom) / 2]; });
+// 1) 초상화로 아군 선택
+await T('touchStart', [[w[0], w[1], 1]]); await pg.evaluate(() => STEP(1));
+const pt = await pg.evaluate(() => { const el = document.querySelector(`#m-allies .pt[data-uid="${__ally.id}"]`); const r = el.getBoundingClientRect(); return [(r.left + r.right) / 2, (r.top + r.bottom) / 2, getComputedStyle(document.getElementById('m-allies')).display]; });
+await T('touchMove', [[(w[0] + pt[0]) / 2, (w[1] + pt[1]) / 2, 1]]); await T('touchMove', [[pt[0], pt[1], 1]]); await pg.evaluate(() => STEP(1));
+const hl = await pg.evaluate(() => ({ hot: !!document.querySelector('#m-allies .pt.hot'), ringVisible: GAME.world.ind.allyTarget.visible }));
+await T('touchEnd', [[pt[0], pt[1], 1]]);
+await pg.evaluate(() => { for (let i = 0; i < 20; i++) { GAME.tickOnce(); GAME.processEvents(); } });
+const r1 = await pg.evaluate(() => [...new Set(__heals)]);
+// 2) 빠른 터치 = 자신
+await pg.evaluate(() => { const p = GAME.player; p.cds.W = 0; p.mp = p.s.mp; p.action = null; __heals = []; });
+await T('touchStart', [[w[0], w[1], 2]]); await pg.evaluate(() => STEP(1)); await T('touchEnd', [[w[0], w[1], 2]]);
+await pg.evaluate(() => { for (let i = 0; i < 20; i++) { GAME.tickOnce(); GAME.processEvents(); } });
+const r2 = await pg.evaluate(() => [...new Set(__heals)]);
+console.log(JSON.stringify({ portraitHighlight: hl, portraitTargetHeals: r1, quickTapHeals: r2, allyName: await pg.evaluate(() => __ally.name) }));
+await b.close(); srv.close();

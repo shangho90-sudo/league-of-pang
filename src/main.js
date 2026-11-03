@@ -1,0 +1,147 @@
+// 진입점: 타이틀 → 캐릭터 선택 → 로딩 → 경기 → 결과
+import * as THREE from 'three';
+import { CHAMPIONS } from './data/champions.js';
+import { buildGrid } from './map/grid.js';
+import { loadModelTemplates } from './render/champVisual.js';
+import { createRenderer, QUALITY } from './render/scene.js';
+import { renderPortraits } from './client/icons.js';
+import { SelectScreen, autoPicks } from './client/select.js';
+import { Game } from './client/game.js';
+import { audio } from './client/audio.js';
+import '../dev/stage.js'; // 검증용 스테이징 헬퍼 (게임 플레이에는 영향 없음)
+
+const $ = (s) => document.querySelector(s);
+const params = new URLSearchParams(location.search);
+const isTouchDevice = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+
+const DEFAULTS = {
+  quality: isTouchDevice ? 'medium' : 'high', shake: 0.6, flash: 0.8, uiScale: 1, castMode: 'quick', edgePan: true, autoLevel: true, camLock: true,
+  touch: 'auto', mirror: false, joySize: 1, joyPos: 1, joySens: 1, btnSize: 1, btnAlpha: 0.85, targetPri: 'champ', autoAim: true,
+  volMaster: 0.7, volSfx: 0.8, volMusic: 0.35,
+};
+let settings = { ...DEFAULTS };
+try { Object.assign(settings, JSON.parse(localStorage.getItem('lopjh_settings') || '{}')); } catch (e) {}
+if (params.get('q')) settings.quality = params.get('q');
+const mobile = params.get('mobile') === '1' || (params.get('mobile') !== '0' && (settings.touch === true || (settings.touch === 'auto' && isTouchDevice)));
+audio.vol = { master: settings.volMaster, sfx: settings.volSfx, music: settings.volMusic };
+
+const EMBLEM = `<svg class="emblem" viewBox="0 0 120 120"><defs><linearGradient id="eg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2c8"/><stop offset=".55" stop-color="#d8a850"/><stop offset="1" stop-color="#7a5420"/></linearGradient><linearGradient id="ec" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bff8f0"/><stop offset="1" stop-color="#2fb8a8"/></linearGradient></defs>
+  <path d="M60 6 L104 22 L98 72 Q90 100 60 114 Q30 100 22 72 L16 22 Z" fill="#14202a" stroke="url(#eg)" stroke-width="5"/>
+  <path d="M60 22 L74 52 L60 96 L46 52 Z" fill="url(#ec)" stroke="#e8fff8" stroke-width="1.5"/>
+  <path d="M60 22 L60 96" stroke="#ffffff" stroke-opacity=".5" stroke-width="1"/>
+  <path d="M30 40 Q22 64 38 88 M90 40 Q98 64 82 88" fill="none" stroke="url(#eg)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="60" cy="52" r="5" fill="#fff8e0"/></svg>`;
+
+let renderer = null, portraits = null, game = null, rafId = 0;
+
+function showTitle() {
+  const t = $('#title');
+  t.classList.remove('hidden');
+  t.innerHTML = `<canvas class="bgart"></canvas><div class="logo">${EMBLEM}<h1>리그 오브 팽재현</h1><div class="sub">LEAGUE OF PANG JAEHYEON</div></div>
+    <div class="menu"><button class="btn gold" id="t-start" disabled>불러오는 중…</button><button class="btn" id="t-help">조작 방법</button></div>
+    <div class="note">4대4 AI 대전 · 플레이어 1명 + AI 7명 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'}<br>실시간 온라인 대전(PC·모바일 크로스플레이)은 별도 구현 단계로 아직 제공되지 않습니다.</div>`;
+  drawTitleArt(t.querySelector('.bgart'));
+  $('#t-help').onclick = () => showHelp();
+  $('#t-start').onclick = () => { audio.init(); audio.play('click'); t.classList.add('hidden'); showSelect(); };
+}
+function drawTitleArt(cv) {
+  cv.width = innerWidth; cv.height = innerHeight;
+  const ctx = cv.getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, 0, cv.height);
+  g.addColorStop(0, '#0e1c22'); g.addColorStop(1, '#173028');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, cv.width, cv.height);
+  // 붓 터치 숲 실루엣
+  for (let layer = 0; layer < 3; layer++) {
+    ctx.fillStyle = ['#12261e', '#183226', '#1e3c2c'][layer];
+    for (let i = 0; i < 40; i++) {
+      const x = (i / 40) * cv.width + Math.sin(i * 7.3 + layer) * 30, h = cv.height * (0.25 + layer * 0.1) + Math.sin(i * 3.1) * 40;
+      ctx.beginPath(); ctx.ellipse(x, cv.height - h * 0.4, 60 + layer * 10, h * 0.6, 0, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  const rg = ctx.createRadialGradient(cv.width / 2, cv.height * 0.38, 0, cv.width / 2, cv.height * 0.38, cv.height * 0.6);
+  rg.addColorStop(0, 'rgba(232,192,112,0.22)'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = rg; ctx.fillRect(0, 0, cv.width, cv.height);
+}
+function showHelp() {
+  const t = $('#title');
+  const box = document.createElement('div');
+  box.className = 'panel gilt modal';
+  box.style.position = 'fixed'; box.style.zIndex = 70; box.style.width = 'min(640px, 94vw)';
+  box.innerHTML = `<h3>조작 방법 <button class="x">✕</button></h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px;line-height:1.7">
+    <div><b style="color:#d8b46a">PC</b><br>우클릭: 이동 / 적 기본 공격<br>A + 좌클릭: 공격 이동 · S: 정지 · B: 귀환<br>Q W E R: 스킬 (설정에서 즉시/범위 확인 후 시전)<br>Ctrl + Q/W/E/R: 스킬 레벨업 (자동 레벨업 끔일 때)<br>스페이스: 내 캐릭터로 카메라 · Y: 카메라 고정 전환<br>마우스 휠: 확대·축소 · 화면 가장자리: 카메라 이동<br>Tab: 전적 · P: 상점 · 1~6: 아이템 · Esc: 설정</div>
+    <div><b style="color:#d8b46a">터치 (가로 화면)</b><br>왼쪽 아래 조이스틱: 이동<br>공격 버튼 누르고 있기: 사거리 내 반복 공격<br>영웅/미니언/건물 버튼: 대상 종류 지정 공격<br>스킬 버튼 드래그: 조준 → 손 떼면 시전<br>취소 영역으로 드래그: 시전 취소<br>아군 스킬: 초상화로 대상 선택, 빠른 터치 = 자신<br>적 터치 또는 적 초상화: 대상 고정<br>빈 화면 드래그·미니맵: 주변 확인 · 카메라 버튼: 복귀</div></div>`;
+  t.appendChild(box);
+  box.querySelector('.x').onclick = () => box.remove();
+}
+
+function showSelect() {
+  const s = $('#select');
+  s.classList.remove('hidden');
+  audio.startMusic('menu');
+  new SelectScreen(s, portraits, (picks) => { s.classList.add('hidden'); s.innerHTML = ''; startGame(picks); });
+}
+
+async function startGame(picks) {
+  const L = $('#loading');
+  L.classList.remove('hidden');
+  const col = (team) => picks.filter((p) => p.team === team).map((p) => `<div><img src="${portraits[p.id]}"><div class="cap">${CHAMPIONS.find((c) => c.id === p.id).name}${p.isPlayer ? ' (나)' : ''}</div></div>`).join('');
+  L.innerHTML = `<div class="logo">${EMBLEM}<h1 style="font-size:40px">리그 오브 팽재현</h1></div><div class="teams"><div class="col">${col(0)}</div><div class="col red">${col(1)}</div></div><div class="bar"><div></div></div><div class="tip">전장을 준비하는 중… (AI 대전)</div>`;
+  const bar = L.querySelector('.bar div');
+  await new Promise((r) => setTimeout(r, 30));
+  const q = QUALITY[settings.quality] || QUALITY.medium;
+  if (!renderer) renderer = createRenderer($('#game'), q);
+  renderer.setSize(innerWidth, innerHeight, false);
+  bar.style.width = '15%';
+  await new Promise((r) => setTimeout(r, 20));
+  game = new Game({ renderer, picks, settings, portraits, mobile, seed: params.get('seed') ? +params.get('seed') : undefined, onProgress: (k) => (bar.style.width = Math.round(15 + k * 80) + '%'), onEnd: showResult });
+  if (params.get('autopilot')) game.enableAutopilot();
+  if (params.get('ff')) game.fastForward(+params.get('ff'));
+  bar.style.width = '100%';
+  // 셰이더 예열 1프레임
+  game.frame();
+  await new Promise((r) => setTimeout(r, 50));
+  L.classList.add('hidden');
+  if (params.get('debug')) { const d = document.createElement('div'); d.id = 'fps'; d.style.cssText = 'position:fixed;left:6px;bottom:4px;z-index:90;font:12px monospace;color:#9f9;background:#0008;padding:2px 6px'; document.body.appendChild(d); }
+  if (params.get('manual')) {
+    // 검증 모드: 실제 게임 루프를 외부에서 프레임 단위로 진행
+    window.STEP = (n = 1, dt = 1 / 30) => { for (let i = 0; i < n; i++) { game.last = performance.now() - dt * 1000; game.frame(); } return game.sim.time; };
+  } else {
+    const loop = () => { rafId = requestAnimationFrame(loop); game.frame(); };
+    loop();
+  }
+  window.READY = true;
+}
+
+function showResult({ win, sim, player, surrendered }) {
+  const R = $('#result');
+  R.classList.remove('hidden');
+  const t = sim.endTime ?? sim.time;
+  const rows = sim.champions.map((c) => `<tr style="${c === player ? 'background:rgba(232,192,112,0.1)' : ''}"><td style="border-left:3px solid ${c.team === player.team ? 'var(--ally)' : 'var(--enemy)'}"><img src="${portraits[c.def.id]}" style="width:28px;height:28px;border-radius:4px;vertical-align:middle"> ${c.name}${c.isPlayer ? ' (나)' : ''}</td><td>${c.level}</td><td>${c.k}/${c.d}/${c.a}</td><td>${c.cs}</td><td>${Math.round(c.dmgDealt)}</td><td>${Math.round(c.healDone)}</td></tr>`).join('');
+  R.innerHTML = `<div class="big ${win ? 'win' : 'lose'}">${win ? '승리' : '패배'}</div>
+    <div class="meta">경기 시간 ${Math.floor(t / 60)}분 ${Math.floor(t % 60)}초 · 청람 ${sim.teamKills[0]} : ${sim.teamKills[1]} 적염 ${surrendered ? '· 항복' : ''} · AI 대전</div>
+    <table><tr><th>영웅</th><th>레벨</th><th>K/D/A</th><th>CS</th><th>가한 피해</th><th>아군 회복</th></tr>${rows}</table>
+    <div class="acts"><button class="btn gold" id="r-again">같은 구성으로 다시</button><button class="btn" id="r-select">캐릭터 선택</button></div>`;
+  window.RESULT = { win, minutes: +(t / 60).toFixed(2), kills: sim.teamKills.slice() };
+  const picks = game.picks;
+  $('#r-again').onclick = () => { location.search = '?picks=' + encodeURIComponent(JSON.stringify(picks)) + (params.get('mobile') ? '&mobile=' + params.get('mobile') : ''); };
+  $('#r-select').onclick = () => { location.search = '?select=1' + (params.get('mobile') ? '&mobile=' + params.get('mobile') : ''); };
+}
+
+async function boot() {
+  buildGrid();
+  if (!params.get('autostart') && !params.get('picks') && !params.get('select')) showTitle();
+  const ids = [...new Set(CHAMPIONS.map((c) => c.model))];
+  await loadModelTemplates(ids, (k) => { const b = $('#t-start'); if (b) b.textContent = `불러오는 중… ${Math.round(k * 100)}%`; });
+  portraits = renderPortraits(CHAMPIONS);
+  const b = $('#t-start');
+  if (b) { b.disabled = false; b.textContent = 'AI 대전 시작 (1 + AI 7)'; }
+  if (params.get('autostart')) {
+    const id = params.get('autostart'), lane = params.get('lane') || CHAMPIONS.find((c) => c.id === id).lanePref[0];
+    startGame(autoPicks(id, lane, Math.random));
+  } else if (params.get('picks')) {
+    try { startGame(JSON.parse(params.get('picks'))); } catch (e) { showSelect(); }
+  } else if (params.get('select')) showSelect();
+  window.BOOTED = true;
+}
+boot().catch((e) => { console.error(e); document.body.insertAdjacentHTML('beforeend', `<div style="position:fixed;inset:auto 0 0 0;background:#400;color:#fff;padding:8px;z-index:999">오류: ${e.message}</div>`); });

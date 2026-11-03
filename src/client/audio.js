@@ -1,0 +1,97 @@
+// WebAudio 절차 합성 효과음 + 독자 작곡 배경음 (외부 음원 없음)
+export class Audio {
+  constructor() {
+    this.ctx = null; this.vol = { master: 0.7, sfx: 0.8, music: 0.4 };
+    this.last = {};
+  }
+  init() {
+    if (this.ctx) return;
+    try {
+      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      this.master = this.ctx.createGain(); this.master.connect(this.ctx.destination);
+      this.sfxG = this.ctx.createGain(); this.sfxG.connect(this.master);
+      this.musG = this.ctx.createGain(); this.musG.connect(this.master);
+      this.applyVol();
+      // 노이즈 버퍼
+      const len = this.ctx.sampleRate;
+      this.noise = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+      const d = this.noise.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    } catch (e) { this.ctx = null; }
+  }
+  applyVol() { if (!this.ctx) return; this.master.gain.value = this.vol.master; this.sfxG.gain.value = this.vol.sfx; this.musG.gain.value = this.vol.music; }
+  suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); }
+  resume() { if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); }
+  _throttle(key, gap) { const t = performance.now(); if (this.last[key] && t - this.last[key] < gap) return true; this.last[key] = t; return false; }
+  tone(freq, dur, { type = 'sine', vol = 0.2, attack = 0.005, slide = 0, delay = 0, dest } = {}) {
+    if (!this.ctx) return;
+    const t = this.ctx.currentTime + delay;
+    const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, t);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(30, freq * slide), t + dur);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + attack); g.gain.exponentialRampToValueAtTime(0.0008, t + dur);
+    o.connect(g); g.connect(dest || this.sfxG);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+  noiseBurst(dur, { freq = 1200, q = 1, vol = 0.25, type = 'bandpass', slide = 1, delay = 0 } = {}) {
+    if (!this.ctx) return;
+    const t = this.ctx.currentTime + delay;
+    const s = this.ctx.createBufferSource(); s.buffer = this.noise;
+    const f = this.ctx.createBiquadFilter(); f.type = type; f.frequency.setValueAtTime(freq, t); f.Q.value = q;
+    if (slide !== 1) f.frequency.exponentialRampToValueAtTime(Math.max(40, freq * slide), t + dur);
+    const g = this.ctx.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0008, t + dur);
+    s.connect(f); f.connect(g); g.connect(this.sfxG);
+    s.start(t, Math.random() * 0.5); s.stop(t + dur + 0.05);
+  }
+  play(name, vol = 1) {
+    if (!this.ctx || this._throttle(name, 40)) return;
+    const v = vol;
+    switch (name) {
+      case 'swing': this.noiseBurst(0.14, { freq: 2400, q: 1.5, vol: 0.18 * v, slide: 0.4 }); break;
+      case 'hitPhys': this.noiseBurst(0.08, { freq: 900, q: 0.8, vol: 0.3 * v }); this.tone(140, 0.09, { type: 'triangle', vol: 0.18 * v, slide: 0.5 }); break;
+      case 'hitHeavy': this.noiseBurst(0.22, { freq: 400, q: 0.7, vol: 0.4 * v, type: 'lowpass', slide: 0.5 }); this.tone(80, 0.25, { type: 'sine', vol: 0.35 * v, slide: 0.5 }); break;
+      case 'hitMagic': this.tone(660, 0.16, { type: 'triangle', vol: 0.12 * v, slide: 1.6 }); this.noiseBurst(0.1, { freq: 3000, q: 4, vol: 0.08 * v }); break;
+      case 'arrow': this.noiseBurst(0.1, { freq: 4000, q: 3, vol: 0.1 * v, slide: 0.6 }); this.tone(900, 0.06, { type: 'square', vol: 0.03 * v, slide: 0.5 }); break;
+      case 'zap': this.tone(520, 0.12, { type: 'sawtooth', vol: 0.06 * v, slide: 1.8 }); break;
+      case 'cast': this.tone(440, 0.22, { type: 'sine', vol: 0.1 * v, slide: 1.5 }); this.tone(660, 0.2, { type: 'sine', vol: 0.07 * v, slide: 1.5, delay: 0.04 }); break;
+      case 'ult': this.tone(220, 0.6, { type: 'sawtooth', vol: 0.08 * v, slide: 2 }); this.tone(330, 0.6, { type: 'triangle', vol: 0.1 * v, slide: 2, delay: 0.05 }); this.noiseBurst(0.5, { freq: 600, q: 0.6, vol: 0.12 * v, slide: 3 }); break;
+      case 'boom': this.noiseBurst(0.45, { freq: 500, q: 0.5, vol: 0.45 * v, type: 'lowpass', slide: 0.3 }); this.tone(60, 0.4, { vol: 0.4 * v, slide: 0.5 }); break;
+      case 'glass': for (let i = 0; i < 4; i++) this.tone(1800 + Math.random() * 1600, 0.12, { type: 'triangle', vol: 0.05 * v, delay: i * 0.02 }); this.noiseBurst(0.12, { freq: 5000, q: 2, vol: 0.1 * v }); break;
+      case 'heal': [523, 659, 784].forEach((f, i) => this.tone(f, 0.3, { type: 'sine', vol: 0.07 * v, delay: i * 0.05 })); break;
+      case 'shield': this.tone(392, 0.3, { type: 'triangle', vol: 0.1 * v, slide: 1.25 }); this.tone(784, 0.25, { type: 'sine', vol: 0.05 * v, delay: 0.03 }); break;
+      case 'turret': this.tone(300, 0.25, { type: 'sawtooth', vol: 0.07 * v, slide: 0.4 }); this.noiseBurst(0.15, { freq: 1500, vol: 0.08 * v }); break;
+      case 'level': [523, 659, 784, 1046].forEach((f, i) => this.tone(f, 0.25, { type: 'triangle', vol: 0.1 * v, delay: i * 0.07 })); break;
+      case 'gold': this.tone(1318, 0.08, { type: 'square', vol: 0.03 * v }); this.tone(1760, 0.1, { type: 'square', vol: 0.03 * v, delay: 0.05 }); break;
+      case 'click': this.tone(880, 0.04, { type: 'square', vol: 0.04 * v }); break;
+      case 'deny': this.tone(220, 0.12, { type: 'square', vol: 0.05 * v }); this.tone(180, 0.12, { type: 'square', vol: 0.05 * v, delay: 0.08 }); break;
+      case 'death': this.tone(330, 0.5, { type: 'triangle', vol: 0.12 * v, slide: 0.4 }); break;
+      case 'note': this.tone([523, 587, 659, 784, 880][Math.floor(Math.random() * 5)], 0.25, { type: 'sine', vol: 0.08 * v }); break;
+      case 'recall': this.tone(392, 1.2, { type: 'sine', vol: 0.06 * v, slide: 2, attack: 0.3 }); break;
+      case 'victory': [392, 523, 659, 784, 1046].forEach((f, i) => this.tone(f, 0.6, { type: 'triangle', vol: 0.12, delay: i * 0.12 })); break;
+      case 'defeat': [392, 349, 311, 262].forEach((f, i) => this.tone(f, 0.7, { type: 'triangle', vol: 0.12, delay: i * 0.18 })); break;
+    }
+  }
+  // 배경음: 펜타토닉 패드 + 느린 아르페지오 (독자 작곡, 절차 생성)
+  startMusic(mode = 'battle') {
+    if (!this.ctx || this.musicOn === mode) return;
+    this.stopMusic();
+    this.musicOn = mode;
+    const prog = mode === 'menu' ? [[220, 277, 330], [196, 247, 294], [175, 220, 262], [196, 247, 330]] : [[147, 220, 262], [131, 196, 247], [117, 175, 220], [131, 196, 262]];
+    let step = 0;
+    const beat = mode === 'menu' ? 0.75 : 0.42;
+    const tick = () => {
+      if (!this.ctx || this.musicOn !== mode) return;
+      const chord = prog[Math.floor(step / 8) % prog.length];
+      if (step % 8 === 0) chord.forEach((f) => this.tone(f, beat * 8.5, { type: 'sine', vol: 0.05, attack: 0.6, dest: this.musG }));
+      if (step % 8 === 0) this.tone(chord[0] / 2, beat * 8, { type: 'triangle', vol: 0.06, attack: 0.2, dest: this.musG });
+      const arp = [0, 1, 2, 1, 2, 0, 1, 2][step % 8];
+      if (mode !== 'menu' || step % 2 === 0) this.tone(chord[arp] * 2, beat * 1.6, { type: 'triangle', vol: 0.025, attack: 0.01, dest: this.musG });
+      if (mode === 'battle' && step % 4 === 2) this.noiseBurst(0.06, { freq: 7000, q: 1, vol: 0.012 });
+      step++;
+      this.musT = setTimeout(tick, beat * 1000);
+    };
+    tick();
+  }
+  stopMusic() { clearTimeout(this.musT); this.musicOn = null; }
+}
+export const audio = new Audio();

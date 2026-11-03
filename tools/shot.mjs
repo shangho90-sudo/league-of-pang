@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+import http from 'http'; import fs from 'fs'; import path from 'path';
+const [,, page, out, w='1600', h='700', wait='DONE'] = process.argv;
+const root=process.cwd(); const types={'.html':'text/html','.js':'text/javascript','.glb':'model/gltf-binary','.png':'image/png','.json':'application/json','.webp':'image/webp','.ogg':'audio/ogg','.wav':'audio/wav','.css':'text/css'};
+const srv=http.createServer((q,s)=>{const p=path.join(root,decodeURIComponent(q.url.split('?')[0])); if(!fs.existsSync(p)||fs.statSync(p).isDirectory()){s.writeHead(404);return s.end();} s.writeHead(200,{'Content-Type':types[path.extname(p)]||'application/octet-stream'}); fs.createReadStream(p).pipe(s);}).listen(8123);
+const b=await chromium.launch({args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const pg=await b.newPage({viewport:{width:+w,height:+h}});
+pg.on('console',m=>console.log('[c]',m.text())); pg.on('pageerror',e=>console.log('[err]',e.message));
+await pg.goto('http://localhost:8123/'+page); await pg.waitForFunction('window.'+wait,null,{timeout:180000});
+console.log(JSON.stringify(await pg.evaluate('window.INFO')));
+await pg.screenshot({path:out}); await b.close(); srv.close();
