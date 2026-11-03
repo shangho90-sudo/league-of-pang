@@ -37,6 +37,7 @@ try{
   const time=await b.evaluate(()=>GAME.sim.time);await a.evaluate(()=>ONLINE.ws.close());await b.waitForFunction(t=>GAME.sim.time>t+.6,time);await a.waitForFunction(()=>ONLINE.connected&&GAME.sim.time>2);
   await a.evaluate(()=>GAME.hud.toggleMenu(true));const paused=await b.evaluate(()=>GAME.sim.time);await b.waitForFunction(t=>GAME.sim.time>t+.5,paused);await a.evaluate(()=>GAME.hud.toggleMenu(false));
   for(const p of [a,b])await p.waitForFunction(()=>GAME.sim.time>12,null,{timeout:30000});
+  for(const p of [a,b]){const intro=await p.evaluate(()=>({at:GAME.welcome.startedAt,shown:GAME.welcome.shown}));assert(intro.shown&&intro.at>=5&&intro.at<9,'One greeting at match start');}
   await b.screenshot({path:'dev/online-game-mobile.png'});
   const result=await a.evaluate(()=>({time:GAME.sim.time,players:GAME.sim.champions.length,units:GAME.sim.units.length,ais:GAME.ais.length,connected:ONLINE.connected,latency:ONLINE.latency}));
   assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,result,errors}));

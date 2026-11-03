@@ -1,0 +1,24 @@
+{
+  "provider": "Runway",
+  "createdDate": "2026-11-04",
+  "credits": 1,
+  "balanceAfter": 532,
+  "assets": [
+    {
+      "id": "welcome",
+      "file": "public/audio/announcer/welcome.mp3",
+      "taskId": "071b20d9-3aaa-4b0d-8bee-0aee862979c0",
+      "displayText": "팽스닥의 협곡에 오신것을 환영합니다",
+      "spokenText": "팽스닥의 협곡에 오시것을 환영합니다",
+      "generationText": "[low-pitched] [serious] 팽스닥의 협곡에 오시것을 환영합니다",
+      "voice": "Marlene",
+      "model": "eleven_v3",
+      "languageCode": "ko",
+      "speed": 0.9,
+      "duration": 3.12,
+      "bytes": 51034,
+      "playbackRate": 0.96,
+      "runtimeMix": "Trim leading/trailing silence; normalize; low-shelf +2.8 dB at 160 Hz; duck music to 28%; honor master/effects volume."
+    }
+  ]
+}

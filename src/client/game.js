@@ -8,6 +8,7 @@ import { PCInput, TouchInput } from './input.js';
 import { audio } from './audio.js';
 import { QUALITY } from '../render/scene.js';
 import { applySnapshot } from '../net/wire.js';
+import { WelcomeAnnouncement } from './welcome.js';
 
 export class Game {
   constructor({ renderer, picks, settings, portraits, mobile, seed, onEnd, onProgress, online }) {
@@ -28,6 +29,7 @@ export class Game {
     this.world.camera.goal.set(this.player.x, 0, this.player.z); this.world.camera.target.copy(this.world.camera.goal);
     this.hud = new HUD(this);
     if (online) online.attach(this);
+    this.welcome = new WelcomeAnnouncement(this);
     this.input = mobile ? new TouchInput(this) : new PCInput(this);
     this.paused = false; this.over = false; this.acc = 0; this.last = performance.now();
     this.perf = { frames: 0, t: 0, fps: 0, minFps: 999, samples: [] };
@@ -38,7 +40,6 @@ export class Game {
     document.addEventListener('visibilitychange', this._onVis);
     window.GAME = this;
     audio.startMusic('battle');
-    this.hud.announce('전장에 오신 것을 환영합니다 — 미니언·몬스터 생성까지 10초', 'neutral');
   }
   resize() {
     const W = innerWidth, H = innerHeight;
@@ -51,6 +52,7 @@ export class Game {
     if (document.hidden) {
       this.input.releaseAll?.();
       this.bgPaused = true;
+      this.welcome.dismiss();
       audio.suspend();
     } else {
       this.bgPaused = false;
@@ -101,6 +103,7 @@ export class Game {
   finish() {
     if (this.over) return;
     this.over = true;
+    this.welcome.dismiss();
     const win = this.sim.winner === this.player.team;
     audio.stopMusic();
     audio.play(win ? 'victory' : 'defeat');
@@ -151,6 +154,7 @@ export class Game {
     if (!this.online || (this.online.connected && this.online.running)) this.input.update(dt);
     this.world.update(this.paused && !this.online ? 0 : dt, alpha, this.player);
     this.hud.update(dt);
+    this.welcome.update();
     this.world.render();
     this.world.drawOverlay(dt, this.player, this.mobile ? 1.1 * this.settings.uiScale : this.settings.uiScale);
     if(this.online){const e=document.getElementById('online-game-status');if(e)e.textContent=!this.online.connected||performance.now()-this.online.lastSnapshot>5000?'연결 복구 중…':!this.online.running&&!this.over?'참가자 로딩 대기 중…':`온라인 · ${this.online.latency??'—'} ms`;}
@@ -160,6 +164,7 @@ export class Game {
   }
   destroy() {
     clearTimeout(this.endTimer);
+    this.welcome.destroy();
     if(this.online?.game===this)this.online.game=null;
     this.world.fx.hero.dispose();
     this.world.rangeVisual.dispose();audio.combat.stop();

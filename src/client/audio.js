@@ -15,7 +15,8 @@ export class Audio {
       this.limiter=this.ctx.createDynamicsCompressor();this.limiter.threshold.value=-8;this.limiter.knee.value=10;this.limiter.ratio.value=6;this.limiter.attack.value=.003;this.limiter.release.value=.16;
       this.master.connect(this.limiter);this.limiter.connect(this.ctx.destination);
       this.sfxG = this.ctx.createGain(); this.sfxG.connect(this.master);
-      this.musG = this.ctx.createGain(); this.musG.connect(this.master);
+      this.announcementDuck = this.ctx.createGain(); this.announcementDuck.connect(this.master);
+      this.musG = this.ctx.createGain(); this.musG.connect(this.announcementDuck);
       this.applyVol();
       // 노이즈 버퍼
       const len = this.ctx.sampleRate;

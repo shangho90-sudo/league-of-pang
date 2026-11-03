@@ -4,6 +4,12 @@
 
 ## 1. 외부 자산
 
+### 2026-11-04 경기 시작 환영 안내
+
+- **Runway 여성 저음 음성 1개**: `public/audio/announcer/welcome.mp3`, 3.12초, 51,034바이트. 화면에는 `팽스닥의 협곡에 오신것을 환영합니다`, 음성에는 요청된 별도 대사 `팽스닥의 협곡에 오시것을 환영합니다`를 사용했습니다. 작업 ID·음성 설정은 같은 폴더의 `manifest.json`에 기록했습니다. 실제 사용 1크레딧, 잔액 532입니다.
+- **주아체 환영 문구용 글꼴**: `public/fonts/Jua-Welcome.ttf`, 13,320바이트. [Google Fonts의 Jua](https://github.com/google/fonts/tree/main/ofl/jua) 글꼴을 공식 Google Fonts API에서 환영 문구에 필요한 글자만 받아 자체 제공하며, [SIL Open Font License 1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/jua/OFL.txt)을 `public/fonts/Jua-OFL.txt`에 함께 배포합니다.
+- 경기 시간 5초에 중앙 문구와 음성을 함께 시작합니다. 글씨는 약 4초 표시하며 경기당 한 번만 재생합니다. 음성 중 배경음악을 낮추고, 화면을 떠나거나 경기가 끝나면 안내를 정리합니다. 경기 중간 재접속에서는 환영을 다시 재생하지 않습니다.
+
 ### 2026-11-04 범위 표시·전투 효과음 업데이트
 
 - **Tripo P1 모델 2종**: `public/models/indicators/`의 크리스털 별·화살촉. 청백색 발광 재질과 지형을 따르는 범위 셰이더를 조합했습니다. 실제 스킬의 사거리·폭·각도는 그대로 사용합니다. 합계 158,872바이트, 실제 사용 60크레딧, 잔액 1,015입니다.
