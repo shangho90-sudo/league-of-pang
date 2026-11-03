@@ -155,17 +155,6 @@ canvas.mm { display: block; border-radius: 4px; cursor: pointer; }
 .modal { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-height: 86vh; overflow: auto; pointer-events: auto; padding: 16px 18px; z-index: 20; }
 .modal h3 { margin: 0 0 10px; color: var(--gold); font-size: 18px; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
 .modal .x { background: none; border: 1px solid #5a6a7c; color: var(--txt); border-radius: 4px; width: 30px; height: 30px; font-size: 16px; cursor: pointer; }
-#shop { width: min(760px, 94vw); }
-#shop .items { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
-#shop .item { display: grid; grid-template-columns: 40px 1fr; gap: 6px; padding: 6px; background: rgba(0,0,0,0.3); border: 1px solid #3a4858; border-radius: 4px; cursor: pointer; }
-#shop .item:hover { border-color: var(--edge-hi); }
-#shop .item.no { opacity: 0.5; }
-#shop .item .ic { font-size: 26px; text-align: center; }
-#shop .item b { font-size: 13px; } #shop .item .c { color: var(--gold); font-size: 12px; font-weight: 700; }
-#shop .item p { margin: 2px 0 0; font-size: 11px; color: var(--sub); grid-column: span 2; }
-#shop .status { margin: 4px 0 10px; font-size: 13px; color: #ffd0a0; }
-#shop .inv { display: flex; gap: 6px; margin-top: 12px; align-items: center; font-size: 13px; color: var(--sub); }
-#shop .inv .it { width: 40px; height: 40px; border: 1px solid #4a5868; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; background: #0e151d; }
 #score { width: min(860px, 96vw); }
 #score table { width: 100%; border-collapse: collapse; font-size: 13px; }
 #score td, #score th { padding: 4px 6px; text-align: left; border-bottom: 1px solid #243040; }
@@ -356,4 +345,74 @@ canvas.mm { display: block; border-radius: 4px; cursor: pointer; }
   #loading.keyart-loading .load-band { height: 24%; min-height: 0; gap: 6px; }
   #loading.keyart-loading .teams img { width: 8.5vh; height: 8.5vh; border-radius: 6px; }
   #loading.keyart-loading .teams .cap, #loading.keyart-loading .tip { display: none; }
+}
+
+/* ===== 상점 (시안 기준) ===== */
+#shop { width: min(1180px, 96vw); max-height: 94vh; display: flex; flex-direction: column; overflow: visible; padding: 18px 26px 16px;
+  background: linear-gradient(180deg, rgba(14,24,40,0.94), rgba(8,14,26,0.95)); backdrop-filter: blur(5px);
+  border: 2px solid #b8924a; border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(255,230,170,0.25), inset 0 0 0 5px rgba(8,14,26,0.9), inset 0 0 0 6px rgba(184,146,74,0.45), 0 18px 50px rgba(0,0,0,0.65); }
+#shop.hidden { display: none; }
+#shop::before, #shop::after { content: ''; position: absolute; width: 46px; height: 46px; border: 3px solid #d8b46a; pointer-events: none; }
+#shop::before { left: -3px; top: -3px; border-right: none; border-bottom: none; border-radius: 16px 0 0 0; }
+#shop::after { right: -3px; bottom: -3px; border-left: none; border-top: none; border-radius: 0 0 16px 0; }
+#shop .orn { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: none; line-height: 0; }
+#shop .orn.top { top: -6px; width: 120px; } #shop .orn.bot { bottom: -8px; width: 60px; }
+#shop .orn svg { width: 100%; height: auto; }
+#shop .sh-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+#shop .sh-head .emb { width: 50px; height: 50px; flex: none; } #shop .sh-head .emb svg { width: 100%; height: 100%; }
+#shop .sh-head h3 { margin: 0; flex: 1; font-size: 40px; font-weight: 900; letter-spacing: 2px; display: block;
+  background: linear-gradient(180deg, #fff2c4 10%, #e3b45a 55%, #a3742a 90%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.7)); }
+#shop .x { width: 54px; height: 54px; border-radius: 8px; border: 2px solid #c9a253; background: linear-gradient(180deg, #1a2638, #0b131f); box-shadow: inset 0 0 0 1px rgba(255,230,170,0.2); cursor: pointer; display: grid; place-items: center; padding: 0; }
+#shop .x svg { width: 26px; height: 26px; } #shop .x:hover { border-color: #ffe0a0; }
+#shop .status { margin: 0 0 8px; font-size: 19px; color: #e8edf3; letter-spacing: 0.2px; }
+#shop .status b { color: #f2c75a; }
+#shop .rule { position: relative; height: 1px; margin: 4px 0 14px; background: linear-gradient(90deg, transparent, #b8924a 15%, #b8924a 85%, transparent); }
+#shop .rule i { position: absolute; left: 50%; top: -5px; width: 9px; height: 9px; background: #d8b46a; transform: translateX(-50%) rotate(45deg); }
+#shop .rule.plain { margin: 12px 0 10px; background: linear-gradient(90deg, transparent, rgba(184,146,74,0.5) 10%, rgba(184,146,74,0.5) 90%, transparent); }
+#shop .items { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 14px; overflow-y: auto; padding: 2px 6px 4px 2px; min-height: 0; flex: 1;
+  scrollbar-width: thin; scrollbar-color: #8a6a32 rgba(0,0,0,0.3); }
+#shop .item { position: relative; display: grid; grid-template-columns: 84px 1fr; grid-template-rows: auto auto; column-gap: 14px; padding: 12px 14px 10px 18px; cursor: pointer;
+  background: linear-gradient(160deg, rgba(36,52,76,0.92), rgba(14,22,36,0.95) 60%); border: 1.5px solid #a88a52; border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255,232,180,0.12), inset 0 18px 30px rgba(120,160,210,0.06), 0 3px 8px rgba(0,0,0,0.5); transition: transform .08s, border-color .1s; }
+#shop .item::after { content: ''; position: absolute; right: 0; top: 0; width: 40%; height: 46%; border-radius: 0 10px 0 0; background: linear-gradient(225deg, rgba(255,255,255,0.08), transparent 60%); pointer-events: none; }
+#shop .item:hover { border-color: #ffd98a; transform: translateY(-1px); }
+#shop .item.no { filter: saturate(0.8) brightness(0.86); }
+#shop .item .ic { grid-row: 1; width: 84px; height: 80px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+#shop .item .ic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#shop .item .hd { display: flex; flex-direction: column; justify-content: center; gap: 6px; min-width: 0; }
+#shop .item b { font-size: 23px; font-weight: 800; color: #f2f4f7; text-shadow: 0 2px 2px rgba(0,0,0,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#shop .item .c { display: flex; align-items: center; gap: 8px; color: #f2c75a; font-size: 22px; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,0.7); }
+#shop .item .c .coin { width: 26px; height: 20px; }
+#shop .item p { grid-column: 1 / span 2; margin: 10px 0 0; padding-top: 8px; border-top: 1px solid rgba(184,146,74,0.35); display: flex; gap: 10px; align-items: center; font-size: 15px; color: #e3e8ee; line-height: 1.35; letter-spacing: -0.2px; }
+#shop .item p i { width: 24px; height: 24px; flex: none; } #shop .item p i svg { width: 100%; height: 100%; }
+#shop .inv { display: flex; gap: 8px; align-items: center; font-size: 22px; color: #e8edf3; min-height: 44px; }
+#shop .inv .lbl { color: #e8edf3; } #shop .inv .lbl::first-letter { color: #d8b46a; }
+#shop .inv .none { color: #e8edf3; }
+#shop .inv .it { width: 44px; height: 44px; border-radius: 7px; overflow: hidden; cursor: pointer; border: 1px solid #a88a52; }
+#shop .inv .it img { width: 100%; height: 100%; display: block; }
+#items-panel .it img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; display: block; }
+#items-panel .it { position: relative; overflow: hidden; }
+#items-panel .it .n { position: absolute; z-index: 1; }
+.its img { width: 22px; height: 22px; border-radius: 3px; vertical-align: middle; margin-right: 2px; }
+@media (max-width: 1100px) {
+  #shop { padding: 12px 16px 10px; }
+  #shop .items { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+  #shop .item { grid-template-columns: 60px 1fr; padding: 9px 11px 8px 12px; column-gap: 11px; }
+  #shop .item .ic { width: 60px; height: 56px; }
+  #shop .item b { font-size: 18px; } #shop .item .c { font-size: 17px; } #shop .item .c .coin { width: 20px; height: 15px; }
+  #shop .item p { font-size: 13px; margin-top: 7px; padding-top: 6px; gap: 8px; } #shop .item p i { width: 18px; height: 18px; }
+  #shop .sh-head h3 { font-size: 30px; } #shop .sh-head .emb { width: 38px; height: 38px; } #shop .x { width: 42px; height: 42px; }
+  #shop .status { font-size: 15px; } #shop .inv { font-size: 17px; }
+}
+@media (max-height: 520px) {
+  #shop { max-height: 96vh; padding: 8px 14px 6px; }
+  #shop .sh-head { margin-bottom: 2px; } #shop .sh-head h3 { font-size: 22px; } #shop .sh-head .emb { width: 28px; height: 28px; } #shop .x { width: 34px; height: 34px; }
+  #shop .status { font-size: 12px; margin-bottom: 4px; } #shop .rule { margin: 2px 0 8px; } #shop .rule.plain { margin: 6px 0 4px; }
+  #shop .items { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  #shop .item { grid-template-columns: 40px 1fr; padding: 6px 8px; column-gap: 8px; }
+  #shop .item .ic { width: 40px; height: 40px; border-radius: 6px; }
+  #shop .item b { font-size: 13px; } #shop .item .c { font-size: 12px; gap: 4px; } #shop .item .c .coin { width: 15px; height: 12px; } #shop .item .hd { gap: 2px; }
+  #shop .item p { font-size: 10.5px; margin-top: 4px; padding-top: 4px; gap: 5px; } #shop .item p i { width: 13px; height: 13px; }
+  #shop .inv { font-size: 13px; min-height: 30px; } #shop .inv .it { width: 30px; height: 30px; }
 }

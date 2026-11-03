@@ -1,10 +1,38 @@
 // HUD — PC/모바일 별도 배치. 게임 로직은 공유하고 표시·조작 배치만 다르다.
-import { ITEMS, ITEM_BY_ID } from '../data/items.js';
+import { ITEMS, ITEM_BY_ID, itemIconSrc } from '../data/items.js';
 import { ROLES, XP_TABLE, MAX_LEVEL } from '../data/champions.js';
 import { MAP_HALF, LANES, JUNGLE, PITS, BASES, TEAM_COLORS } from '../map/layout.js';
 import { N, walk, sd, rd, brush } from '../map/grid.js';
 import { skillIcon } from './icons.js';
 import { audio } from './audio.js';
+
+
+// ---- 상점 장식·아이콘 (SVG) ----
+const COIN = '<svg class="coin" viewBox="0 0 24 18"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1b0"/><stop offset=".5" stop-color="#e2a93a"/><stop offset="1" stop-color="#8a5a14"/></linearGradient></defs><ellipse cx="12" cy="12" rx="10" ry="5" fill="#7a4e10"/><ellipse cx="12" cy="9" rx="10" ry="5" fill="url(#cg)" stroke="#6a420c" stroke-width=".8"/><ellipse cx="12" cy="9" rx="6" ry="2.6" fill="none" stroke="#fff3c0" stroke-opacity=".6" stroke-width=".8"/></svg>';
+const FLEUR = '<svg viewBox="0 0 64 64"><defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".5" stop-color="#d9a441"/><stop offset="1" stop-color="#7a5216"/></linearGradient></defs><path fill="url(#fg)" stroke="#4a3008" stroke-width="1.2" d="M32 4c4 10 9 16 9 26 0 6-4 10-9 14-5-4-9-8-9-14 0-10 5-16 9-26zM6 22c10 2 16 8 18 18-2 4-5 8-5 14-6-8-13-14-13-32zm52 0c0 18-7 24-13 32 0-6-3-10-5-14 2-10 8-16 18-18zM24 50h16l-3 10h-10z"/></svg>';
+const CLOSE_X = '<svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>';
+const GEM_ORN = '<svg viewBox="0 0 120 34"><defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d98e"/><stop offset="1" stop-color="#8a6424"/></linearGradient><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e4fbff"/><stop offset=".5" stop-color="#4ec3e8"/><stop offset="1" stop-color="#0a4a7a"/></linearGradient></defs><path fill="url(#og)" d="M0 2h44q10 0 16 14 6-14 16-14h44q-30 4-44 26-8 6-16 6t-16-6Q30 6 0 2z"/><path fill="url(#bg2)" stroke="#123" stroke-width="1" d="M60 6l9 10-9 12-9-12z"/></svg>';
+const DIAMOND_ORN = '<svg viewBox="0 0 60 16"><path fill="#c9a253" d="M0 8h22l8-7 8 7h22l-22 1-8 7-8-7z"/></svg>';
+const SI = {
+  heart: '<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>',
+  swords: '<path d="M4 3l9 9-2 2-9-9V3zm16 0h0v2l-9 9-2-2 9-9zM3 19l4-4 2 2-4 4zm18 0l-2 2-4-4 2-2z"/>',
+  book: '<path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1zM12 6v14" fill-opacity=".9"/>',
+  shield: '<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/>',
+  mshield: '<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><circle cx="12" cy="11" r="3" fill="#0b1522"/>',
+  wing: '<path d="M2 18c6-1 10-4 13-9l2 1c-1 2-1 3 0 4 2-1 3-4 5-9-1 7-4 12-10 14-4 1-7 0-10-1z"/>',
+  swoosh: '<path d="M3 17c5-1 9-4 12-10l2 2c-3 6-8 10-14 10zm6 3c5-1 9-4 12-10l1 3c-3 5-7 8-13 8z"/>',
+  drop: '<path d="M12 2c4 6 7 9 7 13a7 7 0 0 1-14 0c0-4 3-7 7-13z"/>',
+  bolt: '<path d="M13 2L4 14h6l-1 8 9-12h-6z"/>',
+  swirl: '<path d="M12 3a9 9 0 1 0 9 9h-3a6 6 0 1 1-6-6 3 3 0 1 1-3 3H6a6 6 0 1 0 6-6z"/>',
+  flask: '<path d="M9 2h6v2h-1v5l6 10a2 2 0 0 1-2 3H6a2 2 0 0 1-2-3l6-10V4H9z"/>',
+  lotus: '<path d="M12 4c2 3 3 6 0 10-3-4-2-7 0-10zM3 9c4 0 7 2 8 6-4 1-7-1-8-6zm18 0c-1 5-4 7-8 6 1-4 4-6 8-6zM3 17c6 2 12 2 18 0-2 3-6 4-9 4s-7-1-9-4z"/>',
+};
+function statIcon(it) {
+  const st = it.stats || {};
+  const key = it.consumable ? 'heart' : it.id === 'essence' ? 'flask' : it.id === 'staff' || it.id === 'voidstaff' ? 'swirl' : it.id === 'orb' ? 'lotus' : it.id === 'stormbow' ? 'bolt'
+    : st.lifesteal && !st.as ? 'drop' : st.ap ? 'book' : st.ad ? 'swords' : st.as ? 'swoosh' : st.ms ? 'wing' : st.mr ? 'mshield' : st.armor || st.dr ? 'shield' : st.mp ? 'drop' : 'heart';
+  return `<svg viewBox="0 0 24 24" fill="#c9d2dc">${SI[key]}</svg>`;
+}
 
 const $ = (s, r = document) => r.querySelector(s);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
@@ -142,14 +170,24 @@ export class HUD {
   renderShop() {
     const s = $('#shop', this.root), p = this.p, sim = this.sim;
     const can = sim.inShop(p);
-    s.innerHTML = `<h3>상점 <button class="x">✕</button></h3><div class="status">${can ? `보유 골드 <b style="color:#d8b46a">${Math.floor(p.gold)}</b> — 아이템을 눌러 구매합니다` : '본진 상점 구역(또는 사망 중)에서만 구매할 수 있습니다. 목록은 미리 볼 수 있습니다.'}</div>
-      <div class="items">${ITEMS.map((it) => `<div class="item ${(!can || p.gold < it.cost) ? 'no' : ''}" data-id="${it.id}"><div class="ic">${it.icon}</div><div><b>${it.name}</b><div class="c">${it.cost} G</div></div><p>${it.desc}</p></div>`).join('')}</div>
-      <div class="inv">보유: ${p.items.map((id, i) => `<div class="it" data-sell="${i}" title="${ITEM_BY_ID[id].name} — 눌러서 판매(60%)">${ITEM_BY_ID[id].icon}</div>`).join('') || '없음'}</div>`;
+    const card = (it) => `<div class="item ${(!can || p.gold < it.cost) ? 'no' : ''}" data-id="${it.id}">
+        <div class="ic"><img src="${itemIconSrc(it.id)}" alt=""></div>
+        <div class="hd"><b>${it.name}</b><div class="c">${COIN}<span>${it.cost} G</span></div></div>
+        <p><i>${statIcon(it)}</i><span>${it.desc}</span></p></div>`;
+    s.innerHTML = `<i class="orn top">${GEM_ORN}</i><i class="orn bot">${DIAMOND_ORN}</i>
+      <div class="sh-head"><span class="emb">${FLEUR}</span><h3>상점</h3><button class="x" aria-label="닫기">${CLOSE_X}</button></div>
+      <div class="status">${can ? `보유 골드 <b>${Math.floor(p.gold)} G</b> — 아이템을 눌러 구매합니다.` : '본진 상점 구역(또는 사망 중)에서만 구매할 수 있습니다. 목록은 미리 볼 수 있습니다.'}</div>
+      <div class="rule"><i></i></div>
+      <div class="items">${ITEMS.map(card).join('')}</div>
+      <div class="rule plain"></div>
+      <div class="inv"><span class="lbl">◈ 보유:</span>${p.items.map((id, i) => `<div class="it" data-sell="${i}" title="${ITEM_BY_ID[id].name} — 눌러서 판매(60%)"><img src="${itemIconSrc(id)}" alt=""></div>`).join('') || '<span class="none">없음</span>'}</div>`;
     s.querySelector('.x').onclick = () => this.toggleShop(false);
     s.querySelectorAll('.item').forEach((d) => d.addEventListener('click', () => {
       const r = sim.cmdBuy(p, d.dataset.id);
       if (!r.ok) this.showMsg(r.reason); else { audio.play('gold'); this.showMsg(`${ITEM_BY_ID[d.dataset.id].name} 구매`, true); }
+      const sc = s.querySelector('.items').scrollTop;
       this.renderShop();
+      s.querySelector('.items').scrollTop = sc;
     }));
     s.querySelectorAll('[data-sell]').forEach((d) => d.addEventListener('click', () => { const r = sim.cmdSell(p, +d.dataset.sell); if (!r.ok) this.showMsg(r.reason || '판매할 수 없습니다'); this.renderShop(); }));
   }
@@ -167,7 +205,7 @@ export class HUD {
   renderScore() {
     const s = $('#score', this.root), sim = this.sim;
     const tb = sim.teamBuffs;
-    const row = (c) => `<tr class="t${c.team} ${c === this.p ? 'me' : ''}"><td><img src="${this.portraits[c.def.id]}"> ${c.name}${c.isPlayer ? ' (나)' : ' <small style="color:#9aa8b6">AI</small>'}</td><td>${{ top: '상단', mid: '중앙', bot: '하단', jungle: '정글' }[c.lane]}</td><td>${c.level}</td><td>${c.k}/${c.d}/${c.a}</td><td>${c.cs}</td><td class="its">${c.items.map((i) => ITEM_BY_ID[i].icon).join('')}</td><td>${c.dead ? `부활 ${Math.ceil(c.respawnAt - sim.time)}초` : ''}</td></tr>`;
+    const row = (c) => `<tr class="t${c.team} ${c === this.p ? 'me' : ''}"><td><img src="${this.portraits[c.def.id]}"> ${c.name}${c.isPlayer ? ' (나)' : ' <small style="color:#9aa8b6">AI</small>'}</td><td>${{ top: '상단', mid: '중앙', bot: '하단', jungle: '정글' }[c.lane]}</td><td>${c.level}</td><td>${c.k}/${c.d}/${c.a}</td><td>${c.cs}</td><td class="its">${c.items.map((i) => `<img src="${itemIconSrc(i)}" alt="" title="${ITEM_BY_ID[i].name}">`).join('')}</td><td>${c.dead ? `부활 ${Math.ceil(c.respawnAt - sim.time)}초` : ''}</td></tr>`;
     s.innerHTML = `<h3>전적 · 성장 정보 <button class="x">✕</button></h3>
       <div class="sum"><span style="color:var(--ally)">청람 ${sim.teamKills[0]}킬 · 비룡 ${tb[0].drake} · ${tb[0].colossusUntil > sim.time ? '거신 강화 중' : ''}</span><span>${fmtT(sim.time)}</span><span style="color:var(--enemy)">적염 ${sim.teamKills[1]}킬 · 비룡 ${tb[1].drake} · ${tb[1].colossusUntil > sim.time ? '거신 강화 중' : ''}</span></div>
       <table><tr><th>영웅</th><th>위치</th><th>레벨</th><th>K/D/A</th><th>CS</th><th>아이템</th><th></th></tr>${sim.champions.map(row).join('')}</table>
@@ -358,7 +396,7 @@ export class HUD {
       this.set('gold', $('#items-panel .g', r), 'textContent', `${Math.floor(p.gold)} G`);
       const slots = r.querySelectorAll('#items-panel .it');
       const itemsKey = p.items.join(',');
-      if (this.cache.items !== itemsKey) { this.cache.items = itemsKey; slots.forEach((s, i) => { const id = p.items[i]; s.innerHTML = `<span class="n">${i + 1}</span>${id ? ITEM_BY_ID[id].icon : ''}`; s.title = id ? `${ITEM_BY_ID[id].name} — ${ITEM_BY_ID[id].desc}` : ''; }); }
+      if (this.cache.items !== itemsKey) { this.cache.items = itemsKey; slots.forEach((s, i) => { const id = p.items[i]; s.innerHTML = `<span class="n">${i + 1}</span>${id ? `<img src="${itemIconSrc(id)}" alt="">` : ''}`; s.title = id ? `${ITEM_BY_ID[id].name} — ${ITEM_BY_ID[id].desc}` : ''; }); }
       this.set('ms', $('#mystats', r), 'innerHTML', `K/D/A <b>${p.k}/${p.d}/${p.a}</b> · CS <b>${p.cs}</b> · ${p.isPlayer ? '플레이어 1 + AI 7' : ''}`);
       cp.querySelectorAll('[data-lv]').forEach((b) => b.classList.toggle('hidden', !(p.skillPoints > 0 && this.g.canLevel(b.dataset.lv))));
     } else {

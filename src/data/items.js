@@ -17,17 +17,30 @@ export const ITEMS = [
   { id: 'orb', name: '명상의 보주', cost: 1300, stats: { hp: 250, mr: 45 }, desc: '체력 +250, 마법 저항력 +45', icon: '◉' },
   { id: 'swiftboots', name: '신속의 장화', cost: 900, stats: { ms: 0.6, cdr: 0.05 }, desc: '이동 속도 +0.6, 재사용 대기시간 5% 감소', icon: '🥾' },
   { id: 'warhelm', name: '전쟁 투구', cost: 1500, stats: { hp: 300, ad: 25, cdr: 0.1 }, desc: '체력 +300, 공격력 +25, 재사용 대기시간 10% 감소', icon: '⛑' },
+  // 추가 아이템
+  { id: 'ring', name: '재생의 반지', cost: 350, stats: { hpR: 2 }, desc: '체력 재생 초당 +2', icon: '💍' },
+  { id: 'amulet', name: '마력 부적', cost: 400, stats: { mp: 250 }, desc: '마나 +250', icon: '📿' },
+  { id: 'windboots', name: '질풍의 장화', cost: 950, stats: { ms: 0.5, as: 0.12 }, desc: '이동 속도 +0.5, 공격 속도 +12%', icon: '👟' },
+  { id: 'crystal', name: '비전 수정', cost: 1100, stats: { mp: 300, mpR: 2, cdr: 0.1 }, desc: '마나 +300, 마나 재생 초당 +2, 재사용 대기시간 10% 감소', icon: '💎' },
+  { id: 'bulwark', name: '파수꾼의 방패', cost: 1300, stats: { hp: 300, dr: 0.06 }, desc: '체력 +300, 받는 피해 6% 감소', icon: '🛡' },
+  { id: 'thorn', name: '가시 흉갑', cost: 1400, stats: { hp: 200, armor: 50 }, desc: '체력 +200, 방어력 +50', icon: '🦔' },
+  { id: 'hourglass', name: '모래시계', cost: 1400, stats: { ap: 45, armor: 30, cdr: 0.1 }, desc: '주문력 +45, 방어력 +30, 재사용 대기시간 10% 감소', icon: '⏳' },
+  { id: 'twinblades', name: '핏빛 쌍검', cost: 1500, stats: { ad: 30, as: 0.2, lifesteal: 0.06 }, desc: '공격력 +30, 공격 속도 +20%, 생명력 흡수 6%', icon: '⚔' },
+  { id: 'axe', name: '거인의 도끼', cost: 1500, stats: { ad: 35, hp: 250 }, desc: '공격력 +35, 체력 +250', icon: '🪓' },
+  { id: 'voidstaff', name: '공허의 홀', cost: 1600, stats: { ap: 60, dmgMult: 0.08 }, desc: '주문력 +60, 주는 피해 +8%', icon: '🔮' },
 ];
 export const ITEM_BY_ID = Object.fromEntries(ITEMS.map((i) => [i.id, i]));
 export const MAX_SLOTS = 6;
+// 아이콘 그림: public/art/items/<id>.webp (기존 17종 = 상점 시안 그림, 추가 10종 = tools/paint_items.mjs로 그림)
+export const itemIconSrc = (id, base = '') => `${base}public/art/items/${id}.webp`;
 
 // 역할별 AI 구매 순서
 export const BUILDS = {
-  tank: ['boots', 'ruby', 'mail', 'plate', 'swiftboots', 'orb', 'warhelm', 'plate'],
-  fighter: ['boots', 'sword', 'ruby', 'warhelm', 'swiftboots', 'scythe', 'plate', 'greatsword'],
-  assassin: ['boots', 'sword', 'greatsword', 'swiftboots', 'scythe', 'warhelm', 'greatsword', 'orb'],
-  marksman: ['boots', 'dagger', 'stormbow', 'swiftboots', 'greatsword', 'scythe', 'stormbow', 'orb'],
-  mage: ['boots', 'tome', 'staff', 'swiftboots', 'essence', 'staff', 'orb', 'staff'],
-  support: ['boots', 'tome', 'essence', 'swiftboots', 'ruby', 'orb', 'plate', 'staff'],
-  jungle: ['boots', 'sword', 'warhelm', 'swiftboots', 'scythe', 'plate', 'greatsword', 'orb'],
+  tank: ['boots', 'ruby', 'mail', 'plate', 'swiftboots', 'bulwark', 'thorn', 'orb'],
+  fighter: ['boots', 'sword', 'ruby', 'warhelm', 'swiftboots', 'axe', 'scythe', 'plate'],
+  assassin: ['boots', 'sword', 'greatsword', 'swiftboots', 'twinblades', 'warhelm', 'greatsword', 'orb'],
+  marksman: ['boots', 'dagger', 'stormbow', 'windboots', 'twinblades', 'greatsword', 'scythe', 'orb'],
+  mage: ['boots', 'tome', 'staff', 'swiftboots', 'voidstaff', 'hourglass', 'crystal', 'orb'],
+  support: ['boots', 'amulet', 'essence', 'swiftboots', 'crystal', 'bulwark', 'orb', 'hourglass'],
+  jungle: ['boots', 'sword', 'warhelm', 'swiftboots', 'axe', 'scythe', 'plate', 'orb'],
 };
