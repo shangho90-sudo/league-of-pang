@@ -4,7 +4,7 @@
 
 **▶ 바로 플레이: https://shangho90-sudo.github.io/league-of-pang/** (PC·모바일 브라우저, 모바일은 가로 화면)
 
-> 실시간 온라인 대전과 PC·모바일 크로스플레이는 **별도 구현 단계**이며 이 빌드에는 들어 있지 않습니다. 게임 안에서도 AI 대전으로만 표시됩니다.
+> 온라인 대전은 별도 경기 서버에 연결하는 1대1~4대4 모드입니다. 로그인 없이 참여할 수 있으며, 기존 4대4 AI 모드도 유지합니다. 공개 온라인 접속은 경기 서버 배포와 `public/online.json` 연결이 완료된 뒤 사용할 수 있습니다. 운영·배포 방법은 [온라인 서버 안내](docs/online-server.md)를 보세요.
 
 ## 실행 방법
 
@@ -58,6 +58,6 @@ src/
 tools/               모델 최적화, 헤드리스 경기 시뮬레이션, 실제 빌드 검증 스크립트
 ```
 
-입력은 플랫폼별로 나뉘어 있습니다(`client/input.js`의 `PCInput` / `TouchInput`). 이동·전투·스킬·피해 판정은 모두 같은 `Sim` 명령 API(`cmdMove`, `cmdJoy`, `cmdAttack`, `cmdCast` …)를 거칩니다. AI도 같은 API를 씁니다. 그래서 이후 네트워크 계층(서버 권한 시뮬레이션 + 명령 전송)을 붙일 수 있는 구조입니다.
+입력은 플랫폼별로 나뉘어 있습니다(`client/input.js`의 `PCInput` / `TouchInput`). 이동·전투·스킬·피해 판정은 모두 같은 `Sim` 명령 API(`cmdMove`, `cmdJoy`, `cmdAttack`, `cmdCast` …)를 거칩니다. AI도 같은 API를 씁니다. 온라인 모드는 `src/client/online.js`에서 명령을 전송하고, `server/match-worker.js`에서 같은 시뮬레이션을 실행합니다.
 
 구현 현황과 검증 결과는 `STATUS.md`, 외부 자산 출처는 `ASSETS.md`를 보세요.

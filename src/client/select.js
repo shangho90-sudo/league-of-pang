@@ -65,7 +65,7 @@ export class SelectScreen {
         <div class="hline"></div>
         <h3>${DIAMOND}<span>내 위치</span></h3>
         <div class="lanes">${Object.entries(LANE_KO).map(([k, v]) => `<button class="lane ${k === this.lane ? 'on' : ''}" data-lane="${k}">${v}</button>`).join('')}</div>
-        <p class="note">4대4 AI 대전 — 플레이어 1명 + AI 7명. 같은 팀 안에서는 같은 영웅을 고를 수 없습니다.<br>기본 배치는 상단·중앙·하단·정글/로밍 1명씩이며 경기 중 자유롭게 이동할 수 있습니다.<br>실시간 온라인 대전은 별도 구현 단계로, 이 화면은 AI 대전입니다.</p>`, 'left')}</div>
+        <p class="note">4대4 AI 대전 — 플레이어 1명 + AI 7명. 같은 팀 안에서는 같은 영웅을 고를 수 없습니다.<br>기본 배치는 상단·중앙·하단·정글/로밍 1명씩이며 경기 중 자유롭게 이동할 수 있습니다.<br>다른 사람과 대전하려면 시작 화면의 온라인 대전을 이용하세요.</p>`, 'left')}</div>
       <div class="sel-center">
         ${CREST}
         <div class="titlewrap">${LAUREL(false)}<div class="tname"></div>${LAUREL(true)}</div>

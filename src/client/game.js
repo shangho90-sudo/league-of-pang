@@ -7,16 +7,18 @@ import { HUD } from './hud.js';
 import { PCInput, TouchInput } from './input.js';
 import { audio } from './audio.js';
 import { QUALITY } from '../render/scene.js';
+import { applySnapshot } from '../net/wire.js';
 
 export class Game {
-  constructor({ renderer, picks, settings, portraits, mobile, seed, onEnd, onProgress }) {
+  constructor({ renderer, picks, settings, portraits, mobile, seed, onEnd, onProgress, online }) {
+    this.online = online || null;
     this.renderer = renderer; this.settings = settings; this.portraits = portraits; this.mobile = mobile; this.onEnd = onEnd;
     this.picks = picks;
     this.sim = new Sim({ seed: seed ?? (Math.random() * 1e9) | 0, picks });
+    if (online) applySnapshot(this.sim, online.initialState, online.id);
     this.player = this.sim.player;
-    this.player.autoLevel = settings.autoLevel;
-    this.sim.levelUpSkillsAuto(this.player);
-    this.ais = this.sim.champions.filter((c) => !c.isPlayer).map((c) => new ChampionAI(this.sim, c));
+    if (!online) { this.player.autoLevel = settings.autoLevel; this.sim.levelUpSkillsAuto(this.player); }
+    this.ais = online ? [] : this.sim.champions.filter((c) => !c.isPlayer).map((c) => new ChampionAI(this.sim, c));
     this.autopilot = null;
     this.q = QUALITY[settings.quality] || QUALITY.medium;
     this.world = new World(renderer, this.q, settings);
@@ -25,6 +27,7 @@ export class Game {
     // 시작 시 카메라를 내 캐릭터에 즉시 맞춤
     this.world.camera.goal.set(this.player.x, 0, this.player.z); this.world.camera.target.copy(this.world.camera.goal);
     this.hud = new HUD(this);
+    if (online) online.attach(this);
     this.input = mobile ? new TouchInput(this) : new PCInput(this);
     this.paused = false; this.over = false; this.acc = 0; this.last = performance.now();
     this.perf = { frames: 0, t: 0, fps: 0, minFps: 999, samples: [] };
@@ -63,7 +66,7 @@ export class Game {
     try { localStorage.setItem('lopjh_settings', JSON.stringify(S)); } catch (e) {}
     if (k === 'shake') this.world.camera.shakeScale = v;
     if (k === 'uiScale') document.documentElement.style.setProperty('--ui', v);
-    if (k === 'autoLevel') { this.player.autoLevel = v; this.sim.levelUpSkillsAuto(this.player); }
+    if (k === 'autoLevel') { if(this.online) this.online.command({action:'autoLevel',value:v}); else { this.player.autoLevel = v; this.sim.levelUpSkillsAuto(this.player); } }
     if (k === 'quality') {
       const q = QUALITY[v];
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, q.pixelRatio));
@@ -91,6 +94,7 @@ export class Game {
   }
   surrender() {
     if (this.over) return;
+    if (this.online) { this.online.send({type:'leave'}); return; }
     this.sim.over = true; this.sim.winner = 1 - this.player.team; this.sim.endTime = this.sim.time; this.surrendered = true;
     this.finish();
   }
@@ -100,7 +104,7 @@ export class Game {
     const win = this.sim.winner === this.player.team;
     audio.stopMusic();
     audio.play(win ? 'victory' : 'defeat');
-    setTimeout(() => this.onEnd && this.onEnd({ win, sim: this.sim, player: this.player, surrendered: this.surrendered }), this.surrendered ? 300 : 3200);
+    this.endTimer=setTimeout(() => this.onEnd && this.onEnd({ win, sim: this.sim, player: this.player, surrendered: this.surrendered }), this.surrendered ? 300 : 3200);
   }
   enableAutopilot() { if (!this.autopilot) this.autopilot = new ChampionAI(this.sim, this.player); }
   // 검증용: 렌더 없이 고속 진행
@@ -112,6 +116,7 @@ export class Game {
     this.hud.annT = 0;
   }
   tickOnce() {
+    if (this.online) return;
     for (const a of this.ais) a.think(TICK);
     if (this.autopilot) this.autopilot.think(TICK);
     this.sim.step(TICK);
@@ -135,7 +140,7 @@ export class Game {
     let dt = Math.min(0.1, (now - this.last) / 1000);
     this.last = now;
     if (this.bgPaused) return;
-    if (!this.paused && !this.over) {
+    if (!this.online && !this.paused && !this.over) {
       this.acc += dt;
       let n = 0;
       while (this.acc >= TICK && n < 6) { this.tickOnce(); this.acc -= TICK; n++; this.processEvents(); }
@@ -143,16 +148,19 @@ export class Game {
     } else if (this.over) { this.processEvents(); }
     if (this.sim.over && !this.over) this.finish();
     const alpha = this.acc / TICK;
-    this.input.update(dt);
-    this.world.update(this.paused ? 0 : dt, alpha, this.player);
+    if (!this.online || (this.online.connected && this.online.running)) this.input.update(dt);
+    this.world.update(this.paused && !this.online ? 0 : dt, alpha, this.player);
     this.hud.update(dt);
     this.world.render();
     this.world.drawOverlay(dt, this.player, this.mobile ? 1.1 * this.settings.uiScale : this.settings.uiScale);
+    if(this.online){const e=document.getElementById('online-game-status');if(e)e.textContent=!this.online.connected||performance.now()-this.online.lastSnapshot>5000?'연결 복구 중…':!this.online.running&&!this.over?'참가자 로딩 대기 중…':`온라인 · ${this.online.latency??'—'} ms`;}
     // 성능 측정
     const P = this.perf; P.frames++; P.t += dt;
     if (P.t >= 1) { P.fps = P.frames / P.t; P.samples.push(Math.round(P.fps)); if (P.samples.length > 600) P.samples.shift(); if (this.sim.time > 5) P.minFps = Math.min(P.minFps, P.fps); P.frames = 0; P.t = 0; const d = document.getElementById('fps'); if (d) d.textContent = `${Math.round(P.fps)} fps · ${this.renderer.info.render.calls} draw · ${(this.renderer.info.render.triangles / 1000).toFixed(0)}k tri`; }
   }
   destroy() {
+    clearTimeout(this.endTimer);
+    if(this.online?.game===this)this.online.game=null;
     this.world.fx.hero.dispose();
     window.removeEventListener('resize', this._onResize);
     document.removeEventListener('visibilitychange', this._onVis);

@@ -205,7 +205,7 @@ export class HUD {
   renderScore() {
     const s = $('#score', this.root), sim = this.sim;
     const tb = sim.teamBuffs;
-    const row = (c) => `<tr class="t${c.team} ${c === this.p ? 'me' : ''}"><td><img src="${this.portraits[c.def.id]}"> ${c.name}${c.isPlayer ? ' (나)' : ' <small style="color:#9aa8b6">AI</small>'}</td><td>${{ top: '상단', mid: '중앙', bot: '하단', jungle: '정글' }[c.lane]}</td><td>${c.level}</td><td>${c.k}/${c.d}/${c.a}</td><td>${c.cs}</td><td class="its">${c.items.map((i) => `<img src="${itemIconSrc(i)}" alt="" title="${ITEM_BY_ID[i].name}">`).join('')}</td><td>${c.dead ? `부활 ${Math.ceil(c.respawnAt - sim.time)}초` : ''}</td></tr>`;
+    const row = (c) => `<tr class="t${c.team} ${c === this.p ? 'me' : ''}"><td><img src="${this.portraits[c.def.id]}"> ${c.name}${c.isPlayer ? ' (나)' : this.g.online ? ' <small style="color:#9aa8b6">온라인</small>' : ' <small style="color:#9aa8b6">AI</small>'}</td><td>${{ top: '상단', mid: '중앙', bot: '하단', jungle: '정글' }[c.lane]}</td><td>${c.level}</td><td>${c.k}/${c.d}/${c.a}</td><td>${c.cs}</td><td class="its">${c.items.map((i) => `<img src="${itemIconSrc(i)}" alt="" title="${ITEM_BY_ID[i].name}">`).join('')}</td><td>${c.dead ? `부활 ${Math.ceil(c.respawnAt - sim.time)}초` : ''}</td></tr>`;
     s.innerHTML = `<h3>전적 · 성장 정보 <button class="x">✕</button></h3>
       <div class="sum"><span style="color:var(--ally)">청람 ${sim.teamKills[0]}킬 · 비룡 ${tb[0].drake} · ${tb[0].colossusUntil > sim.time ? '거신 강화 중' : ''}</span><span>${fmtT(sim.time)}</span><span style="color:var(--enemy)">적염 ${sim.teamKills[1]}킬 · 비룡 ${tb[1].drake} · ${tb[1].colossusUntil > sim.time ? '거신 강화 중' : ''}</span></div>
       <table><tr><th>영웅</th><th>위치</th><th>레벨</th><th>K/D/A</th><th>CS</th><th>아이템</th><th></th></tr>${sim.champions.map(row).join('')}</table>
@@ -255,8 +255,8 @@ export class HUD {
       <div class="row"><div>효과음</div>${rng('volSfx', 0, 1, 0.05)}</div>
       <div class="row"><div>배경음</div>${rng('volMusic', 0, 1, 0.05)}</div>`;
     m.innerHTML = `<h3>설정 <button class="x">✕</button></h3><div class="tabs">${Object.entries(tabs).map(([k, l]) => `<button class="btn ${this.menuTab === k ? 'on' : ''}" data-tab="${k}">${l}</button>`).join('')}</div>${body}
-      <div class="actions"><button class="btn" data-act="surrender">항복</button><button class="btn primary" data-act="resume">계속하기</button></div>
-      <div style="font-size:11px;color:#7a8896;margin-top:8px">AI 대전 진행 중에는 설정 창을 여는 동안 일시정지됩니다.</div>`;
+      <div class="actions"><button class="btn" data-act="surrender">${this.g.online?'경기 나가기':'항복'}</button><button class="btn primary" data-act="resume">계속하기</button></div>
+      <div style="font-size:11px;color:#7a8896;margin-top:8px">${this.g.online?'온라인 경기는 설정을 열어도 계속 진행됩니다.':'AI 대전 진행 중에는 설정 창을 여는 동안 일시정지됩니다.'}</div>`;
     m.querySelector('.x').onclick = () => this.toggleMenu(false);
     m.querySelectorAll('[data-tab]').forEach((b) => (b.onclick = () => { this.menuTab = b.dataset.tab; this.renderMenu(); }));
     m.querySelectorAll('[data-k]').forEach((inp) => inp.addEventListener('input', () => {

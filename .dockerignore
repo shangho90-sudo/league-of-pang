@@ -1,0 +1,15 @@
+**
+!Dockerfile
+!server/
+!server/**
+!src/
+!src/sim/
+!src/sim/**
+!src/map/
+!src/map/**
+!src/data/
+!src/data/**
+!src/net/
+!src/net/**
+server/node_modules
+server/*.test.js

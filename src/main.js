@@ -10,6 +10,7 @@ import { renderPortraits } from './client/icons.js';
 import { SelectScreen, autoPicks } from './client/select.js';
 import { Game } from './client/game.js';
 import { audio } from './client/audio.js';
+import { OnlineClient, OnlineScreen } from './client/online.js';
 import '../dev/stage.js'; // 검증용 스테이징 헬퍼 (게임 플레이에는 영향 없음)
 
 const $ = (s) => document.querySelector(s);
@@ -39,6 +40,7 @@ const EMBLEM = `<svg class="emblem" viewBox="0 0 120 120"><defs><linearGradient 
   <circle cx="60" cy="52" r="5" fill="#fff8e0"/></svg>`;
 
 let renderer = null, portraits = null, game = null, rafId = 0;
+let online = null;
 
 // 키 아트(사용자 제공 이미지) 위 버튼 위치: 이미지 원본 좌표(1672×941)
 const KEYART = { src: 'public/art/keyart.jpg', w: 1672, h: 941, start: [575, 690, 1090, 800], exit: [672, 815, 992, 882] };
@@ -56,7 +58,8 @@ function showTitle() {
   t.innerHTML = `<img class="keyart" src="${KEYART.src}" alt="리그 오브 팽재현">
     <button class="hot hot-start" id="t-start" aria-label="START" disabled><span class="ld">불러오는 중…</span></button>
     <button class="hot hot-exit" id="t-exit" aria-label="EXIT"></button>
-    <div class="title-foot"><button class="tbtn" id="t-help">조작 방법</button><button class="tbtn" id="t-music">♪ 음악 켜기</button><span>4대4 AI 대전 · 플레이어 1명 + AI 7명 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'} · 온라인 대전은 별도 구현 단계</span></div>`;
+    <button class="title-online" id="t-online" disabled><span>ONLINE BATTLE</span><strong>온라인 대전</strong><small>로그인 없이 · 1대1 ~ 4대4</small></button>
+    <div class="title-foot"><button class="tbtn" id="t-help">조작 방법</button><button class="tbtn" id="t-music">♪ 음악 켜기</button><span>START: 4대4 AI 대전 · 온라인 대전: 실시간 서버 경기 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'}</span></div>`;
   const img = t.querySelector('.keyart');
   const place = () => {
     const posY = 0.75;
@@ -70,6 +73,7 @@ function showTitle() {
   $('#t-help').onclick = () => showHelp();
   $('#t-music').onclick = () => { unlockAudio(); audio.startMusic('title'); $('#t-music').textContent = '♪ 수정의 서약'; };
   $('#t-start').onclick = () => { audio.init(); audio.play('click'); window.removeEventListener('resize', place); t.classList.add('hidden'); showSelect(); };
+  $('#t-online').onclick = () => { window.removeEventListener('resize',place); t.classList.add('hidden'); showOnline(); };
   $('#t-exit').onclick = () => { audio.init(); audio.play('click'); showExit(); };
 }
 function showExit() {
@@ -126,12 +130,31 @@ function showSelect() {
   new SelectScreen(s, portraits, (picks) => { s.classList.add('hidden'); s.innerHTML = ''; startGame(picks); });
 }
 
-async function startGame(picks) {
+function showOnline() {
+  audio.init();audio.startMusic('select');
+  let root=$('#online');if(!root){root=document.createElement('div');root.id='online';document.body.appendChild(root);}
+  root.classList.remove('hidden');online=new OnlineClient();window.ONLINE=online;
+  new OnlineScreen(root,portraits,online,()=>{root.classList.add('hidden');showTitle();$('#t-start').disabled=false;$('#t-start').innerHTML='';$('#t-online').disabled=false;});
+  const leaveGame=()=>{if(game?.online){cancelAnimationFrame(rafId);game.destroy();game=null;$('#hud').innerHTML='';}$('#result').classList.add('hidden');$('#loading').classList.add('hidden');root.classList.remove('hidden');audio.startMusic('select');};
+  online.addEventListener('left',leaveGame);
+  online.addEventListener('lost',e=>{leaveGame();online.send({type:'leave'});const note=document.createElement('div');note.className='online-notice';note.textContent=e.detail;root.prepend(note);});
+  online.addEventListener('match',async e=>{
+    if(game?.online&&online.matchId===game.onlineMatchId)return;
+    try{
+      root.classList.add('hidden');
+      await startGame(e.detail.picks.map(p=>({...p,isPlayer:p.playerId===online.id})),online);
+      if(game)game.onlineMatchId=e.detail.matchId;
+    }catch(error){console.error(error);leaveGame();online.send({type:'leave'});root.classList.remove('hidden');}
+  });
+  online.connect();
+}
+
+async function startGame(picks, net = null) {
   const L = $('#loading');
   L.classList.remove('hidden');
   const col = (team) => picks.filter((p) => p.team === team).map((p) => `<div><img src="${portraits[p.id]}"><div class="cap">${CHAMPIONS.find((c) => c.id === p.id).name}${p.isPlayer ? ' (나)' : ''}</div></div>`).join('');
   L.classList.add('keyart-loading');
-  L.innerHTML = `<img class="keyart" src="public/art/keyart_load.jpg" alt=""><div class="load-band"><div class="teams"><div class="col">${col(0)}</div><div class="vs">VS</div><div class="col red">${col(1)}</div></div><div class="bar"><div></div></div><div class="tip">전장을 준비하는 중… (AI 대전)</div></div>`;
+  L.innerHTML = `<img class="keyart" src="public/art/keyart_load.jpg" alt=""><div class="load-band"><div class="teams"><div class="col">${col(0)}</div><div class="vs">VS</div><div class="col red">${col(1)}</div></div><div class="bar"><div></div></div><div class="tip">전장을 준비하는 중… (${net?'온라인 대전':'AI 대전'})</div></div>`;
   const bar = L.querySelector('.bar div');
   await new Promise((r) => setTimeout(r, 30));
   if (params.get('holdload')) { bar.style.width = '42%'; await new Promise((r) => (window.CONTINUE = r)); } // 검증용: 로딩 화면 유지
@@ -141,9 +164,12 @@ async function startGame(picks) {
   bar.style.width = '15%';
   await loadMapAssets(k => { bar.style.width = Math.round(15 + k * 40) + '%'; });
   await new Promise((r) => setTimeout(r, 20));
-  game = new Game({ renderer, picks, settings, portraits, mobile, seed: params.get('seed') ? +params.get('seed') : undefined, onProgress: (k) => (bar.style.width = Math.round(55 + k * 40) + '%'), onEnd: showResult });
-  if (params.get('autopilot')) game.enableAutopilot();
-  if (params.get('ff')) game.fastForward(+params.get('ff'));
+  if(net&&!net.matchId){L.classList.add('hidden');return;}
+  if(net){const deadline=performance.now()+10000;while(!net.initialState&&net.matchId&&performance.now()<deadline)await new Promise(r=>setTimeout(r,50));if(!net.initialState)throw new Error('경기 서버의 초기 상태를 받지 못했습니다. 다시 참여해 주세요.');}
+  game = new Game({ renderer, picks, settings, portraits, mobile, seed: params.get('seed') ? +params.get('seed') : undefined, onProgress: (k) => (bar.style.width = Math.round(55 + k * 40) + '%'), onEnd: showResult, online:net });
+  if(net){const badge=document.createElement('div');badge.id='online-game-status';$('#hud').appendChild(badge);}
+  if (!net && params.get('autopilot')) game.enableAutopilot();
+  if (!net && params.get('ff')) game.fastForward(+params.get('ff'));
   bar.style.width = '100%';
   // 셰이더 예열 1프레임
   game.frame();
@@ -161,15 +187,17 @@ async function startGame(picks) {
 }
 
 function showResult({ win, sim, player, surrendered }) {
+  if(game?.online && game.sim!==sim)return;
   const R = $('#result');
   R.classList.remove('hidden');
   const t = sim.endTime ?? sim.time;
   const rows = sim.champions.map((c) => `<tr style="${c === player ? 'background:rgba(232,192,112,0.1)' : ''}"><td style="border-left:3px solid ${c.team === player.team ? 'var(--ally)' : 'var(--enemy)'}"><img src="${portraits[c.def.id]}" style="width:28px;height:28px;border-radius:4px;vertical-align:middle"> ${c.name}${c.isPlayer ? ' (나)' : ''}</td><td>${c.level}</td><td>${c.k}/${c.d}/${c.a}</td><td>${c.cs}</td><td>${Math.round(c.dmgDealt)}</td><td>${Math.round(c.healDone)}</td></tr>`).join('');
   R.innerHTML = `<div class="big ${win ? 'win' : 'lose'}">${win ? '승리' : '패배'}</div>
-    <div class="meta">경기 시간 ${Math.floor(t / 60)}분 ${Math.floor(t % 60)}초 · 청람 ${sim.teamKills[0]} : ${sim.teamKills[1]} 적염 ${surrendered ? '· 항복' : ''} · AI 대전</div>
+    <div class="meta">경기 시간 ${Math.floor(t / 60)}분 ${Math.floor(t % 60)}초 · 청람 ${sim.teamKills[0]} : ${sim.teamKills[1]} 적염 ${surrendered ? '· 항복' : ''} · ${game?.online?'온라인 대전':'AI 대전'}</div>
     <table><tr><th>영웅</th><th>레벨</th><th>K/D/A</th><th>CS</th><th>가한 피해</th><th>아군 회복</th></tr>${rows}</table>
     <div class="acts"><button class="btn gold" id="r-again">같은 구성으로 다시</button><button class="btn" id="r-select">캐릭터 선택</button></div>`;
   window.RESULT = { win, minutes: +(t / 60).toFixed(2), kills: sim.teamKills.slice() };
+  if(game?.online){R.querySelector('.acts').innerHTML='<button class="btn gold" id="r-online">대기실 목록으로</button>';$('#r-online').onclick=()=>online.send({type:'leave'});return;}
   const picks = game.picks;
   $('#r-again').onclick = () => { location.search = '?picks=' + encodeURIComponent(JSON.stringify(picks)) + (params.get('mobile') ? '&mobile=' + params.get('mobile') : ''); };
   $('#r-select').onclick = () => { location.search = '?select=1' + (params.get('mobile') ? '&mobile=' + params.get('mobile') : ''); };
@@ -185,12 +213,14 @@ async function boot() {
   portraits = renderPortraits(CHAMPIONS);
   const b = $('#t-start');
   if (b) { b.disabled = false; b.innerHTML = ''; b.title = 'AI 대전 시작 (플레이어 1 + AI 7)'; }
+  if($('#t-online'))$('#t-online').disabled=false;
   if (params.get('autostart')) {
     const id = params.get('autostart'), lane = params.get('lane') || 'mid';
     startGame(autoPicks(id, lane, Math.random));
   } else if (params.get('picks')) {
     try { startGame(JSON.parse(params.get('picks'))); } catch (e) { showSelect(); }
   } else if (params.get('select')) showSelect();
+  else if(params.get('online')){$('#title').classList.add('hidden');showOnline();}
   window.BOOTED = true;
 }
 boot().catch((e) => { console.error(e); document.body.insertAdjacentHTML('beforeend', `<div style="position:fixed;inset:auto 0 0 0;background:#400;color:#fff;padding:8px;z-index:999">오류: ${e.message}</div>`); });

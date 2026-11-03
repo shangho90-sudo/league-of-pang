@@ -326,6 +326,7 @@ export class World {
       v.setVisible(vis && !(u.dead && u.kind === 'champion' && sim.time - u.deathTime > 3.2));
       if (v.root.visible) {
         v.update(dt, this.time, alpha * (1 / 30));
+        if(u._netFrom){const k=Math.min(1,(performance.now()-u._netFrom.t)/67);v.root.position.x=u._netFrom.x+(u.x-u._netFrom.x)*k;v.root.position.z=u._netFrom.z+(u.z-u._netFrom.z)*k;}
         if (u.kind === 'champion') {
           // 같은 팀 덤불 속 = 반투명
           v.setOpacity(u.brush && u.team === this.playerTeam ? 0.55 : 1);

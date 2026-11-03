@@ -1,0 +1,51 @@
+services:
+  game:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    environment:
+      PORT: "8787"
+      MAX_MATCHES: "${MAX_MATCHES:-3}"
+    expose:
+      - "8787"
+    mem_limit: 2g
+    cpus: 1.75
+    pids_limit: 160
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+  gateway:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      GAME_HOST: "${GAME_HOST:?Set the public server hostname}"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      game:
+        condition: service_healthy
+    mem_limit: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  caddy_data:
+  caddy_config:

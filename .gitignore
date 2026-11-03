@@ -6,3 +6,6 @@ _site/
 _art/
 .tripo/
 dev/*verification.json
+deploy/.env
+*.pem
+*.key
