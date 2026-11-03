@@ -1,0 +1,33 @@
+{
+  "provider": "Runway",
+  "totalCredits": 24,
+  "tracks": [
+    {
+      "id": "title",
+      "title": "리그 오브 팽 — 수정의 서약 (시작 화면)",
+      "prompt": "Instrumental premium fantasy multiplayer battle arena main menu soundtrack. Majestic, noble, mysterious and inviting. Original composition with a distinctive rising four-note horn motif, warm low strings, lyrical cello, shimmering celesta and harp, distant restrained timpani. 82 BPM, D minor with hopeful modal color. Begin with an intimate magical texture, introduce the theme on solo horn, build to a broad soaring orchestral statement then return to the opening texture. Elegant cinematic orchestration and clear musical development, polished game soundtrack mix, no vocals, no lyrics, no speech, no recognizable borrowed melodies. End with a sustained quiet tonic texture that transitions naturally back to the beginning for looping. No abrupt silence or trailer-style impact ending.",
+      "taskId": "2c02b508-bffc-48b1-8f3d-c19b5f47e259",
+      "duration": 144.300333,
+      "file": "public/audio/title.mp3",
+      "credits": 8
+    },
+    {
+      "id": "select",
+      "title": "리그 오브 팽 — 영웅의 결의 (캐릭터 선택)",
+      "prompt": "Instrumental fantasy competitive battle arena character selection soundtrack. Anticipation, focus, heroic resolve, polished orchestral game score. 108 BPM, D minor, a related original rising four-note horn motif, interlocking staccato violas and cellos, restrained low brass, deep frame drums, delicate metallic magical chimes and warm atmospheric pads. Start with a confident pulse immediately, slowly layer rhythmic strings and noble horn responses, build anticipation without an explosive climax, maintain space for interface sounds. Original memorable melody, no vocals, no lyrics, no speech, no borrowed recognizable theme. Consistent tempo and harmony, end on a gentle unresolved pedal that crossfades smoothly into the opening.",
+      "taskId": "cf21bfef-5bac-43dc-ba27-516ec3a12d32",
+      "duration": 105.7175,
+      "file": "public/audio/select.mp3",
+      "credits": 8
+    },
+    {
+      "id": "battle",
+      "title": "리그 오브 팽 — 푸른 협곡의 전장 (플레이)",
+      "prompt": "Instrumental looping background score for a premium fantasy multiplayer battle arena battlefield with forests, river and ancient crystal towers. Strategic, adventurous, magical and quietly tense. 96 BPM, D minor and Dorian colors, low string ostinato, soft woodwinds, understated French horn phrases, light frame drum pulse, airy harp harmonics and spacious atmospheric strings. Original thematic relation through a subtle rising four-note motif. Low-to-medium intensity with occasional restrained swells, clear space in the upper midrange for combat sound effects, no sudden huge impacts, no busy lead solo, no vocals, no lyrics, no speech. Long evolving gameplay underscore: explore a forest theme, add subtle battle tension, return to calm tactical motion. Consistent loudness, compatible opening and ending pedal texture for repeated looping.",
+      "taskId": "dfe1b563-9f3b-4839-9cda-0459085bbbe2",
+      "duration": 171.415458,
+      "file": "public/audio/battle.mp3",
+      "credits": 8
+    }
+  ]
+}

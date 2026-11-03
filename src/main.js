@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { CHAMPIONS } from './data/champions.js';
 import { buildGrid } from './map/grid.js';
 import { loadModelTemplates } from './render/champVisual.js';
+import { loadMapAssets } from './render/mapAssets.js';
 import { createRenderer, QUALITY } from './render/scene.js';
 import { renderPortraits } from './client/icons.js';
 import { SelectScreen, autoPicks } from './client/select.js';
@@ -24,6 +25,10 @@ try { Object.assign(settings, JSON.parse(localStorage.getItem('lopjh_settings') 
 if (params.get('q')) settings.quality = params.get('q');
 const mobile = params.get('mobile') === '1' || (params.get('mobile') !== '0' && (settings.touch === true || (settings.touch === 'auto' && isTouchDevice)));
 audio.vol = { master: settings.volMaster, sfx: settings.volSfx, music: settings.volMusic };
+const unlockAudio = () => { audio.init(); audio.resume(); };
+document.addEventListener('pointerdown', unlockAudio, { capture: true });
+document.addEventListener('keydown', unlockAudio, { capture: true });
+document.addEventListener('visibilitychange', () => document.hidden ? audio.suspend() : audio.resume());
 
 const EMBLEM = `<svg class="emblem" viewBox="0 0 120 120"><defs><linearGradient id="eg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2c8"/><stop offset=".55" stop-color="#d8a850"/><stop offset="1" stop-color="#7a5420"/></linearGradient><linearGradient id="ec" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bff8f0"/><stop offset="1" stop-color="#2fb8a8"/></linearGradient></defs>
   <path d="M60 6 L104 22 L98 72 Q90 100 60 114 Q30 100 22 72 L16 22 Z" fill="#14202a" stroke="url(#eg)" stroke-width="5"/>
@@ -43,13 +48,14 @@ function coverMap(W, H, posY) {
   return { s, ox, oy, rect: ([x0, y0, x1, y1]) => ({ left: ox + x0 * s, top: oy + y0 * s, width: (x1 - x0) * s, height: (y1 - y0) * s }) };
 }
 function showTitle() {
+  audio.startMusic('title');
   const t = $('#title');
   t.classList.remove('hidden');
   t.classList.add('keyart-title');
   t.innerHTML = `<img class="keyart" src="${KEYART.src}" alt="리그 오브 팽재현">
     <button class="hot hot-start" id="t-start" aria-label="START" disabled><span class="ld">불러오는 중…</span></button>
     <button class="hot hot-exit" id="t-exit" aria-label="EXIT"></button>
-    <div class="title-foot"><button class="tbtn" id="t-help">조작 방법</button><span>4대4 AI 대전 · 플레이어 1명 + AI 7명 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'} · 온라인 대전은 별도 구현 단계</span></div>`;
+    <div class="title-foot"><button class="tbtn" id="t-help">조작 방법</button><button class="tbtn" id="t-music">♪ 음악 켜기</button><span>4대4 AI 대전 · 플레이어 1명 + AI 7명 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'} · 온라인 대전은 별도 구현 단계</span></div>`;
   const img = t.querySelector('.keyart');
   const place = () => {
     const posY = 0.75;
@@ -61,6 +67,7 @@ function showTitle() {
   window.addEventListener('resize', place);
   t._place = place;
   $('#t-help').onclick = () => showHelp();
+  $('#t-music').onclick = () => { unlockAudio(); audio.startMusic('title'); $('#t-music').textContent = '♪ 수정의 서약'; };
   $('#t-start').onclick = () => { audio.init(); audio.play('click'); window.removeEventListener('resize', place); t.classList.add('hidden'); showSelect(); };
   $('#t-exit').onclick = () => { audio.init(); audio.play('click'); showExit(); };
 }
@@ -114,7 +121,7 @@ function showHelp() {
 function showSelect() {
   const s = $('#select');
   s.classList.remove('hidden');
-  audio.startMusic('menu');
+  audio.startMusic('select');
   new SelectScreen(s, portraits, (picks) => { s.classList.add('hidden'); s.innerHTML = ''; startGame(picks); });
 }
 
@@ -131,8 +138,9 @@ async function startGame(picks) {
   if (!renderer) renderer = createRenderer($('#game'), q);
   renderer.setSize(innerWidth, innerHeight, false);
   bar.style.width = '15%';
+  await loadMapAssets(k => { bar.style.width = Math.round(15 + k * 40) + '%'; });
   await new Promise((r) => setTimeout(r, 20));
-  game = new Game({ renderer, picks, settings, portraits, mobile, seed: params.get('seed') ? +params.get('seed') : undefined, onProgress: (k) => (bar.style.width = Math.round(15 + k * 80) + '%'), onEnd: showResult });
+  game = new Game({ renderer, picks, settings, portraits, mobile, seed: params.get('seed') ? +params.get('seed') : undefined, onProgress: (k) => (bar.style.width = Math.round(55 + k * 40) + '%'), onEnd: showResult });
   if (params.get('autopilot')) game.enableAutopilot();
   if (params.get('ff')) game.fastForward(+params.get('ff'));
   bar.style.width = '100%';

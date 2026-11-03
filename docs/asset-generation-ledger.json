@@ -1,0 +1,338 @@
+{
+  "date": "2026-11-03",
+  "tripo": {
+    "totalCredits": 750,
+    "remainingCredits": 2075,
+    "tasks": [
+      {
+        "task_id": "d3046dd1-1da0-4011-9a03-4342cc0363ec",
+        "type": "text_to_model",
+        "name": "pang-turret",
+        "status": "success",
+        "created_at": "2026-11-03T13:49:44.439Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "0f5c968a-b988-40a8-aa3f-6c7cc185eaa5",
+        "type": "text_to_model",
+        "name": "pang-nexus",
+        "status": "success",
+        "created_at": "2026-11-03T13:50:25.580Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "20a2b909-1d6d-44a8-92de-86522a0e1805",
+        "type": "text_to_model",
+        "name": "pang-minion-melee",
+        "status": "success",
+        "created_at": "2026-11-03T13:51:23.308Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "9a7d4b97-1efd-4daa-b778-f99ef76864b8",
+        "type": "text_to_model",
+        "name": "pang-wolf",
+        "status": "success",
+        "created_at": "2026-11-03T13:51:35.416Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "4d4b26ac-8b16-462f-8bc4-89b0550cdf36",
+        "type": "text_to_model",
+        "name": "pang-drake",
+        "status": "success",
+        "created_at": "2026-11-03T13:51:48.106Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "bcc8a75a-fd80-4ac9-a171-06a3f4323623",
+        "type": "animate_prerigcheck",
+        "name": "pang-minion-melee-rig-check",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:01.927Z",
+        "credits": 0,
+        "refunded": false
+      },
+      {
+        "task_id": "49a4fe76-aac5-4f41-813c-8fab79e985e1",
+        "type": "animate_rig",
+        "name": "pang-minion-melee-rig",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:04.680Z",
+        "credits": 25,
+        "refunded": false
+      },
+      {
+        "task_id": "8287ef79-932a-46b0-baba-69ca5681e616",
+        "type": "animate_prerigcheck",
+        "name": "pang-wolf-rig-check",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:14.035Z",
+        "credits": 0,
+        "refunded": false
+      },
+      {
+        "task_id": "85278cc5-09bb-49ef-8aa2-b526427d4693",
+        "type": "text_to_model",
+        "name": "pang-fountain",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:14.616Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "f40b3b7c-4824-40e5-8674-3c168efc7c76",
+        "type": "animate_rig",
+        "name": "pang-wolf-rig",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:16.826Z",
+        "credits": 25,
+        "refunded": false
+      },
+      {
+        "task_id": "9945783a-2290-496f-9693-d39b2d61a65e",
+        "type": "animate_prerigcheck",
+        "name": "pang-drake-rig-check",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:26.837Z",
+        "credits": 0,
+        "refunded": false
+      },
+      {
+        "task_id": "6c80fced-f5de-490b-a1a7-e8c00b0af567",
+        "type": "text_to_model",
+        "name": "pang-shop",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:27.616Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "43b6da8c-d0be-4ed9-9415-6072774b592a",
+        "type": "animate_rig",
+        "name": "pang-drake-rig",
+        "status": "success",
+        "created_at": "2026-11-03T13:53:29.562Z",
+        "credits": 25,
+        "refunded": false
+      },
+      {
+        "task_id": "d2c087f9-666a-49fd-a7b3-06c72fb41a3a",
+        "type": "animate_retarget",
+        "name": "pang-minion-melee-retarget",
+        "status": "failed",
+        "created_at": "2026-11-03T13:53:33.972Z",
+        "credits": 0,
+        "refunded": true
+      },
+      {
+        "task_id": "8be30d80-767a-4170-b453-b10c4b0b4c81",
+        "type": "animate_retarget",
+        "name": "pang-wolf-retarget",
+        "status": "failed",
+        "created_at": "2026-11-03T13:53:35.300Z",
+        "credits": 0,
+        "refunded": true
+      },
+      {
+        "task_id": "e7387649-be75-4220-b984-1e5b8c9bb3c3",
+        "type": "animate_retarget",
+        "name": "pang-drake-retarget",
+        "status": "failed",
+        "created_at": "2026-11-03T13:53:58.603Z",
+        "credits": 0,
+        "refunded": true
+      },
+      {
+        "task_id": "a4426165-616f-49b0-a93c-6dbfbf54fd7e",
+        "type": "text_to_model",
+        "name": "pang-tree-oak",
+        "status": "success",
+        "created_at": "2026-11-03T13:54:27.337Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "06f1d68f-5592-4a59-bb2e-b853bb8b03a5",
+        "type": "text_to_model",
+        "name": "pang-tree-pine",
+        "status": "success",
+        "created_at": "2026-11-03T13:55:11.139Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "731bd54e-0840-4edb-a3ce-a17d26dc4549",
+        "type": "text_to_model",
+        "name": "pang-rock",
+        "status": "success",
+        "created_at": "2026-11-03T13:55:39.962Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "1461abca-7558-4fba-9815-27cea3bcd4bd",
+        "type": "text_to_model",
+        "name": "pang-minion-caster",
+        "status": "success",
+        "created_at": "2026-11-03T13:56:16.610Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "29b58aa1-8433-4665-bbd9-e6362b1affdd",
+        "type": "text_to_model",
+        "name": "pang-wall",
+        "status": "success",
+        "created_at": "2026-11-03T13:56:23.980Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "709ddfa1-fdde-4fef-b6ff-54886327b53e",
+        "type": "text_to_model",
+        "name": "pang-golem",
+        "status": "success",
+        "created_at": "2026-11-03T13:56:29.578Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "d68e371f-7774-4d36-8d69-98ea81e08da2",
+        "type": "text_to_model",
+        "name": "pang-colossus",
+        "status": "success",
+        "created_at": "2026-11-03T13:56:41.374Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "fc0d6178-032c-48dd-b5f7-880e3556a4d5",
+        "type": "animate_retarget",
+        "name": "pang-minion-melee-walk-retarget",
+        "status": "failed",
+        "created_at": "2026-11-03T13:57:08.102Z",
+        "credits": 0,
+        "refunded": true
+      },
+      {
+        "task_id": "29359d71-6dd0-4f6d-a3fe-be5df14192d0",
+        "type": "animate_prerigcheck",
+        "name": "pang-minion-caster-rig-check",
+        "status": "success",
+        "created_at": "2026-11-03T13:57:24.730Z",
+        "credits": 0,
+        "refunded": false
+      },
+      {
+        "task_id": "967e5059-56a3-4700-a638-2833225db24f",
+        "type": "animate_rig",
+        "name": "pang-minion-caster-rig",
+        "status": "success",
+        "created_at": "2026-11-03T13:57:27.488Z",
+        "credits": 25,
+        "refunded": false
+      },
+      {
+        "task_id": "7003c50e-f302-4147-a122-0a9e33cb5554",
+        "type": "text_to_model",
+        "name": "pang-minion-siege",
+        "status": "success",
+        "created_at": "2026-11-03T13:57:36.850Z",
+        "credits": 40,
+        "refunded": false
+      },
+      {
+        "task_id": "3f8b6806-8bf2-44cb-97b2-13cb918c45ab",
+        "type": "animate_prerigcheck",
+        "name": "pang-golem-rig-check",
+        "status": "success",
+        "created_at": "2026-11-03T13:57:37.880Z",
+        "credits": 0,
+        "refunded": false
+      },
+      {
+        "task_id": "c645e744-af57-4d8e-8389-0672720b79f1",
+        "type": "animate_retarget",
+        "name": "pang-minion-caster-retarget",
+        "status": "failed",
+        "created_at": "2026-11-03T13:57:38.497Z",
+        "credits": 0,
+        "refunded": true
+      },
+      {
+        "task_id": "ebaef518-5efb-4b8b-853c-f0f0e2376f15",
+        "type": "animate_rig",
+        "name": "pang-golem-rig",
+        "status": "success",
+        "created_at": "2026-11-03T13:57:40.841Z",
+        "credits": 25,
+        "refunded": false
+      },
+      {
+        "task_id": "72a04642-fb6e-4555-8d9a-98f3871271af",
+        "type": "animate_prerigcheck",
+        "name": "pang-colossus-rig-check",
+        "status": "success",
+        "created_at": "2026-11-03T13:57:49.525Z",
+        "credits": 0,
+        "refunded": false
+      },
+      {
+        "task_id": "c52def52-52ab-4caf-b582-b7e75e30ca49",
+        "type": "animate_rig",
+        "name": "pang-colossus-rig",
+        "status": "success",
+        "created_at": "2026-11-03T13:57:52.263Z",
+        "credits": 25,
+        "refunded": false
+      },
+      {
+        "task_id": "4bbb568c-13b7-4b6f-ba73-6930d812105b",
+        "type": "animate_retarget",
+        "name": "pang-golem-retarget",
+        "status": "failed",
+        "created_at": "2026-11-03T13:57:59.212Z",
+        "credits": 0,
+        "refunded": true
+      },
+      {
+        "task_id": "507b97aa-cc62-468b-b1b9-e3af0255b2e6",
+        "type": "animate_retarget",
+        "name": "pang-colossus-retarget",
+        "status": "failed",
+        "created_at": "2026-11-03T13:58:37.170Z",
+        "credits": 0,
+        "refunded": true
+      }
+    ]
+  },
+  "runway": {
+    "totalCredits": 24,
+    "tasks": [
+      {
+        "task_id": "2c02b508-bffc-48b1-8f3d-c19b5f47e259",
+        "type": "music",
+        "name": "리그 오브 팽 — 수정의 서약 (시작 화면)",
+        "credits": 8
+      },
+      {
+        "task_id": "cf21bfef-5bac-43dc-ba27-516ec3a12d32",
+        "type": "music",
+        "name": "리그 오브 팽 — 영웅의 결의 (캐릭터 선택)",
+        "credits": 8
+      },
+      {
+        "task_id": "dfe1b563-9f3b-4839-9cda-0459085bbbe2",
+        "type": "music",
+        "name": "리그 오브 팽 — 푸른 협곡의 전장 (플레이)",
+        "credits": 8
+      }
+    ]
+  }
+}

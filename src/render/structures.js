@@ -4,6 +4,7 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import { TEAM_COLORS } from '../map/layout.js';
 import { patchFow, sharedUniforms } from './terrain.js';
 import { mulberry } from './textures.js';
+import { createMapAsset } from './mapAssets.js';
 
 const rnd = mulberry(99);
 function vc(geo, fn) {
@@ -38,6 +39,8 @@ function crystalMaterial(team) {
 }
 
 export function buildTurret(team) {
+  const asset = createMapAsset('turret', team);
+  if (asset) return asset;
   const g = new THREE.Group();
   const tc = TEAM_COLORS[team];
   const stone = [];
@@ -83,6 +86,8 @@ export function buildTurret(team) {
 }
 
 export function buildNexus(team) {
+  const asset = createMapAsset('nexus', team);
+  if (asset) return asset;
   const g = new THREE.Group();
   const tc = TEAM_COLORS[team];
   const stone = [];
@@ -125,6 +130,8 @@ export function buildNexus(team) {
 }
 
 export function buildFountain(team) {
+  const asset = createMapAsset('fountain', team);
+  if (asset) { asset.position.y = -0.12; return asset; }
   const g = new THREE.Group();
   const tc = TEAM_COLORS[team];
   const st = [];
@@ -152,6 +159,8 @@ export function buildFountain(team) {
 }
 
 export function buildShop(team) {
+  const asset = createMapAsset('shop', team);
+  if (asset) return asset;
   const g = new THREE.Group();
   const tc = TEAM_COLORS[team];
   const wood = [];

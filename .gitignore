@@ -4,3 +4,5 @@ dev/*.bundle.js
 dev/*.log
 _site/
 _art/
+.tripo/
+dev/*verification.json

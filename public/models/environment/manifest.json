@@ -1,0 +1,156 @@
+{
+  "provider": "Tripo",
+  "model": "P1-20260311",
+  "assets": [
+    {
+      "id": "turret",
+      "label": "수정 수호 포탑",
+      "file": "public/models/environment/turret.glb",
+      "preview": "public/art/map-assets/turret.webp",
+      "triangles": 5530,
+      "bytes": 635792,
+      "sourceTaskId": "d3046dd1-1da0-4011-9a03-4342cc0363ec",
+      "animation": null
+    },
+    {
+      "id": "nexus",
+      "label": "핵심 수정 성소",
+      "file": "public/models/environment/nexus.glb",
+      "preview": "public/art/map-assets/nexus.webp",
+      "triangles": 8023,
+      "bytes": 803776,
+      "sourceTaskId": "0f5c968a-b988-40a8-aa3f-6c7cc185eaa5",
+      "animation": null
+    },
+    {
+      "id": "fountain",
+      "label": "회복 샘",
+      "file": "public/models/environment/fountain.glb",
+      "preview": "public/art/map-assets/fountain.webp",
+      "triangles": 3888,
+      "bytes": 344340,
+      "sourceTaskId": "85278cc5-09bb-49ef-8aa2-b526427d4693",
+      "animation": null
+    },
+    {
+      "id": "shop",
+      "label": "연금술 상점",
+      "file": "public/models/environment/shop.glb",
+      "preview": "public/art/map-assets/shop.webp",
+      "triangles": 5655,
+      "bytes": 488260,
+      "sourceTaskId": "6c80fced-f5de-490b-a1a7-e8c00b0af567",
+      "animation": null
+    },
+    {
+      "id": "tree-oak",
+      "label": "활엽수",
+      "file": "public/models/environment/tree-oak.glb",
+      "preview": "public/art/map-assets/tree-oak.webp",
+      "triangles": 1435,
+      "bytes": 176688,
+      "sourceTaskId": "a4426165-616f-49b0-a93c-6dbfbf54fd7e",
+      "animation": null
+    },
+    {
+      "id": "tree-pine",
+      "label": "침엽수",
+      "file": "public/models/environment/tree-pine.glb",
+      "preview": "public/art/map-assets/tree-pine.webp",
+      "triangles": 1528,
+      "bytes": 123104,
+      "sourceTaskId": "06f1d68f-5592-4a59-bb2e-b853bb8b03a5",
+      "animation": null
+    },
+    {
+      "id": "rock",
+      "label": "이끼 바위",
+      "file": "public/models/environment/rock.glb",
+      "preview": "public/art/map-assets/rock.webp",
+      "triangles": 829,
+      "bytes": 96552,
+      "sourceTaskId": "731bd54e-0840-4edb-a3ce-a17d26dc4549",
+      "animation": null
+    },
+    {
+      "id": "wall",
+      "label": "고대 성벽",
+      "file": "public/models/environment/wall.glb",
+      "preview": "public/art/map-assets/wall.webp",
+      "triangles": 1538,
+      "bytes": 147096,
+      "sourceTaskId": "29b58aa1-8433-4665-bbd9-e6362b1affdd",
+      "animation": null
+    },
+    {
+      "id": "minion-melee",
+      "label": "근접 미니언",
+      "file": "public/models/environment/minion-melee.glb",
+      "preview": "public/art/map-assets/minion-melee.webp",
+      "triangles": 3548,
+      "bytes": 532756,
+      "sourceTaskId": "49a4fe76-aac5-4f41-813c-8fab79e985e1",
+      "animation": "local procedural skeletal locomotion and combat"
+    },
+    {
+      "id": "minion-caster",
+      "label": "마법 미니언",
+      "file": "public/models/environment/minion-caster.glb",
+      "preview": "public/art/map-assets/minion-caster.webp",
+      "triangles": 3398,
+      "bytes": 527596,
+      "sourceTaskId": "967e5059-56a3-4700-a638-2833225db24f",
+      "animation": "local procedural skeletal locomotion and combat"
+    },
+    {
+      "id": "minion-siege",
+      "label": "공성 미니언",
+      "file": "public/models/environment/minion-siege.glb",
+      "preview": "public/art/map-assets/minion-siege.webp",
+      "triangles": 3517,
+      "bytes": 395716,
+      "sourceTaskId": "7003c50e-f302-4147-a122-0a9e33cb5554",
+      "animation": null
+    },
+    {
+      "id": "golem",
+      "label": "정글 골렘",
+      "file": "public/models/environment/golem.glb",
+      "preview": "public/art/map-assets/golem.webp",
+      "triangles": 4950,
+      "bytes": 748816,
+      "sourceTaskId": "ebaef518-5efb-4b8b-853c-f0f0e2376f15",
+      "animation": "local procedural skeletal locomotion and combat"
+    },
+    {
+      "id": "wolf",
+      "label": "정글 늑대",
+      "file": "public/models/environment/wolf.glb",
+      "preview": "public/art/map-assets/wolf.webp",
+      "triangles": 4068,
+      "bytes": 539536,
+      "sourceTaskId": "f40b3b7c-4824-40e5-8674-3c168efc7c76",
+      "animation": "local procedural skeletal locomotion and combat"
+    },
+    {
+      "id": "drake",
+      "label": "비룡 보스",
+      "file": "public/models/environment/drake.glb",
+      "preview": "public/art/map-assets/drake.webp",
+      "triangles": 7707,
+      "bytes": 1030604,
+      "sourceTaskId": "43b6da8c-d0be-4ed9-9415-6072774b592a",
+      "animation": "local procedural skeletal locomotion and combat"
+    },
+    {
+      "id": "colossus",
+      "label": "협곡 거신",
+      "file": "public/models/environment/colossus.glb",
+      "preview": "public/art/map-assets/colossus.webp",
+      "triangles": 7946,
+      "bytes": 802788,
+      "sourceTaskId": "c52def52-52ab-4caf-b582-b7e75e30ca49",
+      "animation": "local procedural skeletal locomotion and combat"
+    }
+  ]
+}

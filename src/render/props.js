@@ -5,6 +5,7 @@ import { MAP_HALF, GRID_RES, classify, BRUSHES } from '../map/layout.js';
 import { groundHeight, sdAt, brushAt, isWalkable, fbm } from '../map/grid.js';
 import { mulberry } from './textures.js';
 import { patchFow } from './terrain.js';
+import { mapAssetParts } from './mapAssets.js';
 
 const col = (h) => new THREE.Color(h);
 
@@ -340,6 +341,12 @@ export function buildProps(quality) {
   const treeMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 });
   const cardMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, map: leafTexture(), alphaTest: 0.45, side: THREE.DoubleSide });
   trees.forEach((t, i) => {
+    const imported = mapAssetParts(i % 2 === 0 ? 'tree-oak' : 'tree-pine');
+    if (imported) {
+      for (const part of imported) group.add(chunkedInstances(part.geometry, part.material, treeItems[i]));
+      for (const it of treeItems[i]) aoPoints.push({ x: it.x, z: it.z, r: 2.6 * it.s, a: 0.5 });
+      return;
+    }
     const m = patchFow(treeMat.clone(), { wind: true, windAmp: 0.05, windMinY: t.windMinY, occlude: true });
     group.add(chunkedInstances(t.geo, m, treeItems[i]));
     if (t.cards) {
@@ -376,7 +383,10 @@ export function buildProps(quality) {
     if (s > -1.3 && s < -0.15 && rnd() < 0.5) rockItems[(i + 1) % 4].push({ x, z, y: groundHeight(x, z) - 0.05, s: 0.12 + rnd() * 0.16, rot: rnd() * 6.28 });
   }
   const rockMat = patchFow(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8, flatShading: true }));
-  rocks.forEach((g, i) => group.add(chunkedInstances(g, rockMat, rockItems[i])));
+  const importedRocks = mapAssetParts('rock');
+  if (importedRocks) {
+    for (const part of importedRocks) group.add(chunkedInstances(part.geometry, part.material, rockItems.flat()));
+  } else rocks.forEach((g, i) => group.add(chunkedInstances(g, rockMat, rockItems[i])));
   for (const r of rockItems) for (const it of r) if (it.s > 0.3) aoPoints.push({ x: it.x, z: it.z, r: 1.6 * it.s, a: 0.35 });
 
   // 양치식물·낮은 식생: 숲 가장자리
@@ -423,5 +433,20 @@ export function buildProps(quality) {
   const brushGroup = chunkedInstances(clump, brushMat, brushItems, { cast: true });
   group.add(brushGroup);
 
-  return { group, aoPoints, stats: { trees: treeCount, rocks: rockItems.reduce((a, b) => a + b.length, 0), ferns: fernItems.length, tufts: tuftItems.length, brush: brushItems.length } };
+  // Ruined walls sit wholly inside existing impassable terrain, never across a lane.
+  const wallParts = mapAssetParts('wall'), wallItems = [];
+  if (wallParts) {
+    for (let z = -54; z <= 54; z += 6) for (let x = -54; x <= 54; x += 6) {
+      const sd = sdAt(x, z);
+      if (sd < 1.8 || sd > 3.5 || classify(x, z).rD < 7) continue;
+      const nx = sdAt(x + 0.3, z) - sdAt(x - 0.3, z), nz = sdAt(x, z + 0.3) - sdAt(x, z - 0.3);
+      const rot = Math.atan2(-nz, nx), s = 0.85;
+      let fits = true;
+      // Conservative circular footprint also protects unusually deep generated wall segments.
+      for (let a = 0; a < 8; a++) if (isWalkable(x + Math.cos(a * Math.PI / 4) * 2.0, z + Math.sin(a * Math.PI / 4) * 2.0)) fits = false;
+      if (fits) wallItems.push({ x, z, y: groundHeight(x, z) - 0.5, s, rot });
+    }
+    for (const part of wallParts) group.add(chunkedInstances(part.geometry, part.material, wallItems));
+  }
+  return { group, aoPoints, stats: { trees: treeCount, walls: wallItems.length, rocks: rockItems.reduce((a, b) => a + b.length, 0), ferns: fernItems.length, tufts: tuftItems.length, brush: brushItems.length } };
 }

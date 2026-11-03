@@ -7,6 +7,7 @@ import { buildTurret, buildNexus } from '../render/structures.js';
 import { patchFow } from '../render/terrain.js';
 import { TEAM_COLORS } from '../map/layout.js';
 import { groundHeight } from '../map/grid.js';
+import { createMapAsset, updateAssetMotion } from '../render/mapAssets.js';
 
 const D2R = Math.PI / 180;
 function lerpAngle(a, b, k) { let d = b - a; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2; return a + d * k; }
@@ -222,6 +223,13 @@ export class MinionView extends BaseView {
   constructor(u, playerTeam) {
     super(u);
     const kind = u.minionKind;
+    const asset = createMapAsset(`minion-${kind}`, u.team);
+    if (asset) {
+      this.body = asset; this.root.add(asset);
+      this.root.add(makeFoot(u.r, u.team === playerTeam ? 0x4ab0ff : 0xff4a3a, true));
+      this.phase = Math.random() * 6; this.facing = u.facing; this.deadT = 0;
+      return;
+    }
     const P = minionParts(kind, u.team);
     const mat = mMat('m');
     this.body = new THREE.Group();
@@ -251,6 +259,7 @@ export class MinionView extends BaseView {
     }
     const sp = u.moving ? u.speedNow : 0;
     this.phase += sp * dt * 3.2;
+    updateAssetMotion(this.body, dt, t, u, alpha);
     const sw = Math.sin(this.phase) * Math.min(1, sp / 2) * 0.7;
     if (this.legL) { this.legL.rotation.x = sw; this.legR.rotation.x = -sw; }
     this.body.position.y = Math.abs(Math.sin(this.phase)) * 0.05 * Math.min(1, sp);
@@ -258,7 +267,7 @@ export class MinionView extends BaseView {
     if (u.action) { const a = u.action, at = a.t + alpha; atk = at < a.windup ? -(at / a.windup) : Math.max(0, 1 - (at - a.windup) / 0.2); if (at >= a.windup) atk = 1 - Math.min(1, (at - a.windup) / 0.25); }
     if (this.armR) this.armR.rotation.x = -atk * 1.2 + sw * 0.4;
     if (this.torso && u.minionKind === 'siege' && u.action) this.torso.position.z = -Math.max(0, atk) * 0.1;
-    this.body.rotation.x = u.hitFlash > 0 ? -0.15 : 0;
+    this.body.rotation.x = u.hitFlash > 0 ? -0.15 : this.body.userData.assetId ? Math.max(0, atk) * 0.14 : 0;
   }
 }
 
@@ -328,7 +337,8 @@ export class MonsterView extends BaseView {
     super(u);
     const kind = u.monsterKind === 'wolves' && !u.big ? 'wolf' : u.monsterKind;
     this.kind = kind;
-    this.model = monsterModel(kind);
+    this.model = createMapAsset(kind === 'wolves' ? 'wolf' : kind) || monsterModel(kind);
+    if (kind === 'wolf' && this.model.userData.assetId) { this.model.scale.setScalar(0.68); this.model.userData.h *= 0.68; }
     this.root.add(this.model);
     this.root.add(makeFoot(u.r, 0xd8b05a, true));
     this.phase = Math.random() * 6; this.facing = u.facing; this.deadT = 0;
@@ -340,6 +350,12 @@ export class MonsterView extends BaseView {
     this.facing = lerpAngle(this.facing, u.facing, 1 - Math.exp(-dt * 8));
     this.model.rotation.y = this.facing;
     if (u.dead) { this.deadT += dt; const k = Math.min(1, this.deadT / 0.6); this.model.rotation.z = k * 1.3; this.model.position.y = -Math.max(0, this.deadT - 1.2) * 0.8; return; }
+    if (this.model.userData.assetId) {
+      updateAssetMotion(this.model, dt, t, u, alpha);
+      this.model.position.y = Math.sin(t * 1.6) * 0.018;
+      this.model.rotation.x = u.action ? Math.sin(Math.min(1, (u.action.t + alpha) / Math.max(0.1, u.action.total)) * Math.PI) * 0.12 : 0;
+      return;
+    }
     const sp = u.moving ? u.speedNow : 0;
     this.phase += dt * (sp * 2.6 + 0.0);
     const sw = Math.sin(this.phase) * Math.min(1, sp / 2);
@@ -368,6 +384,10 @@ export class TurretView extends BaseView {
   headY() { return 6.0; }
   update(dt, t) {
     const u = this.u, d = this.m.userData;
+    if (d.assetId) {
+      if (u.dead) { this.downT += dt; this.m.scale.y = 1 - Math.min(1, this.downT / 1.2) * 0.85; this.m.rotation.z = Math.min(1, this.downT / 1.2) * 0.15; }
+      return;
+    }
     if (u.dead) {
       this.downT += dt;
       const k = Math.min(1, this.downT / 1.2);
@@ -395,6 +415,10 @@ export class NexusView extends BaseView {
   headY() { return 7.6; }
   update(dt, t) {
     const u = this.u, d = this.m.userData;
+    if (d.assetId) {
+      if (u.dead) { this.downT += dt; this.m.scale.y = 1 - Math.min(1, this.downT / 2) * 0.8; }
+      return;
+    }
     if (u.dead) {
       this.downT += dt;
       const k = Math.min(1, this.downT / 2);

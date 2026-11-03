@@ -1,8 +1,10 @@
-// WebAudio 절차 합성 효과음 + 독자 작곡 배경음 (외부 음원 없음)
+// WebAudio 효과음 + 화면별 Runway 오케스트라 음악. 음원은 같은 사이트에서 스트리밍한다.
+const MUSIC = { title: 'title', select: 'select', menu: 'select', battle: 'battle' };
 export class Audio {
   constructor() {
     this.ctx = null; this.vol = { master: 0.7, sfx: 0.8, music: 0.4 };
     this.last = {};
+    this.musicOn = null; this.musicVoice = null; this.musicVoices = new Set(); this.musicEpoch = 0;
   }
   init() {
     if (this.ctx) return;
@@ -21,7 +23,10 @@ export class Audio {
   }
   applyVol() { if (!this.ctx) return; this.master.gain.value = this.vol.master; this.sfxG.gain.value = this.vol.sfx; this.musG.gain.value = this.vol.music; }
   suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); }
-  resume() { if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); }
+  resume() {
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+    if (this.musicOn && !this.musicVoice) this.startMusic(this.musicOn);
+  }
   _throttle(key, gap) { const t = performance.now(); if (this.last[key] && t - this.last[key] < gap) return true; this.last[key] = t; return false; }
   tone(freq, dur, { type = 'sine', vol = 0.2, attack = 0.005, slide = 0, delay = 0, dest } = {}) {
     if (!this.ctx) return;
@@ -71,27 +76,50 @@ export class Audio {
       case 'defeat': [392, 349, 311, 262].forEach((f, i) => this.tone(f, 0.7, { type: 'triangle', vol: 0.12, delay: i * 0.18 })); break;
     }
   }
-  // 배경음: 펜타토닉 패드 + 느린 아르페지오 (독자 작곡, 절차 생성)
-  startMusic(mode = 'battle') {
-    if (!this.ctx || this.musicOn === mode) return;
-    this.stopMusic();
+  async startMusic(mode = 'battle') {
+    mode = MUSIC[mode] || 'battle';
+    if (this.musicOn === mode && this.musicVoice) return;
     this.musicOn = mode;
-    const prog = mode === 'menu' ? [[220, 277, 330], [196, 247, 294], [175, 220, 262], [196, 247, 330]] : [[147, 220, 262], [131, 196, 247], [117, 175, 220], [131, 196, 262]];
-    let step = 0;
-    const beat = mode === 'menu' ? 0.75 : 0.42;
-    const tick = () => {
-      if (!this.ctx || this.musicOn !== mode) return;
-      const chord = prog[Math.floor(step / 8) % prog.length];
-      if (step % 8 === 0) chord.forEach((f) => this.tone(f, beat * 8.5, { type: 'sine', vol: 0.05, attack: 0.6, dest: this.musG }));
-      if (step % 8 === 0) this.tone(chord[0] / 2, beat * 8, { type: 'triangle', vol: 0.06, attack: 0.2, dest: this.musG });
-      const arp = [0, 1, 2, 1, 2, 0, 1, 2][step % 8];
-      if (mode !== 'menu' || step % 2 === 0) this.tone(chord[arp] * 2, beat * 1.6, { type: 'triangle', vol: 0.025, attack: 0.01, dest: this.musG });
-      if (mode === 'battle' && step % 4 === 2) this.noiseBurst(0.06, { freq: 7000, q: 1, vol: 0.012 });
-      step++;
-      this.musT = setTimeout(tick, beat * 1000);
-    };
-    tick();
+    if (!this.ctx) return; // 첫 사용자 입력에서 다시 시작 (브라우저 자동 재생 정책)
+    const epoch = ++this.musicEpoch;
+    const element = document.createElement('audio');
+    element.src = new URL(`public/audio/${mode}.mp3`, document.baseURI).href;
+    element.loop = true; element.preload = 'auto';
+    const source = this.ctx.createMediaElementSource(element), gain = this.ctx.createGain();
+    gain.gain.value = 0; source.connect(gain); gain.connect(this.musG);
+    const voice = { element, source, gain, timer: null };
+    this.musicVoices.add(voice);
+    try {
+      await element.play();
+      if (epoch !== this.musicEpoch) { this.releaseMusic(voice); return; }
+      const old = this.musicVoice;
+      this.musicVoice = voice;
+      gain.gain.setValueAtTime(0, this.ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(mode === 'battle' ? 0.65 : 0.85, this.ctx.currentTime + 1.5);
+      if (old) this.fadeMusic(old);
+    } catch (e) {
+      this.releaseMusic(voice);
+      if (epoch === this.musicEpoch) {
+        if (this.musicVoice) this.fadeMusic(this.musicVoice);
+        this.musicVoice = null;
+        if (e.name !== 'NotAllowedError') console.warn('배경음악을 불러오지 못했습니다:', mode, e.message);
+      }
+    }
   }
-  stopMusic() { clearTimeout(this.musT); this.musicOn = null; }
+  fadeMusic(voice, seconds = 1.5) {
+    const g = voice.gain.gain, now = this.ctx.currentTime;
+    g.cancelAndHoldAtTime(now);
+    g.linearRampToValueAtTime(0, now + seconds);
+    voice.timer = setTimeout(() => this.releaseMusic(voice), seconds * 1000 + 100);
+  }
+  releaseMusic(voice) {
+    clearTimeout(voice.timer); voice.element.pause();
+    voice.element.removeAttribute('src'); voice.element.load();
+    voice.source.disconnect(); voice.gain.disconnect(); this.musicVoices.delete(voice);
+  }
+  stopMusic() {
+    ++this.musicEpoch; this.musicOn = null; this.musicVoice = null;
+    for (const voice of this.musicVoices) this.fadeMusic(voice, 0.6);
+  }
 }
 export const audio = new Audio();
