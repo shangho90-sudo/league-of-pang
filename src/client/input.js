@@ -228,6 +228,53 @@ export class TouchInput {
       place(this.els.potion,W-sa.r-30,H-sa.b-398);
     }
     place(this.els.cam,W-sa.r-27*b,sa.t+80*b);
+    // 화면이 낮으면(오른쪽 열에 버튼 4개가 들어가지 않음) 시점 버튼을 상단 전적·설정 버튼 옆으로
+    {
+      const menu = [...document.querySelectorAll('#m-top-right .mbtn')].map((e) => e.getBoundingClientRect()).filter((r) => r.width);
+      if (menu.length && H < 380 && !mir) {
+        const left = Math.min(...menu.map((r) => r.left)), cy = menu[0].top + menu[0].height / 2;
+        if (left > W / 2) place(this.els.cam, left - Math.max(20, 24 * b) - 6, Math.max(cy, sa.t + Math.max(20, 24 * b) + 2));
+      }
+    }
+    // 겹침 방지: 스킬 버튼을 Q→R 순서로, 기본 위치에서 가장 가까운 빈 자리로 옮긴다 (짧은 화면에서 궁극기가 시점·영웅 버튼과 겹치던 문제)
+    {
+      const R = { big: 49 * b, skill: 33 * b, r: 39 * b, small: Math.max(20, 24 * b) };
+      const at = (el) => [mir ? W - parseFloat(el.style.left) : parseFloat(el.style.left), parseFloat(el.style.top)];
+      const occ = [[ax, ay, R.big], ...[this.els.shop, this.els.recall, this.els.potion, this.els.cam].map((el) => [...at(el), R.small])];
+      // 상단 메뉴(전적·설정) 버튼 영역
+      for (const el of document.querySelectorAll('#m-top-right .mbtn')) { const rc = el.getBoundingClientRect(); if (rc.width) occ.push([mir ? W - (rc.left + rc.width / 2) : rc.left + rc.width / 2, rc.top + rc.height / 2, Math.max(rc.width, rc.height) / 2]); }
+      const free = (x, y, r, extraTop) => x - r > sa.l + 4 && x + r < W - sa.r - 4 && y - r - extraTop > sa.t + 4 && y + r + 10 < H - sa.b && occ.every(([ox, oy, or]) => Math.hypot(x - ox, y - oy) >= r + or + 6);
+      // 오른쪽 끝 대상 버튼(영웅·미니언·건물): 화면 안쪽 가장자리 열에 두고 공격 버튼과 겹치면 같은 열에서 위·아래 빈 자리로
+      const colX = W - sa.r - R.small - 5;
+      for (const el of [this.els.tChamp, this.els.tMinion, this.els.tTower]) {
+        const [, y0] = at(el); let best = null;
+        for (let d = 0; d < H && !best; d += 3) for (const y of d ? [y0 - d, y0 + d] : [y0]) if (!best && free(colX, y, R.small, 0)) best = [colX, y];
+        if (best) { place(el, ...best); occ.push([...best, R.small]); }
+      }
+      // 순서 유지: 위에서부터 영웅 → 미니언 → 건물
+      { const ts = [this.els.tChamp, this.els.tMinion, this.els.tTower], ys = ts.map((e) => parseFloat(e.style.top)).sort((p, q) => p - q); ts.forEach((e, i) => { e.style.top = ys[i] + 'px'; }); }
+      for (const s of SLOTS) {
+        const r = s === 'R' ? R.r : R.skill, [x0, y0] = sp[s];
+        let best = null;
+        if (free(x0, y0, r, 16)) best = [x0, y0];
+        for (let d = 4; !best && d < 220 * b; d += 4) for (let k = 0; k < 24; k++) {
+          const a = (k / 24) * Math.PI * 2, x = x0 + Math.cos(a) * d, y = y0 + Math.sin(a) * d;
+          if (free(x, y, r, 16) && (!best || Math.hypot(x - ax, y - ay) < Math.hypot(best[0] - ax, best[1] - ay))) best = [x, y];
+        }
+        if (best) sp[s] = best;
+        place(this.els.skills[s], ...sp[s]);
+        occ.push([sp[s][0], sp[s][1], r]);
+      }
+    }
+    // 체력·마나·경험치 바: 화면 최하단, 이동 패드와 물약 버튼 사이
+    {
+      const hp = document.getElementById('m-hpbar');
+      if (hp) {
+        const jr0 = 70 * S.joySize * fit, left = sa.l + 28 * fit + jr0 * 2 + 8, right = (W - sa.r - 392 * b) - Math.max(20, 24 * b) - 8;
+        const w = Math.max(150, Math.min(300, right - left));
+        Object.assign(hp.style, { top: 'auto', bottom: (sa.b + 4) + 'px', width: w + 'px', transform: 'none', left: (mir ? W - (left + right) / 2 - w / 2 : (left + right) / 2 - w / 2) + 'px' });
+      }
+    }
     this.els.cancel.style.left = W / 2 + 'px'; this.els.cancel.style.top = (sa.t + 46 * b) + 'px'; // 취소 영역: 화면 상단 중앙 — 최대 조준 드래그(110px) 범위 밖이라 일반 조준과 겹치지 않음
     // 조이스틱 기본 위치
     const jr = this.joyRadius = 70*S.joySize*fit;
