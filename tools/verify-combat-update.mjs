@@ -42,6 +42,7 @@ try{
   report.layouts=[];
   for(const [width,height,mirror,size] of [[932,430,false,1],[667,375,false,1],[1024,768,false,1],[844,390,true,1],[667,375,false,1.35],[390,844,false,1],[360,740,false,1]]){
     await mobile.setViewportSize({width,height});await mobile.evaluate(({mirror,size})=>{GAME.settings.mirror=mirror;GAME.settings.btnSize=size;GAME.input.layout();GAME.resize();STEP(1);},{mirror,size});
+    assert.equal(await mobile.locator('#rotate').isVisible(),height>width,'Portrait rotation guidance');
     const state=await mobile.evaluate(()=>{const R=[...document.querySelectorAll('.mskill,#joy,#m-mm,#m-top-right .mbtn')].filter(e=>e.getClientRects().length).map(e=>{const b=e.getBoundingClientRect();return{name:e.dataset.slot||e.dataset.ctl+'-'+(e.dataset.kind||'')||e.id,x:b.x,y:b.y,w:b.width,h:b.height,round:e.id!=='m-mm'};});const issues=[];for(const a of R)if(a.x<-.5||a.y<-.5||a.x+a.w>innerWidth+.5||a.y+a.h>innerHeight+.5)issues.push('clipped '+a.name);for(let i=0;i<R.length;i++)for(let j=i+1;j<R.length;j++){const a=R[i],b=R[j];if(a.round&&b.round&&Math.hypot(a.x+a.w/2-b.x-b.w/2,a.y+a.h/2-b.y-b.h/2)<(a.w+b.w)/2-1)issues.push(`overlap ${a.name}/${b.name}`);}return{rects:R,issues};});
     report.layouts.push({width,height,mirror,size,...state});await mobile.screenshot({path:`dev/mobile-controls-${width}-${mirror?'mirror':size}.png`});assert.deepEqual(state.issues,[],JSON.stringify({width,height,mirror,size}));
   }
