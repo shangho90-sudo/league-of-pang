@@ -36,14 +36,16 @@ node tools/verify-online.mjs
 
 ## Railway 배포 (선택한 운영 환경)
 
-Railway 계정의 활성 요금제가 필요하다. 체험 기간이 만료되어 프로젝트 생성이 거부되면 계정 소유자가 요금제를 활성화해야 한다. 아래 설정은 배포 준비 사항이며, 실제 서버 생성·검증 전까지 `public/online.json`의 주소는 비워 둔다.
+2026-11-04 Railway Hobby에 서버를 배포했다. 공개 주소는 `https://pang-online-server-production.up.railway.app`, 상태 확인은 `/health`이다. [Railway 관리 화면](https://railway.com/project/bb032fe0-eb84-42d9-8dc4-0e92dbecaa62)에서 배포·로그·사용량을 확인한다.
+
+서버는 검증된 커밋 `e6f6663d9bcbfff605f120e96c223892a07b0fef`에 고정되어 있다. 웹 화면을 업데이트해도 진행 중인 경기가 재시작되지 않는다. 서버 코드 변경은 경기가 없을 때 새 커밋을 지정해 별도로 배포한다.
 
 1. 전용 `league-of-pang-online` 프로젝트를 만들고 이 GitHub 저장소의 `online-multiplayer` 브랜치를 연결한다. 기본 서비스는 루트 `Dockerfile`로 빌드한다. 서버 이미지는 웹 렌더링 자산을 포함하지 않는다.
 2. 싱가포르 리전(`asia-southeast1-eqsg3a`), 인스턴스 1개, 절전 비활성화로 설정한다. 초기 자원 상한은 CPU 1개·메모리 1GB, 동시 경기 상한은 3개로 시작하고 실제 부하를 관찰한다. 상한 설정은 고정 요금이나 성능 보장을 뜻하지 않는다.
 3. `NODE_ENV=production`, `PORT=8787`, `MAX_MATCHES=3`을 설정한다. 시작 명령은 Dockerfile의 `node server/index.js`, 상태 확인 경로는 `/health`를 사용한다.
 4. 8787 포트를 대상으로 Railway 공개 HTTPS 도메인을 발급한다. `/health` 응답과 두 클라이언트의 WSS 연결·경기 진행을 검사한다.
 5. `public/online.json`을 검증된 HTTPS 주소로 바꾼다. 메인 브랜치에 적용해 GitHub Pages를 배포한 뒤 공개 주소에서도 경기 시작·동기화를 검사한다.
-6. 운영 소스 브랜치를 최종 메인 브랜치로 맞춘다. 진행 중인 경기가 있는 동안 자동 재배포하지 않도록 운영한다.
+6. 서버를 검증된 커밋에 고정해 자동 재배포를 막는다. 서버를 업데이트할 때 `/rooms`에서 진행 중인 경기가 없는지 확인한 뒤 새 커밋을 지정해 배포한다.
 
 Railway의 새 서비스 설정은 연결 도구나 서비스 설정 화면에서 관리한다. 더 이상 권장되지 않는 `railway.json`/`railway.toml`은 추가하지 않는다. 참고: [Railway 요금제](https://docs.railway.com/pricing/plans), [리전](https://docs.railway.com/reference/regions), [기존 Config as Code 안내](https://docs.railway.com/config-as-code/reference).
 
