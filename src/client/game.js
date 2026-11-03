@@ -153,6 +153,7 @@ export class Game {
     if (P.t >= 1) { P.fps = P.frames / P.t; P.samples.push(Math.round(P.fps)); if (P.samples.length > 600) P.samples.shift(); if (this.sim.time > 5) P.minFps = Math.min(P.minFps, P.fps); P.frames = 0; P.t = 0; const d = document.getElementById('fps'); if (d) d.textContent = `${Math.round(P.fps)} fps · ${this.renderer.info.render.calls} draw · ${(this.renderer.info.render.triangles / 1000).toFixed(0)}k tri`; }
   }
   destroy() {
+    this.world.fx.hero.dispose();
     window.removeEventListener('resize', this._onResize);
     document.removeEventListener('visibilitychange', this._onVis);
     this.input.destroy();

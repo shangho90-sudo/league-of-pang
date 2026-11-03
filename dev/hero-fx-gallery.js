@@ -1,0 +1,11 @@
+import * as THREE from 'three';
+import {loadHeroAssets} from '../src/render/heroAssets.js';
+import {CombatEffects} from '../src/render/combatEffects.js';
+await loadHeroAssets();
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;document.body.appendChild(renderer.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x101822);
+const camera=new THREE.PerspectiveCamera(32,innerWidth/innerHeight,0.1,100);camera.position.set(0,10,17);camera.lookAt(0,0.8,0);
+const effects=new CombatEffects(scene,{particles:1});
+const ids=['fx-crescent','fx-bolt','fx-rune-ring','fx-ward','fx-ice-burst','fx-flame-vortex','fx-meteor','fx-anvil'];
+for(const [i,id] of ids.entries())effects.emit(id,{x:(i%4-1.5)*3.4,y:0.1,z:i<4?-2.1:2.1,color:[0x65dfff,0xffcf70,0xad8aff,0x8fedeb,0x9adfff,0xff833a,0xffc56a,0xffb358][i],size:2.3,life:1});
+effects.update(0.2);renderer.render(scene,camera);window.DONE=true;

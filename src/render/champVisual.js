@@ -5,6 +5,8 @@ import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { HumanoidRig, basePose } from './rig.js';
 import { patchFow } from './terrain.js';
+import { upgradeHeroKit } from './heroEquipment.js';
+import { fitGrip, bodySurface } from './equipmentFit.js';
 
 export const CHAR_HEIGHT = 1.75;
 export const HEAD_SCALE = 0.68;
@@ -430,7 +432,7 @@ export function createChampionVisual(champ) {
   model.updateMatrixWorld(true);
   const rig = new HumanoidRig(model, container);
   // 장비 부착
-  const kit = KITS[champ.id](champ);
+  const kit = upgradeHeroKit(champ, KITS[champ.id](champ));
   const cInv = container.getWorldQuaternion(new THREE.Quaternion()).invert();
   const cScale = new THREE.Vector3(); container.getWorldScale(cScale);
   const sockets = {};
@@ -450,7 +452,14 @@ export function createChampionVisual(champ) {
     const user = new THREE.Quaternion().setFromEuler(new THREE.Euler(...(part.grip || part.rot || [0, 0, 0]).map((d) => (d * Math.PI) / 180), 'YXZ'));
     sock.quaternion.copy(Rb.clone().invert().multiply(user));
     // 위치 오프셋은 캐릭터 공간 → 뼈 로컬
-    const off = new THREE.Vector3(...(part.off || [0, 0, 0])).applyQuaternion(Rb.clone().invert());
+    let offset = part.off || [0, 0, 0];
+    if (part.surface) {
+      offset = bodySurface(model, container, bone, offset, part.surface);
+      // Position the closest face of the imported shell just outside the coat.
+      const bounds = new THREE.Box3().setFromObject(part.obj);
+      offset[2] -= part.surface > 0 ? bounds.min.z : bounds.max.z;
+    }
+    const off = new THREE.Vector3(...offset).applyQuaternion(Rb.clone().invert());
     sock.position.copy(off).divide(bs).multiply(cScale);
     sock.scale.set(cScale.x / bs.x, cScale.y / bs.y, cScale.z / bs.z).divide(cScale).multiplyScalar(1); // 월드 단위 유지 (몸 비율 무시)
     sock.scale.set(1 / bs.x, 1 / bs.y, 1 / bs.z).multiplyScalar(cScale.x);
@@ -477,6 +486,9 @@ export function createChampionVisual(champ) {
       p.obj.quaternion.copy(pq.invert().multiply(cq.clone().multiply(qChar)));
     }
   }
+  for (const [key, part] of Object.entries(kit)) {
+    if (part.grasp && sockets[key]) fitGrip(model,container,sockets[key].parent,sockets[key],part,rig);
+  }
   // 손에 든 불꽃 등: 뼈 회전과 무관하게 항상 위로 향함
   const _q1 = new THREE.Quaternion(), _q2 = new THREE.Quaternion();
   const updateUprights = () => {
@@ -490,8 +502,11 @@ export function createChampionVisual(champ) {
 
 // 무기 끝(발사 지점) 월드 좌표
 export function weaponTip(vis, out) {
-  const s = vis.sockets.cannon || vis.sockets.right || vis.sockets.left;
+  const key = vis.sockets.cannon ? 'cannon' : vis.sockets.right ? 'right' : 'left';
+  const s = vis.sockets[key];
   if (!s) return vis.root.getWorldPosition(out).setY(1.1);
+  const part = vis.kit[key];
+  if (part?.tip) {part.obj.updateWorldMatrix(true,false);return part.obj.localToWorld(out.fromArray(part.tip));}
   if (vis.sockets.cannon) return s.localToWorld(out.set(0, 0, 0.48));
   if (vis.kit.left && vis.kit.left.obj && vis.sockets.left && vis.kit.right == null) return vis.sockets.left.localToWorld(out.set(0, 0, 0));
   return s.localToWorld(out.set(0, 0.9, 0));

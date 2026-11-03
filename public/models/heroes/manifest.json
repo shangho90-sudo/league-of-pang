@@ -1,0 +1,276 @@
+{
+  "provider": "Tripo",
+  "model": "P1-20260311",
+  "assets": [
+    {
+      "id": "alchemist-staff",
+      "label": "연금술 지팡이",
+      "file": "public/models/heroes/alchemist-staff.glb",
+      "preview": "public/art/hero-assets/alchemist-staff.webp",
+      "triangles": 3442,
+      "bytes": 309836,
+      "sourceTaskId": "bb438a3d-d289-41de-98ba-c655f7f3f6be",
+      "credits": 40
+    },
+    {
+      "id": "guardian-shield",
+      "label": "수호자 방패",
+      "file": "public/models/heroes/guardian-shield.glb",
+      "preview": "public/art/hero-assets/guardian-shield.webp",
+      "triangles": 3352,
+      "bytes": 245492,
+      "sourceTaskId": "91f49b42-2c04-4698-b78f-91218c313f5e",
+      "credits": 40
+    },
+    {
+      "id": "shadow-dagger",
+      "label": "그림자 단검",
+      "file": "public/models/heroes/shadow-dagger.glb",
+      "preview": "public/art/hero-assets/shadow-dagger.webp",
+      "triangles": 2605,
+      "bytes": 264588,
+      "sourceTaskId": "c2729b64-2906-48d8-a971-de79bbb60eb0",
+      "credits": 40
+    },
+    {
+      "id": "forge-hammer",
+      "label": "용광로 전투 망치",
+      "file": "public/models/heroes/forge-hammer.glb",
+      "preview": "public/art/hero-assets/forge-hammer.webp",
+      "triangles": 3405,
+      "bytes": 303624,
+      "sourceTaskId": "7c0a0329-bb18-472d-a42b-47a6038f9c1f",
+      "credits": 40
+    },
+    {
+      "id": "dawn-sword",
+      "label": "여명의 장검",
+      "file": "public/models/heroes/dawn-sword.glb",
+      "preview": "public/art/hero-assets/dawn-sword.webp",
+      "triangles": 3417,
+      "bytes": 288844,
+      "sourceTaskId": "a394bfdf-640a-4c2d-84a5-1d55866e0497",
+      "credits": 40
+    },
+    {
+      "id": "storm-bow",
+      "label": "폭풍 장궁",
+      "file": "public/models/heroes/storm-bow.glb",
+      "preview": "public/art/hero-assets/storm-bow.webp",
+      "triangles": 3600,
+      "bytes": 324664,
+      "sourceTaskId": "6565a20b-ae32-400b-83d7-4ef9ce7acfe3",
+      "credits": 40
+    },
+    {
+      "id": "astral-orb",
+      "label": "별빛 천구",
+      "file": "public/models/heroes/astral-orb.glb",
+      "preview": "public/art/hero-assets/astral-orb.webp",
+      "triangles": 2846,
+      "bytes": 228052,
+      "sourceTaskId": "87c57f49-aefb-4c67-bfa3-02e690d90b14",
+      "credits": 40
+    },
+    {
+      "id": "forest-spear",
+      "label": "숲의 장창",
+      "file": "public/models/heroes/forest-spear.glb",
+      "preview": "public/art/hero-assets/forest-spear.webp",
+      "triangles": 3449,
+      "bytes": 307700,
+      "sourceTaskId": "e0179811-855d-4117-8169-ab87b93d73dc",
+      "credits": 40
+    },
+    {
+      "id": "arcane-cannon",
+      "label": "비전 마력포",
+      "file": "public/models/heroes/arcane-cannon.glb",
+      "preview": "public/art/hero-assets/arcane-cannon.webp",
+      "triangles": 3282,
+      "bytes": 274916,
+      "sourceTaskId": "3df1d035-874d-4cae-94b5-1f75483d48ea",
+      "credits": 40
+    },
+    {
+      "id": "resonance-baton",
+      "label": "공명 지휘봉",
+      "file": "public/models/heroes/resonance-baton.glb",
+      "preview": "public/art/hero-assets/resonance-baton.webp",
+      "triangles": 2086,
+      "bytes": 209684,
+      "sourceTaskId": "5520db64-2e94-483d-bf2f-2d1fab4de5b4",
+      "credits": 40
+    },
+    {
+      "id": "resonance-lyre",
+      "label": "공명 하프",
+      "file": "public/models/heroes/resonance-lyre.glb",
+      "preview": "public/art/hero-assets/resonance-lyre.webp",
+      "triangles": 2925,
+      "bytes": 269736,
+      "sourceTaskId": "7ccdf5b5-14c3-4466-8ae8-f19bbb627aa2",
+      "credits": 40
+    },
+    {
+      "id": "cryo-blaster",
+      "label": "극저온 분사기",
+      "file": "public/models/heroes/cryo-blaster.glb",
+      "preview": "public/art/hero-assets/cryo-blaster.webp",
+      "triangles": 3497,
+      "bytes": 333740,
+      "sourceTaskId": "2618bc75-4099-4955-9a11-d0663569536a",
+      "credits": 40
+    },
+    {
+      "id": "ember-focus",
+      "label": "업화 마법 초점",
+      "file": "public/models/heroes/ember-focus.glb",
+      "preview": "public/art/hero-assets/ember-focus.webp",
+      "triangles": 2532,
+      "bytes": 223652,
+      "sourceTaskId": "b093e46b-6389-4624-95ff-cc1a4a2edc08",
+      "credits": 40
+    },
+    {
+      "id": "aegis-breastplate",
+      "label": "흉갑",
+      "file": "public/models/heroes/aegis-breastplate.glb",
+      "preview": "public/art/hero-assets/aegis-breastplate.webp",
+      "triangles": 2829,
+      "bytes": 202380,
+      "sourceTaskId": "da43cab4-b9f2-4dc4-ad9f-01f009747a1e",
+      "credits": 40
+    },
+    {
+      "id": "aegis-pauldron",
+      "label": "어깨 갑옷",
+      "file": "public/models/heroes/aegis-pauldron.glb",
+      "preview": "public/art/hero-assets/aegis-pauldron.webp",
+      "triangles": 2078,
+      "bytes": 180980,
+      "sourceTaskId": "d38d2ddd-aa75-414c-bad5-1c4911c4492a",
+      "credits": 40
+    },
+    {
+      "id": "aegis-bracer",
+      "label": "팔 보호구",
+      "file": "public/models/heroes/aegis-bracer.glb",
+      "preview": "public/art/hero-assets/aegis-bracer.webp",
+      "triangles": 2068,
+      "bytes": 210616,
+      "sourceTaskId": "f5cae9a1-9c1e-4f11-b2f2-4210168aa1f9",
+      "credits": 40
+    },
+    {
+      "id": "mystic-mantle",
+      "label": "마법사 어깨 망토",
+      "file": "public/models/heroes/mystic-mantle.glb",
+      "preview": "public/art/hero-assets/mystic-mantle.webp",
+      "triangles": 2447,
+      "bytes": 177668,
+      "sourceTaskId": "182215cd-3a1a-4d11-bc28-6e20ef37356d",
+      "credits": 40
+    },
+    {
+      "id": "ranger-quiver",
+      "label": "궁수 화살통",
+      "file": "public/models/heroes/ranger-quiver.glb",
+      "preview": "public/art/hero-assets/ranger-quiver.webp",
+      "triangles": 2014,
+      "bytes": 225008,
+      "sourceTaskId": "09d06716-b15f-4288-94d6-7758aa12af1e",
+      "credits": 40
+    },
+    {
+      "id": "arcane-backpack",
+      "label": "마력 장치 배낭",
+      "file": "public/models/heroes/arcane-backpack.glb",
+      "preview": "public/art/hero-assets/arcane-backpack.webp",
+      "triangles": 2942,
+      "bytes": 177988,
+      "sourceTaskId": "0acac1fd-6d83-4c70-906a-6cbb23e1df0f",
+      "credits": 40
+    },
+    {
+      "id": "fx-crescent",
+      "label": "입체 참격",
+      "file": "public/models/heroes/fx-crescent.glb",
+      "preview": "public/art/hero-assets/fx-crescent.webp",
+      "triangles": 1710,
+      "bytes": 66692,
+      "sourceTaskId": "d484e80e-6cd3-4cc7-b230-0d80b27f7642",
+      "credits": 30
+    },
+    {
+      "id": "fx-bolt",
+      "label": "마력 투사체",
+      "file": "public/models/heroes/fx-bolt.glb",
+      "preview": "public/art/hero-assets/fx-bolt.webp",
+      "triangles": 1208,
+      "bytes": 39756,
+      "sourceTaskId": "6c5331ee-19ea-4bb5-be58-644a650c9724",
+      "credits": 30
+    },
+    {
+      "id": "fx-rune-ring",
+      "label": "입체 마법진",
+      "file": "public/models/heroes/fx-rune-ring.glb",
+      "preview": "public/art/hero-assets/fx-rune-ring.webp",
+      "triangles": 1834,
+      "bytes": 72432,
+      "sourceTaskId": "e3871648-ee16-48a6-9904-19d6e01873e9",
+      "credits": 30
+    },
+    {
+      "id": "fx-ward",
+      "label": "수호 결계",
+      "file": "public/models/heroes/fx-ward.glb",
+      "preview": "public/art/hero-assets/fx-ward.webp",
+      "triangles": 1571,
+      "bytes": 55848,
+      "sourceTaskId": "e901f105-ee4f-45c5-9a82-11f203ae5704",
+      "credits": 30
+    },
+    {
+      "id": "fx-ice-burst",
+      "label": "빙결 폭발",
+      "file": "public/models/heroes/fx-ice-burst.glb",
+      "preview": "public/art/hero-assets/fx-ice-burst.webp",
+      "triangles": 1797,
+      "bytes": 77560,
+      "sourceTaskId": "e90111d9-db09-48c1-8973-ca55b3f8e4c3",
+      "credits": 30
+    },
+    {
+      "id": "fx-flame-vortex",
+      "label": "화염 소용돌이",
+      "file": "public/models/heroes/fx-flame-vortex.glb",
+      "preview": "public/art/hero-assets/fx-flame-vortex.webp",
+      "triangles": 2018,
+      "bytes": 88316,
+      "sourceTaskId": "3f9096dd-99cb-46c9-9ee7-ffb869378c94",
+      "credits": 30
+    },
+    {
+      "id": "fx-meteor",
+      "label": "궁극기 유성",
+      "file": "public/models/heroes/fx-meteor.glb",
+      "preview": "public/art/hero-assets/fx-meteor.webp",
+      "triangles": 1682,
+      "bytes": 72872,
+      "sourceTaskId": "6bf6cd3a-28f7-414b-a7e1-38a38949cf82",
+      "credits": 30
+    },
+    {
+      "id": "fx-anvil",
+      "label": "궁극기 거대 모루",
+      "file": "public/models/heroes/fx-anvil.glb",
+      "preview": "public/art/hero-assets/fx-anvil.webp",
+      "triangles": 1923,
+      "bytes": 58416,
+      "sourceTaskId": "70a47578-9f0a-4b2e-90ff-610cef96bf04",
+      "credits": 30
+    }
+  ]
+}

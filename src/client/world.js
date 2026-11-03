@@ -141,6 +141,7 @@ export class World {
           const y = groundHeight(t.x, t.z) + (t.kind === 'turret' ? 3 : 1.0);
           const col = e.dmgType === 'magic' ? 0xb48aff : e.dmgType === 'true' ? 0xffffff : 0xffc27a;
           if (e.basic) {
+            if(s.kind==='champion' && this.unitVisible(s)) fx.hero.basic(s,t,this.tipOf(s));
             fx.burst(t.x, y, t.z, s.kind === 'champion' ? 6 : 3, { color: col, tex: 'spark', speed: 3, life: 0.25, size: 0.35, elev: 0.4 });
             if (s.kind === 'champion' && !s.def.stats.ranged) {
               const a = s.def.arche;
@@ -175,7 +176,7 @@ export class World {
           break;
         }
         case 'proj': if (e.p.src.kind === 'champion' && (e.p.src === player || this.unitVisible(e.p.src))) audio.play(e.p.vis === 'arrow' || e.p.vis === 'pierceArrow' ? 'arrow' : 'zap', e.p.src === player ? 0.7 : 0.25); else if (e.p.vis === 'turret' && this.isVisibleAt(e.p.x, e.p.z)) audio.play('turret', 0.4); break;
-        case 'cast': if (e.u === player || this.unitVisible(e.u)) { audio.play(e.slot === 'R' ? 'ult' : 'cast', e.u === player ? 1 : 0.4); if (e.slot === 'R') fx.ring(e.u.x, e.u.z, 0.5, 2.2, e.u.def.accent, 0.5, { y: groundHeight(e.u.x, e.u.z) + 0.15 }); } break;
+        case 'cast': if (e.u === player || this.unitVisible(e.u)) { fx.hero.cast(e.u,e.slot); audio.play(e.slot === 'R' ? 'ult' : 'cast', e.u === player ? 1 : 0.4); if (e.slot === 'R') fx.ring(e.u.x, e.u.z, 0.5, 2.2, e.u.def.accent, 0.5, { y: groundHeight(e.u.x, e.u.z) + 0.15 }); } break;
         case 'recall': audio.play('recall', e.u === player ? 1 : 0.2); break;
         case 'recallDone': fx.column(e.u.x, e.u.z, TEAM_COLORS[e.u.team].main, 0.8, 4, 0.9); break;
         case 'fx': if (e.x == null || visAt(e.x, e.z) || (e.u && this.unitVisible(e.u))) this.namedFx(e); break;
@@ -187,6 +188,7 @@ export class World {
   }
   namedFx(e) {
     const fx = this.fx, gy = (x, z) => groundHeight(x, z);
+    const modeled=fx.hero.named(e);
     const U = e.u;
     const at = (o) => ({ x: o.x, y: gy(o.x, o.z), z: o.z });
     switch (e.name) {
@@ -224,6 +226,7 @@ export class World {
       case 'hammerSlam': { const p = at(e); fx.arc(p.x - e.dir.x * 1.8, p.y + 0.5, p.z - e.dir.z * 1.8, e.dir, e.r, e.angle, e.emp ? 0xff6a2a : 0xffb06a, 0.25, 0.8); fx.ring(p.x, p.z, 0.3, 1.8, 0xffa040, 0.35, { y: p.y + 0.12 }); fx.burst(p.x, p.y + 0.3, p.z, e.emp ? 26 : 16, { color: 0xffa040, tex: 'spark', speed: 6, elev: 0.6, g: 12, life: 0.5, size: 0.25 }); audio.play('hitHeavy'); this.camera.addShake(0.1 * this.settings.shake); break; }
       case 'quench': fx.burst(U.x, gy(U.x, U.z) + 0.8, U.z, 16, { color: 0xbfe0ff, tex: 'smoke', additive: false, speed: 1.5, vy: 1.5, life: 0.9, size: 0.7, a: 0.5 }); break;
       case 'anvilDrop': {
+        if(modeled) break;
         const p = at(e);
         const anvil = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.8, 0.9), new THREE.MeshStandardMaterial({ color: 0x55555c, metalness: 0.6, roughness: 0.4, emissive: 0x401a00 }));
         anvil.add(new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.6, 0.6).translate(0, -0.6, 0), anvil.material));
@@ -245,6 +248,7 @@ export class World {
       case 'blink': { fx.burst(e.from.x, gy(e.from.x, e.from.z) + 1, e.from.z, 12, { color: 0x9a8aff, tex: 'star', speed: 2, life: 0.5, size: 0.3 }); fx.burst(e.to.x, gy(e.to.x, e.to.z) + 1, e.to.z, 12, { color: 0xf2c94a, tex: 'star', speed: 2, life: 0.5, size: 0.3 }); break; }
       case 'starBurst': { const p = at(e); fx.ring(p.x, p.z, 0.3, e.r, 0xf2c94a, 0.35, { y: p.y + 0.14 }); fx.burst(p.x, p.y + 0.5, p.z, 16, { color: 0xf2d97a, tex: 'star', speed: 4, life: 0.45, size: 0.3 }); break; }
       case 'meteorFall': {
+        if(modeled) break;
         const p = at(e);
         const m = new THREE.Mesh(new THREE.IcosahedronGeometry(0.4, 0), new THREE.MeshBasicMaterial({ color: 0xffe9a0 }));
         fx.object(m, e.delay, (o, k) => { const tt = k * e.delay, start = Math.max(0, e.delay - 0.55); const kk = tt < start ? 0 : (tt - start) / (e.delay - start); o.visible = tt >= start; o.position.set(p.x - (1 - kk) * 4, p.y + (1 - kk) * 12, p.z - (1 - kk) * 3); if (o.visible) fx.particle({ x: o.position.x, y: o.position.y, z: o.position.z, color: 0xf2c94a, tex: 'star', size: 0.6, life: 0.4 }); });
@@ -401,7 +405,7 @@ export class World {
         // 자원
         if (src.s.mp) { ctx.fillStyle = '#3a6ad8'; ctx.fillRect(x, y + h + 1.5 * s, (w * src.mp) / src.s.mp, 3 * s); }
         // 이름
-        ctx.font = `600 ${11 * s}px "Noto Sans KR","Noto Sans CJK KR",sans-serif`; ctx.textAlign = 'center';
+        ctx.font = `700 ${13 * s}px "Noto Sans KR","Noto Sans CJK KR",sans-serif`; ctx.textAlign = 'center';
         ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,0.8)';
         const nm = src.name; ctx.strokeText(nm, x + w / 2, y - 9 * s);
         ctx.fillStyle = me ? '#ffe9a0' : ally ? '#cfe6ff' : '#ffd0c8'; ctx.fillText(nm, x + w / 2, y - 9 * s);

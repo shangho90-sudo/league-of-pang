@@ -9,6 +9,7 @@ import { createRenderer, createScene, QuarterCamera, QUALITY, updateSunFollow, a
 import { loadModelTemplates, createChampionVisual, setAssetBase } from '../src/render/champVisual.js';
 import { basePose, locomotion, actionPose, idleBreath, Pose } from '../src/render/rig.js';
 import { CHAMPIONS } from '../src/data/champions.js';
+import { loadHeroAssets } from '../src/render/heroAssets.js';
 
 const params = new URLSearchParams(location.search);
 const mode = params.get('mode') || 'scene';
@@ -27,6 +28,7 @@ async function main() {
   buildGrid();
   const champs = (params.get('champs') || 'pang,koo').split(',').map((id) => CHAMPIONS.find((c) => c.id === id));
   await loadModelTemplates([...new Set(champs.map((c) => c.model))]);
+  if(params.get('hero')) await loadHeroAssets('../');
   if (mode === 'poses') return poses(champs);
   if (mode === 'feet') return feet(champs);
   if (mode === 'lineup') return lineup(champs);
@@ -204,14 +206,14 @@ function kitSheet(champs) {
       if (k === 'cast') p.addPose(actionPose(c.arche, 'cast', 'Q', ry, 0.3, 0.9));
       if (k === 'run') p.addPose(locomotion(1.2, 1, c.arche, v.rig.legLen));
       v.rig.apply(p);
-      for (const f of v.floats) f.obj.position.y = f.instrument ? 1.15 : 1.3;
+      for (const f of v.floats) f.obj.position.y = f.anchor?.[1] ?? (f.instrument ? 1.15 : 1.3);
       v.updateUprights && v.updateUprights();
       scene.add(v.root);
     });
   });
   const n = champs.length;
   const cam = new THREE.PerspectiveCamera(22, W / H, 0.5, 200);
-  cam.position.set(0, 2.0, 8.4); cam.lookAt(0, 0.85, 0);
+  cam.position.set(0, 2.4, 12.8); cam.lookAt(0, 0.85, 0);
   sun.position.set(-6, 12, 10);
   renderer.render(scene, cam);
   window.DONE = true;

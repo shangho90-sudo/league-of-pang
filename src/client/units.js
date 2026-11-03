@@ -134,7 +134,7 @@ export class ChampionView extends BaseView {
     // 부유 장치
     v.updateUprights && v.updateUprights();
     for (const f of v.floats) {
-      f.obj.position.y = (f.instrument ? 1.15 : 1.3) + Math.sin(t * 2) * 0.05;
+      f.obj.position.y = (f.anchor?.[1] ?? (f.instrument ? 1.15 : 1.3)) + Math.sin(t * 2) * 0.05;
       if (f.r1) {
         f.r1.rotation.z = t * 0.8; f.r2.rotation.y = t * 1.1;
         f.planets.forEach((pl, k) => { const ph = t * (1 + k * 0.4) + k * 2; pl.position.set(Math.cos(ph) * 0.38, Math.sin(ph) * 0.1, Math.sin(ph) * 0.38); });

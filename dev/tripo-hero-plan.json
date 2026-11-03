@@ -1,0 +1,1321 @@
+{
+  "status": "completed",
+  "estimatedCredits": 1000,
+  "plans": [
+    {
+      "id": "alchemist-staff",
+      "label": "연금술 지팡이",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A slender alchemist battle staff with an ivory pestle crown and a protected teal crystal vial, narrow straight cylindrical leather grip clearly exposed in the lower middle. Upright staff along Y, no sideways attachments at the grip.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-alchemist-staff",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/alchemist-staff.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A slender alchemist battle staff with an ivory pestle crown and a protected teal crystal vial, narrow straight cylindrical leather grip clearly exposed in the lower middle. Upright staff along Y, no sideways attachments at the grip.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A slender alchemist battle staff with an ivory pestle crown and a protected teal crystal vial, narrow straight cylindrical leather grip clearly exposed in the lower middle. Upright staff along Y, no sideways attachments at the grip.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "guardian-shield",
+      "label": "수호자 방패",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A knight tower shield, broad beveled dark steel face with gold border and orange crystal core, tapered lower tip, curved concave back. Rear central horizontal handgrip supported by two standoffs, ample empty clearance behind the shield for a hand and forearm. No gauntlet or arm.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-guardian-shield",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/guardian-shield.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A knight tower shield, broad beveled dark steel face with gold border and orange crystal core, tapered lower tip, curved concave back. Rear central horizontal handgrip supported by two standoffs, ample empty clearance behind the shield for a hand and forearm. No gauntlet or arm.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A knight tower shield, broad beveled dark steel face with gold border and orange crystal core, tapered lower tip, curved concave back. Rear central horizontal handgrip supported by two standoffs, ample empty clearance behind the shield for a hand and forearm. No gauntlet or arm.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "shadow-dagger",
+      "label": "그림자 단검",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A single elegant curved assassin dagger, violet crystal edge, dark metal spine, small gold crossguard and a separate unobstructed cylindrical leather hilt. Point upright along Y, hilt below blade, no oversized decoration around fingers.",
+        "-p",
+        "face_limit=2500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-shadow-dagger",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/shadow-dagger.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A single elegant curved assassin dagger, violet crystal edge, dark metal spine, small gold crossguard and a separate unobstructed cylindrical leather hilt. Point upright along Y, hilt below blade, no oversized decoration around fingers.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A single elegant curved assassin dagger, violet crystal edge, dark metal spine, small gold crossguard and a separate unobstructed cylindrical leather hilt. Point upright along Y, hilt below blade, no oversized decoration around fingers.",
+              "model": "P1-20260311",
+              "face_limit": 2500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "forge-hammer",
+      "label": "용광로 전투 망치",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact two-sided forge warhammer with beveled steel head, narrow molten orange fissures and bronze bands, long straight leather-wrapped handle. Head above handle, upright Y axis, generous exposed grip below the head.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-forge-hammer",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/forge-hammer.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact two-sided forge warhammer with beveled steel head, narrow molten orange fissures and bronze bands, long straight leather-wrapped handle. Head above handle, upright Y axis, generous exposed grip below the head.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact two-sided forge warhammer with beveled steel head, narrow molten orange fissures and bronze bands, long straight leather-wrapped handle. Head above handle, upright Y axis, generous exposed grip below the head.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "dawn-sword",
+      "label": "여명의 장검",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A refined one-handed knight longsword with silver faceted blade, gold swept crossguard, blue inset central fuller, narrow dark leather cylindrical grip and small pommel. Upright point along Y, clearly separated blade, guard and graspable hilt.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-dawn-sword",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/dawn-sword.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A refined one-handed knight longsword with silver faceted blade, gold swept crossguard, blue inset central fuller, narrow dark leather cylindrical grip and small pommel. Upright point along Y, clearly separated blade, guard and graspable hilt.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A refined one-handed knight longsword with silver faceted blade, gold swept crossguard, blue inset central fuller, narrow dark leather cylindrical grip and small pommel. Upright point along Y, clearly separated blade, guard and graspable hilt.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "storm-bow",
+      "label": "폭풍 장궁",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant vertical recurve bow with silver and navy mechanical limbs, cyan crystal tips, delicate taut bowstring. Obvious narrow leather central handgrip on the curved riser with open space around the hand, no arrow or hand.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-storm-bow",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/storm-bow.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant vertical recurve bow with silver and navy mechanical limbs, cyan crystal tips, delicate taut bowstring. Obvious narrow leather central handgrip on the curved riser with open space around the hand, no arrow or hand.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant vertical recurve bow with silver and navy mechanical limbs, cyan crystal tips, delicate taut bowstring. Obvious narrow leather central handgrip on the curved riser with open space around the hand, no arrow or hand.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "astral-orb",
+      "label": "별빛 천구",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A floating celestial armillary orb, blue central crystal within two thin intersecting gold orbital rings, a small star-shaped finial. Airy open structure with visible negative space, no pedestal or base.",
+        "-p",
+        "face_limit=3000",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-astral-orb",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/astral-orb.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A floating celestial armillary orb, blue central crystal within two thin intersecting gold orbital rings, a small star-shaped finial. Airy open structure with visible negative space, no pedestal or base.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A floating celestial armillary orb, blue central crystal within two thin intersecting gold orbital rings, a small star-shaped finial. Airy open structure with visible negative space, no pedestal or base.",
+              "model": "P1-20260311",
+              "face_limit": 3000,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "forest-spear",
+      "label": "숲의 장창",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A refined long forest spear with leaf-shaped silver spearhead, emerald inlay and restrained bronze leaf details below the blade. Long slim straight wooden shaft with exposed leather grip in its lower middle, upright Y axis.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-forest-spear",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/forest-spear.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A refined long forest spear with leaf-shaped silver spearhead, emerald inlay and restrained bronze leaf details below the blade. Long slim straight wooden shaft with exposed leather grip in its lower middle, upright Y axis.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A refined long forest spear with leaf-shaped silver spearhead, emerald inlay and restrained bronze leaf details below the blade. Long slim straight wooden shaft with exposed leather grip in its lower middle, upright Y axis.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "arcane-cannon",
+      "label": "비전 마력포",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact shoulder-mounted arcane cannon with a long horizontal hollow barrel, dark violet steel, bronze rings and violet crystal chamber. Small mounting saddle beneath rear of barrel, no humanoid or shoulder. Barrel pointing forward along Z.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-arcane-cannon",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/arcane-cannon.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact shoulder-mounted arcane cannon with a long horizontal hollow barrel, dark violet steel, bronze rings and violet crystal chamber. Small mounting saddle beneath rear of barrel, no humanoid or shoulder. Barrel pointing forward along Z.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact shoulder-mounted arcane cannon with a long horizontal hollow barrel, dark violet steel, bronze rings and violet crystal chamber. Small mounting saddle beneath rear of barrel, no humanoid or shoulder. Barrel pointing forward along Z.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "resonance-baton",
+      "label": "공명 지휘봉",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant slender conductor magic baton, ivory tapered shaft with a small rose crystal tip, short narrow black cylindrical handgrip separated by a tiny gold collar. Upright along Y, no hands or instrument.",
+        "-p",
+        "face_limit=2000",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-resonance-baton",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/resonance-baton.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant slender conductor magic baton, ivory tapered shaft with a small rose crystal tip, short narrow black cylindrical handgrip separated by a tiny gold collar. Upright along Y, no hands or instrument.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant slender conductor magic baton, ivory tapered shaft with a small rose crystal tip, short narrow black cylindrical handgrip separated by a tiny gold collar. Upright along Y, no hands or instrument.",
+              "model": "P1-20260311",
+              "face_limit": 2000,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "resonance-lyre",
+      "label": "공명 하프",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A small floating lyre with curved gold frame, pink crystal resonators and five fine silver strings. Ornate but lightweight open silhouette, no stand or pedestal, no hand.",
+        "-p",
+        "face_limit=3000",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-resonance-lyre",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/resonance-lyre.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A small floating lyre with curved gold frame, pink crystal resonators and five fine silver strings. Ornate but lightweight open silhouette, no stand or pedestal, no hand.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A small floating lyre with curved gold frame, pink crystal resonators and five fine silver strings. Ornate but lightweight open silhouette, no stand or pedestal, no hand.",
+              "model": "P1-20260311",
+              "face_limit": 3000,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "cryo-blaster",
+      "label": "극저온 분사기",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant compact fantasy ice pistol, silver and navy barrel with cyan cooling coils, narrow separate downward pistol grip with ample hand clearance below receiver, visible trigger guard. Barrel forward along Z, grip downward along Y, no hands.",
+        "-p",
+        "face_limit=3500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-cryo-blaster",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/cryo-blaster.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant compact fantasy ice pistol, silver and navy barrel with cyan cooling coils, narrow separate downward pistol grip with ample hand clearance below receiver, visible trigger guard. Barrel forward along Z, grip downward along Y, no hands.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. An elegant compact fantasy ice pistol, silver and navy barrel with cyan cooling coils, narrow separate downward pistol grip with ample hand clearance below receiver, visible trigger guard. Barrel forward along Z, grip downward along Y, no hands.",
+              "model": "P1-20260311",
+              "face_limit": 3500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "ember-focus",
+      "label": "업화 마법 초점",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A small floating flame-shaped crystal focus with three separated curved ember shards embracing a bright amber faceted core, dark bronze filigree at the shard bases. Upright teardrop silhouette, airy center, no hand, no stand.",
+        "-p",
+        "face_limit=2500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-ember-focus",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/ember-focus.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A small floating flame-shaped crystal focus with three separated curved ember shards embracing a bright amber faceted core, dark bronze filigree at the shard bases. Upright teardrop silhouette, airy center, no hand, no stand.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A small floating flame-shaped crystal focus with three separated curved ember shards embracing a bright amber faceted core, dark bronze filigree at the shard bases. Upright teardrop silhouette, airy center, no hand, no stand.",
+              "model": "P1-20260311",
+              "face_limit": 2500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "aegis-breastplate",
+      "label": "흉갑",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A standalone hollow front breastplate shell with shaped chest panels and a small central crystal, ivory steel and bronze trim. Concave open back, open neck and arm cutouts, no torso, no mannequin, no sleeves, no helmet. Front-facing along Z.",
+        "-p",
+        "face_limit=3000",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-aegis-breastplate",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/aegis-breastplate.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A standalone hollow front breastplate shell with shaped chest panels and a small central crystal, ivory steel and bronze trim. Concave open back, open neck and arm cutouts, no torso, no mannequin, no sleeves, no helmet. Front-facing along Z.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A standalone hollow front breastplate shell with shaped chest panels and a small central crystal, ivory steel and bronze trim. Concave open back, open neck and arm cutouts, no torso, no mannequin, no sleeves, no helmet. Front-facing along Z.",
+              "model": "P1-20260311",
+              "face_limit": 3000,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "aegis-pauldron",
+      "label": "어깨 갑옷",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. One standalone curved layered knight pauldron, dark slate and ivory metal plates edged in gold. Hollow open underside and open inward side to fit over a shoulder without intersecting an arm, three articulated overlapping plates. No torso or arm.",
+        "-p",
+        "face_limit=2200",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-aegis-pauldron",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/aegis-pauldron.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. One standalone curved layered knight pauldron, dark slate and ivory metal plates edged in gold. Hollow open underside and open inward side to fit over a shoulder without intersecting an arm, three articulated overlapping plates. No torso or arm.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. One standalone curved layered knight pauldron, dark slate and ivory metal plates edged in gold. Hollow open underside and open inward side to fit over a shoulder without intersecting an arm, three articulated overlapping plates. No torso or arm.",
+              "model": "P1-20260311",
+              "face_limit": 2200,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "aegis-bracer",
+      "label": "팔 보호구",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. One standalone tapered forearm bracer, silver and dark steel with restrained gold engraving. Hollow half-cylinder shell open on the inner forearm side, open at both ends, no hand or arm. Length axis Y.",
+        "-p",
+        "face_limit=2000",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-aegis-bracer",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/aegis-bracer.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. One standalone tapered forearm bracer, silver and dark steel with restrained gold engraving. Hollow half-cylinder shell open on the inner forearm side, open at both ends, no hand or arm. Length axis Y.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. One standalone tapered forearm bracer, silver and dark steel with restrained gold engraving. Hollow half-cylinder shell open on the inner forearm side, open at both ends, no hand or arm. Length axis Y.",
+              "model": "P1-20260311",
+              "face_limit": 2000,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "mystic-mantle",
+      "label": "마법사 어깨 망토",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A standalone short split-back mage mantle with gold-trimmed dark navy layered cloth, open neck and open front, draped shoulder panels with ample hollow space beneath. No body, no mannequin, no head, no arms. Short length above waist, back oriented toward negative Z.",
+        "-p",
+        "face_limit=2500",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-mystic-mantle",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/mystic-mantle.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A standalone short split-back mage mantle with gold-trimmed dark navy layered cloth, open neck and open front, draped shoulder panels with ample hollow space beneath. No body, no mannequin, no head, no arms. Short length above waist, back oriented toward negative Z.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A standalone short split-back mage mantle with gold-trimmed dark navy layered cloth, open neck and open front, draped shoulder panels with ample hollow space beneath. No body, no mannequin, no head, no arms. Short length above waist, back oriented toward negative Z.",
+              "model": "P1-20260311",
+              "face_limit": 2500,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "ranger-quiver",
+      "label": "궁수 화살통",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A slim elegant navy leather back quiver with bronze edging and five silver arrows with cyan fletching, flat rear mounting pad. Isolated equipment only, upright length axis Y, no person or oversized straps.",
+        "-p",
+        "face_limit=2000",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-ranger-quiver",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/ranger-quiver.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A slim elegant navy leather back quiver with bronze edging and five silver arrows with cyan fletching, flat rear mounting pad. Isolated equipment only, upright length axis Y, no person or oversized straps.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A slim elegant navy leather back quiver with bronze edging and five silver arrows with cyan fletching, flat rear mounting pad. Isolated equipment only, upright length axis Y, no person or oversized straps.",
+              "model": "P1-20260311",
+              "face_limit": 2000,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "arcane-backpack",
+      "label": "마력 장치 배낭",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact fantasy alchemist power backpack, dark bronze frame around two teal crystal cylinders, flat padded inner face for attachment to a back. Refined compact silhouette, no hoses that protrude into a body, no wearer, vertical cylinders along Y.",
+        "-p",
+        "face_limit=3000",
+        "-p",
+        "texture=true",
+        "-p",
+        "pbr=true",
+        "--name",
+        "pang-hero-arcane-backpack",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 40,
+      "runtimeFile": "public/models/heroes/arcane-backpack.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact fantasy alchemist power backpack, dark bronze frame around two teal crystal cylinders, flat padded inner face for attachment to a back. Refined compact silhouette, no hoses that protrude into a body, no wearer, vertical cylinders along Y.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A compact fantasy alchemist power backpack, dark bronze frame around two teal crystal cylinders, flat padded inner face for attachment to a back. Refined compact silhouette, no hoses that protrude into a body, no wearer, vertical cylinders along Y.",
+              "model": "P1-20260311",
+              "face_limit": 3000,
+              "texture": true,
+              "pbr": true
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": []
+      }
+    },
+    {
+      "id": "fx-crescent",
+      "label": "입체 참격",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A single thin three-dimensional crescent slash ribbon, swept tapered blade of energy spanning a broad arc, slender thickness, tapering to sharp points at both ends. Clean continuous curved surface only, no sword, no character, no base. Shape lies predominantly in XZ plane. Untextured effect mesh.",
+        "-p",
+        "face_limit=1600",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-crescent",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-crescent.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A single thin three-dimensional crescent slash ribbon, swept tapered blade of energy spanning a broad arc, slender thickness, tapering to sharp points at both ends. Clean continuous curved surface only, no sword, no character, no base. Shape lies predominantly in XZ plane. Untextured effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A single thin three-dimensional crescent slash ribbon, swept tapered blade of energy spanning a broad arc, slender thickness, tapering to sharp points at both ends. Clean continuous curved surface only, no sword, no character, no base. Shape lies predominantly in XZ plane. Untextured effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 1600,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    },
+    {
+      "id": "fx-bolt",
+      "label": "마력 투사체",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A streamlined magical energy lance projectile with a sharp faceted crystal nose and three flowing tapered fins forming an elegant comet tail. Long axis Z, pointed nose toward positive Z, no smoke or background. Untextured standalone effect mesh.",
+        "-p",
+        "face_limit=1200",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-bolt",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-bolt.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A streamlined magical energy lance projectile with a sharp faceted crystal nose and three flowing tapered fins forming an elegant comet tail. Long axis Z, pointed nose toward positive Z, no smoke or background. Untextured standalone effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A streamlined magical energy lance projectile with a sharp faceted crystal nose and three flowing tapered fins forming an elegant comet tail. Long axis Z, pointed nose toward positive Z, no smoke or background. Untextured standalone effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 1200,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    },
+    {
+      "id": "fx-rune-ring",
+      "label": "입체 마법진",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A delicate three-dimensional circular magic sigil made of two concentric thin rings and eight floating geometric runic wedges around the rim. Large empty center, no filled disk, no pedestal, no readable text. Flat horizontal XZ plane, very low thickness. Untextured effect mesh.",
+        "-p",
+        "face_limit=2000",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-rune-ring",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-rune-ring.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A delicate three-dimensional circular magic sigil made of two concentric thin rings and eight floating geometric runic wedges around the rim. Large empty center, no filled disk, no pedestal, no readable text. Flat horizontal XZ plane, very low thickness. Untextured effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A delicate three-dimensional circular magic sigil made of two concentric thin rings and eight floating geometric runic wedges around the rim. Large empty center, no filled disk, no pedestal, no readable text. Flat horizontal XZ plane, very low thickness. Untextured effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 2000,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    },
+    {
+      "id": "fx-ward",
+      "label": "수호 결계",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A magical protective ward shape, a light open spherical cage of six slender curved energy ribs forming a dome with a small faceted crown, large empty spaces between ribs. No opaque shell, no ground disk, no person. Untextured effect mesh.",
+        "-p",
+        "face_limit=1600",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-ward",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-ward.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A magical protective ward shape, a light open spherical cage of six slender curved energy ribs forming a dome with a small faceted crown, large empty spaces between ribs. No opaque shell, no ground disk, no person. Untextured effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A magical protective ward shape, a light open spherical cage of six slender curved energy ribs forming a dome with a small faceted crown, large empty spaces between ribs. No opaque shell, no ground disk, no person. Untextured effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 1600,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    },
+    {
+      "id": "fx-ice-burst",
+      "label": "빙결 폭발",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A radial burst of seven long elegant faceted ice crystals pointing upward and outward from a small empty center, varied crystal heights, sharp tips, no solid ground or base platform. Untextured standalone effect mesh.",
+        "-p",
+        "face_limit=1800",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-ice-burst",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-ice-burst.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A radial burst of seven long elegant faceted ice crystals pointing upward and outward from a small empty center, varied crystal heights, sharp tips, no solid ground or base platform. Untextured standalone effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A radial burst of seven long elegant faceted ice crystals pointing upward and outward from a small empty center, varied crystal heights, sharp tips, no solid ground or base platform. Untextured standalone effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 1800,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    },
+    {
+      "id": "fx-flame-vortex",
+      "label": "화염 소용돌이",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A swirling vertical flame vortex formed by three separated thin twisting flame ribbons spiraling upward, hollow open center, pointed flickering tips, light airy silhouette. No solid cylindrical mass, no ground or smoke. Untextured standalone effect mesh.",
+        "-p",
+        "face_limit=2000",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-flame-vortex",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-flame-vortex.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A swirling vertical flame vortex formed by three separated thin twisting flame ribbons spiraling upward, hollow open center, pointed flickering tips, light airy silhouette. No solid cylindrical mass, no ground or smoke. Untextured standalone effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A swirling vertical flame vortex formed by three separated thin twisting flame ribbons spiraling upward, hollow open center, pointed flickering tips, light airy silhouette. No solid cylindrical mass, no ground or smoke. Untextured standalone effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 2000,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    },
+    {
+      "id": "fx-meteor",
+      "label": "궁극기 유성",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A faceted magical meteor core with three elegantly tapered crystalline flame streaks flowing backward, compact core and long pointed tail, long axis Y. No ground, no scenery, no smoky blob. Untextured standalone effect mesh.",
+        "-p",
+        "face_limit=1600",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-meteor",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-meteor.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A faceted magical meteor core with three elegantly tapered crystalline flame streaks flowing backward, compact core and long pointed tail, long axis Y. No ground, no scenery, no smoky blob. Untextured standalone effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A faceted magical meteor core with three elegantly tapered crystalline flame streaks flowing backward, compact core and long pointed tail, long axis Y. No ground, no scenery, no smoky blob. Untextured standalone effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 1600,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    },
+    {
+      "id": "fx-anvil",
+      "label": "궁극기 거대 모루",
+      "commandArguments": [
+        "make",
+        "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A monumental fantasy forge anvil with elegant angular horn, broad hammering surface, recessed geometric rune channels, compact sculpted pedestal as part of the anvil. Single isolated object, no floor, no hammer, no character. Untextured effect mesh.",
+        "-p",
+        "face_limit=2000",
+        "-p",
+        "texture=false",
+        "-p",
+        "pbr=false",
+        "--name",
+        "pang-hero-fx-anvil",
+        "-o",
+        "_art/tripo-heroes"
+      ],
+      "modelAlias": "tripo-p1",
+      "estimatedCredits": 30,
+      "runtimeFile": "public/models/heroes/fx-anvil.glb",
+      "plan": {
+        "dry_run": true,
+        "valid": true,
+        "input": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A monumental fantasy forge anvil with elegant angular horn, broad hammering surface, recessed geometric rune channels, compact sculpted pedestal as part of the anvil. Single isolated object, no floor, no hammer, no character. Untextured effect mesh.",
+        "model": "P1-20260311",
+        "model_reason": "low-poly intent → P1",
+        "steps": [
+          {
+            "name": "text-to-model",
+            "endpoint": "/v3/generation/text-to-model",
+            "task_type": "text_to_model",
+            "payload": {
+              "prompt": "Original premium stylized fantasy MOBA equipment, elegant readable silhouette for an isometric game, clean low-poly game topology, ivory and dark slate metal with restrained antique gold trim and luminous teal inlays. One isolated object only, no character, no hands, no display stand, no ground, no text or logos. Detail must be geometry or clean PBR texture, not painted lighting. A monumental fantasy forge anvil with elegant angular horn, broad hammering surface, recessed geometric rune channels, compact sculpted pedestal as part of the anvil. Single isolated object, no floor, no hammer, no character. Untextured effect mesh.",
+              "model": "P1-20260311",
+              "face_limit": 2000,
+              "texture": false,
+              "pbr": false
+            }
+          }
+        ],
+        "pending_uploads": [],
+        "deliverables": [],
+        "candidates": 1,
+        "warnings": [],
+        "errors": [],
+        "cost_notes": [
+          "bare geometry: no texture credits"
+        ]
+      }
+    }
+  ],
+  "approval": "User approved all 27 assets, estimated 1000 credits, 2026-11-03",
+  "actualCredits": 1000,
+  "remainingCredits": 1075
+}

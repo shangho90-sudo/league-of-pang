@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import { MAP_HALF } from '../map/layout.js';
 import { N, height } from '../map/grid.js';
 import { sharedUniforms } from '../render/terrain.js';
+import { CombatEffects } from '../render/combatEffects.js';
+import { createHeroAsset, disposeHeroEffect } from '../render/heroAssets.js';
 
 const ATLAS_KEYS = ['soft', 'spark', 'star', 'shard', 'drop', 'ring', 'smoke', 'note'];
 function buildAtlas(tex) {
@@ -146,6 +148,7 @@ const STYLE_ID = { danger: 0, line: 0, zone: 1, allyZone: 1, cc: 2, dangerSoft: 
 export class FX {
   constructor(scene, textures, quality, playerTeam) {
     this.scene = scene; this.q = quality; this.playerTeam = playerTeam;
+    this.hero = new CombatEffects(scene,quality);
     this.atlas = buildAtlas(textures);
     this.add = new ParticleSystem(this.atlas, Math.round(2600 * quality.particles), true);
     this.norm = new ParticleSystem(this.atlas, Math.round(1400 * quality.particles), false);
@@ -265,6 +268,15 @@ export class FX {
       case 'arcaneShell': add(this.projGeo.sphere, 0xe0a0ff, V(0.22, 0.22, 0.22)); add(this.projGeo.sphere, 0xffffff, V(0.1, 0.1, 0.1), null, false); trail = { color: 0xb05aff, tex: 'soft', size: 0.45, rate: 45 }; break;
       default: add(this.projGeo.sphere, 0xffffff, V(0.12, 0.12, 0.12)); trail = { color: 0xffffff, tex: 'soft', size: 0.2, rate: 20 };
     }
+    if(p.src.kind==='champion' && p.vis!=='vial') {
+      const id=['dawnWave','soundWave','shadowBlade'].includes(p.vis)?'fx-crescent':'fx-bolt';
+      const model=createHeroAsset(id,trail?.color||p.src.def.accent,true);
+      if(model) {
+        g.children.forEach(o=>{o.visible=false;});
+        const strong=['pierceArrow','dawnWave','soundWave','fireball','arcaneShell'].includes(p.vis);
+        model.scale.setScalar(strong?1.1:0.6);g.add(model);g.userData.heroModel=model;
+      }
+    }
     g.userData.trail = trail; g.userData.acc = 0;
     this.scene.add(g);
     return g;
@@ -305,7 +317,7 @@ export class FX {
         }
       }
     }
-    for (const [id, v] of this.projViews) if (!seen.has(id)) { this.scene.remove(v); this.projViews.delete(id); }
+    for (const [id, v] of this.projViews) if (!seen.has(id)) { this.scene.remove(v); if(v.userData.heroModel) disposeHeroEffect(v.userData.heroModel); this.projViews.delete(id); }
   }
 
   // ---------- 텔레그래프 ----------
@@ -355,6 +367,7 @@ export class FX {
 
   update(dt) {
     this.time += dt;
+    this.hero.update(dt);
     this.add.update(dt); this.norm.update(dt);
     const keep = [];
     for (const f of this.meshFx) {

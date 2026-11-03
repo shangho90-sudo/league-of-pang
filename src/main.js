@@ -4,6 +4,7 @@ import { CHAMPIONS } from './data/champions.js';
 import { buildGrid } from './map/grid.js';
 import { loadModelTemplates } from './render/champVisual.js';
 import { loadMapAssets } from './render/mapAssets.js';
+import { loadHeroAssets } from './render/heroAssets.js';
 import { createRenderer, QUALITY } from './render/scene.js';
 import { renderPortraits } from './client/icons.js';
 import { SelectScreen, autoPicks } from './client/select.js';
@@ -178,7 +179,9 @@ async function boot() {
   buildGrid();
   if (!params.get('autostart') && !params.get('picks') && !params.get('select')) showTitle();
   const ids = [...new Set(CHAMPIONS.map((c) => c.model))];
-  await loadModelTemplates(ids, (k) => { const b = $('#t-start .ld'); if (b) b.textContent = `불러오는 중… ${Math.round(k * 100)}%`; });
+  let bodyProgress=0,gearProgress=0;
+  const progress=()=>{const b=$('#t-start .ld');if(b)b.textContent=`불러오는 중… ${Math.round((bodyProgress+gearProgress)*50)}%`;};
+  await Promise.all([loadModelTemplates(ids,k=>{bodyProgress=k;progress();}),loadHeroAssets('',k=>{gearProgress=k;progress();})]);
   portraits = renderPortraits(CHAMPIONS);
   const b = $('#t-start');
   if (b) { b.disabled = false; b.innerHTML = ''; b.title = 'AI 대전 시작 (플레이어 1 + AI 7)'; }
