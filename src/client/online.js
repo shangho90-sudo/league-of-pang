@@ -67,6 +67,12 @@ export class OnlineClient extends EventTarget {
   }
   close(){this.closed=true;clearTimeout(this.reconnectTimer);clearInterval(this.pinger);this.ws?.close();}
 }
+// ---- 온라인 대전 화면 장식 (SVG) ----
+const GOLDG='<defs><linearGradient id="olg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".5" stop-color="#e0b25a"/><stop offset="1" stop-color="#8a5e22"/></linearGradient></defs>';
+const LAUREL=`<svg viewBox="0 0 30 64">${GOLDG}<path d="M24 62 Q4 44 14 4" fill="none" stroke="url(#olg)" stroke-width="2.2"/>${[10,20,30,40,50].map((y,i)=>`<path d="M${14-i*0.6} ${y} q-9 -2 -11 -9 q8 1 11 9z" fill="url(#olg)"/>`).join('')}</svg>`;
+const GEM=`<svg viewBox="0 0 90 30">${GOLDG}<defs><linearGradient id="olb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d8"/><stop offset="1" stop-color="#c8922e"/></linearGradient></defs><path d="M0 8 H30 Q38 8 45 22 Q52 8 60 8 H90 Q62 12 50 28 H40 Q28 12 0 8Z" fill="url(#olg)"/><path d="M45 2 L54 13 L45 26 L36 13Z" fill="url(#olb)" stroke="#6a4612" stroke-width="1"/></svg>`;
+const DIV=`<svg viewBox="0 0 200 12" preserveAspectRatio="none">${GOLDG}<path d="M0 6 H86 M114 6 H200" stroke="url(#olg)" stroke-width="1"/><path d="M100 1 L107 6 L100 11 L93 6Z" fill="none" stroke="url(#olg)" stroke-width="1.4"/><path d="M100 4 L102 6 L100 8 L98 6Z" fill="url(#olg)"/></svg>`;
+const SIGIL=`<svg viewBox="0 0 220 140">${GOLDG}<defs><radialGradient id="olr" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="rgba(255,220,140,.35)"/><stop offset="1" stop-color="rgba(255,220,140,0)"/></radialGradient></defs><ellipse cx="110" cy="70" rx="100" ry="34" fill="none" stroke="rgba(216,180,106,.35)" stroke-width="1"/><circle cx="110" cy="66" r="64" fill="url(#olr)"/><circle cx="110" cy="66" r="62" fill="none" stroke="rgba(216,180,106,.55)" stroke-width="1.4"/><path d="M110 28 L148 66 L110 104 L72 66Z" fill="none" stroke="url(#olg)" stroke-width="5" stroke-linejoin="round"/><path d="M70 126 H150" stroke="url(#olg)" stroke-width="2"/></svg>`;
 export class OnlineScreen {
   constructor(root,portraits,network,onBack){
     this.root=root;this.portraits=portraits;this.net=network;this.onBack=onBack;this.notice='';
@@ -83,11 +89,11 @@ export class OnlineScreen {
     this.nickname=this.root.querySelector('[name=nickname]')?.value??this.nickname;
     this.roomName=this.root.querySelector('[name=roomName]')?.value??this.roomName??'';
     const focused=document.activeElement?.name,selection=document.activeElement?.selectionStart;
-    this.root.className='online-screen'+(this.root.classList.contains('hidden')?' hidden':'');
-    this.root.innerHTML=`<div class="online-shell"><header class="online-head"><div><div class="online-eyebrow">LEAGUE OF PANG · ONLINE</div><h1>${r?esc(r.name):'온라인 대전'}</h1><p class="online-status"><i class="${n.connected?'on':''}"></i>${esc(status)}</p></div><button class="btn" data-act="back">${r?'대기실 나가기':'처음으로'}</button></header>
+    this.root.className='online-screen ol2'+(r?' in-room':' lobby')+(this.root.classList.contains('hidden')?' hidden':'');
+    this.root.innerHTML=`<div class="online-shell"><header class="online-head"><div><div class="online-eyebrow">LEAGUE OF PANG · ONLINE</div><h1><i class="laurel">${LAUREL}</i><span>${r?esc(r.name):'온라인 대전'}</span><i class="laurel r">${LAUREL}</i></h1><p class="online-status"><i class="${n.connected?'on':''}"></i>${esc(status)}</p></div><button class="btn ol-back" data-act="back"><span>${r?'대기실 나가기':'처음으로'}</span></button></header>
       ${this.notice?`<div class="online-notice" role="alert">${esc(this.notice)}</div>`:''}
       ${r?this.roomHTML(r,p,host):this.listHTML()}
-      <footer class="online-foot">로그인 없이 참여 · 1대1 ~ 4대4 · 서버가 경기 진행 · 준비 완료한 캐릭터는 중복 선택 불가</footer></div>`;
+      <footer class="online-foot"><span>로그인 없이 참여 · 1대1 ~ 4대4 · 서버가 경기 진행 · 준비 완료한 캐릭터는 중복 선택 불가</span></footer></div>`;
     this.root.querySelector('[data-act=back]').onclick=()=>{if(r)this.send({type:'leave'});else{n.close();this.onBack();}};
     this.root.querySelector('[data-act=create]')?.addEventListener('click',()=>{this.saveName();this.send({type:'create',nickname:this.nickname,name:this.root.querySelector('[name=roomName]').value});});
     this.root.querySelectorAll('[data-join]').forEach(b=>b.onclick=()=>{this.saveName();this.send({type:'join',roomId:b.dataset.join,nickname:this.nickname});});
@@ -100,7 +106,17 @@ export class OnlineScreen {
     if(focused){const field=this.root.querySelector(`[name="${focused}"]`);field?.focus();if(typeof selection==='number')field?.setSelectionRange?.(selection,selection);}
   }
   saveName(){this.nickname=this.root.querySelector('[name=nickname]')?.value.trim()||this.net.name;try{localStorage.setItem('pang-online-name',this.nickname);}catch{}}
-  listHTML(){return `<div class="online-browser"><section class="online-create"><h2>바로 참여하기</h2><label>내 닉네임<input name="nickname" maxlength="16" value="${esc(this.nickname)}" placeholder="닉네임 (선택)"></label><label>새 대기실 이름<input name="roomName" maxlength="32" value="${esc(this.roomName)}" placeholder="함께하는 팽롤"></label><button class="btn gold" data-act="create" ${!this.net.connected?'disabled':''}>＋ 대기실 만들기</button><p>목록은 실시간으로 갱신됩니다.<br>입장한 뒤 팀과 캐릭터를 선택해 주세요.</p></section><section class="online-rooms"><h2>대기실 목록 <span>${this.net.rooms.length}</span><small>LIVE</small></h2><div class="online-room-list">${this.net.rooms.length?this.net.rooms.map(r=>`<article class="online-room-card"><div><h3>${esc(r.name)}</h3><p><b class="host-star">★</b> ${esc(r.hostName)} · BLUE ${r.blue} : ${r.red} RED</p></div><div><span>${r.count} / 8명 · ${{waiting:'대기 중',loading:'시작 준비',playing:'경기 중',ended:'경기 종료'}[r.status]}</span><button class="btn" data-join="${r.id}" ${r.status!=='waiting'||r.count>=8||!this.net.connected?'disabled':''}>참여</button></div></article>`).join(''):`<div class="online-empty"><span>◇</span><h3>새로운 대전을 기다리고 있어요</h3><p>첫 대기실을 만들고 친구와 함께 참여해 보세요.</p></div>`}</div></section></div>`;}
+  listHTML(){
+    const rooms=this.net.rooms;
+    return `<div class="online-browser"><section class="online-create ol-frame"><i class="ol-gem">${GEM}</i><h2>바로 참여하기</h2>
+      <label>내 닉네임<input name="nickname" maxlength="16" value="${esc(this.nickname)}" placeholder="닉네임 (선택)"></label>
+      <label>새 대기실 이름<input name="roomName" maxlength="32" value="${esc(this.roomName)}" placeholder="함께하는 팽롤"></label>
+      <button class="btn gold ol-create" data-act="create" ${!this.net.connected?'disabled':''}><span>＋ 대기실 만들기</span></button>
+      <div class="ol-div">${DIV}</div>
+      <p>목록은 실시간으로 갱신됩니다.<br>입장한 뒤 팀과 캐릭터를 선택해 주세요.</p></section>
+      <section class="online-rooms ol-frame"><h2>대기실 목록 <span>${rooms.length}</span><small><i></i>LIVE</small></h2>
+      <div class="online-room-list">${rooms.length?rooms.map(r=>`<article class="online-room-card"><div><h3>${esc(r.name)}</h3><p><b class="host-star">★</b> ${esc(r.hostName)} · BLUE ${r.blue} : ${r.red} RED</p></div><div><span>${r.count} / 8명 · ${{waiting:'대기 중',loading:'시작 준비',playing:'경기 중',ended:'경기 종료'}[r.status]}</span><button class="btn" data-join="${r.id}" ${r.status!=='waiting'||r.count>=8||!this.net.connected?'disabled':''}>참여</button></div></article>`).join(''):`<div class="online-empty"><div class="ol-sigil">${SIGIL}</div><h3>새로운 대전을 기다리고 있어요</h3><div class="ol-div wide">${DIV}</div><p>첫 대기실을 만들고 친구와 함께 참여해 보세요.</p></div>`}</div></section></div>`;
+  }
   roomHTML(r,p,host){
     if(!p)return '';
     const editable=r.status==='waiting'&&this.net.connected;

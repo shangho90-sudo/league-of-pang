@@ -44,10 +44,11 @@ let renderer = null, portraits = null, game = null, rafId = 0;
 let online = null;
 
 // 키 아트(사용자 제공 이미지) 위 버튼 위치: 이미지 원본 좌표(1672×941)
-const KEYART = { src: 'public/art/keyart.jpg', w: 1672, h: 941, start: [575, 690, 1090, 800], exit: [672, 815, 992, 882] };
+const KEYART = { src: 'public/art/keyart2.jpg', w: 1424, h: 1104, start: [398, 766, 1022, 884], online: [482, 898, 936, 968], exit: [512, 982, 892, 1046] };
 // cover 배치 계산 (세로가 잘릴 때는 아래쪽 버튼이 보이도록 posY 비율 적용)
 function coverMap(W, H, posY) {
-  const s = Math.max(W / KEYART.w, H / KEYART.h);
+  // 새 키 아트는 세로가 길어 화면을 꽉 채우면 얼굴이나 버튼이 잘림 → 전체가 보이게(contain) 배치, 남는 좌우는 흐린 배경
+  const s = Math.min(W / KEYART.w, H / KEYART.h);
   const ox = (W - KEYART.w * s) / 2, oy = (H - KEYART.h * s) * posY;
   return { s, ox, oy, rect: ([x0, y0, x1, y1]) => ({ left: ox + x0 * s, top: oy + y0 * s, width: (x1 - x0) * s, height: (y1 - y0) * s }) };
 }
@@ -56,17 +57,17 @@ function showTitle() {
   const t = $('#title');
   t.classList.remove('hidden');
   t.classList.add('keyart-title');
-  t.innerHTML = `<img class="keyart" src="${KEYART.src}" alt="리그 오브 팽재현">
+  t.innerHTML = `<img class="keyart-fill" src="${KEYART.src}" alt=""><img class="keyart" src="${KEYART.src}" alt="리그 오브 팽재현">
     <button class="hot hot-start" id="t-start" aria-label="START" disabled><span class="ld">불러오는 중…</span></button>
     <button class="hot hot-exit" id="t-exit" aria-label="EXIT"></button>
-    <button class="title-online" id="t-online" disabled><span>ONLINE BATTLE</span><strong>온라인 대전</strong><small>로그인 없이 · 1대1 ~ 4대4</small></button>
+    <button class="hot hot-online" id="t-online" aria-label="온라인 대전" disabled></button>
     <div class="title-foot"><button class="tbtn" id="t-help">조작 방법</button><button class="tbtn" id="t-music">♪ 음악 켜기</button><span>START: 4대4 AI 대전 · 온라인 대전: 실시간 서버 경기 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'}</span></div>`;
   const img = t.querySelector('.keyart');
   const place = () => {
-    const posY = 0.75;
-    img.style.objectPosition = `50% ${posY * 100}%`;
+    const posY = 0.5;
+    img.style.objectFit = 'contain'; img.style.objectPosition = '50% 50%';
     const m = coverMap(innerWidth, innerHeight, posY);
-    for (const [id, box] of [['t-start', KEYART.start], ['t-exit', KEYART.exit]]) Object.assign($('#' + id).style, Object.fromEntries(Object.entries(m.rect(box)).map(([k, v]) => [k, v + 'px'])));
+    for (const [id, box] of [['t-start', KEYART.start], ['t-online', KEYART.online], ['t-exit', KEYART.exit]]) Object.assign($('#' + id).style, Object.fromEntries(Object.entries(m.rect(box)).map(([k, v]) => [k, v + 'px'])));
   };
   place();
   window.addEventListener('resize', place);

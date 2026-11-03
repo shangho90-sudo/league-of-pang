@@ -32,6 +32,8 @@
 | 시작·로딩 화면 키 아트 | `public/art/keyart.jpg`, `public/art/keyart_load.jpg`(버튼 영역을 잘라낸 로딩용) | 사용자 제공 이미지 (2026-11-03 대화 중 업로드, 1672×941 PNG → JPEG 변환) | **사용자 확인 필요** — 그림 속 실제 인물의 초상 사용 동의와 이미지 생성·제작 도구의 이용 조건 | 로고·START/EXIT가 그림에 포함되어 있어, 실제 버튼은 그림 위 같은 위치에 투명하게 겹쳐 배치 |
 | 아이템 아이콘 17종 | `public/art/items/*.webp` (회복 물약~전쟁 투구) | 사용자 제공 상점 시안 이미지(230a6ac9-image.png)에서 잘라냄 | **사용자 확인 필요** — 시안 이미지의 제작 도구·이용 조건 | 96px WebP. 시안에서 '연금 정수'와 '전쟁 투구' 그림이 서로 바뀐 것으로 보여 투구 그림을 전쟁 투구에 배정 |
 | 아이템 아이콘 10종 (신규) | `public/art/items/{ring,amulet,windboots,crystal,bulwark,thorn,hourglass,twinblades,axe,voidstaff}.webp` | 사용자 제공 두 번째 상점 시안 이미지(10f81847-image.png)에서 잘라냄 | **사용자 확인 필요** — 시안 이미지의 제작 도구·이용 조건 | 96px WebP. 이전에 코드로 그린 임시 아이콘(`tools/paint_items.mjs`)을 대체 |
+| 시작 화면 키 아트 (2차) | `public/art/keyart2.jpg` | 사용자 제공 이미지(b14dfeca-image.png). 캡처에 함께 찍힌 온라인 대전 안내 카드와 하단 바는 지워서(OpenCV 복원) 실제 버튼으로 대체 | **사용자 확인 필요** — 그림 속 실제 인물의 초상 사용 동의와 제작 도구 이용 조건 | 'AI랑 대전'·'온라인 대전'·'EXIT'는 그림 위 같은 위치에 투명 버튼 |
+| 온라인 대전 배경 | `public/art/online_bg.jpg` | 사용자 제공 시안(107e93cc-image.png)에서 UI 부분을 지우고 흐리게 처리 | **사용자 확인 필요** — 시안 제작 도구의 이용 조건 | 패널·버튼·글자는 HTML/CSS로 다시 만듦 |
 | three.js r17x | `node_modules/three` → `dist/main.js`에 번들 | https://threejs.org | MIT License | 렌더링 엔진 |
 | esbuild | 빌드 도구 (배포 파일에 미포함) | https://esbuild.github.io | MIT License | |
 | gltf-transform, sharp | 모델 최적화 도구 (배포 파일에 미포함) | https://gltf-transform.dev, https://sharp.pixelplumbing.com | MIT / Apache-2.0 | |
