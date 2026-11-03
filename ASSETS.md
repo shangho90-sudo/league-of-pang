@@ -19,16 +19,16 @@
 
 | model | 원본 업로드 파일 | 배정 캐릭터 |
 |---|---|---|
-| m0 | 007a1e57-doctor_figurine_3d_model.glb | 팽재현 |
+| m0 | 007a1e57-doctor_figurine_3d_model.glb | 김두영 |
 | m1 | 0fbb05c7-doctor_character_3d_model.glb | 구자현 |
 | m2 | 14c30796-3d_chibi_doctor_model_1.glb | 방지욱 |
-| m3 | 1bb4af40-3d_cartoon_scientist.glb | 박철호 |
-| m4 | 20aabac4-stylized_scientist_3d_model_1.glb | 정석호 |
-| m5 | 3b5f8963-stylized_scientist_3d_model.glb | 차동호 |
-| m6 | 454676d2-cartoon_scientist_3d_model_1.glb | 사공민 |
+| m3 | 1bb4af40-3d_cartoon_scientist.glb | 팽재현 |
+| m4 | 20aabac4-stylized_scientist_3d_model_1.glb | 이선용 |
+| m5 | 3b5f8963-stylized_scientist_3d_model.glb | 사공민 |
+| m6 | 454676d2-cartoon_scientist_3d_model_1.glb | 차동호 |
 | m7 | 4bca1407-3d_character_model.glb | 조강희 |
-| m8 | 79659921-cartoon_scientist_3d_model.glb | 김두영 |
-| m9 | d249af17-3d_chibi_doctor_model.glb | 이선용 |
+| m8 | 79659921-cartoon_scientist_3d_model.glb | 정석호 |
+| m9 | d249af17-3d_chibi_doctor_model.glb | 박철호 |
 
 ## 2. 직접 제작한 자산 (코드로 생성, 외부 파일 없음)
 

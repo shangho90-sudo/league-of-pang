@@ -8,7 +8,7 @@ export const ROLES = {
 
 export const CHAMPIONS = [
   {
-    id: 'pang', name: '팽재현', title: '생명의 연금약사', roles: ['support', 'mage'], lanePref: ['bot', 'mid', 'jungle', 'top'],
+    id: 'pang', name: '김두영', title: '생명의 연금약사', roles: ['support', 'mage'], lanePref: ['bot', 'mid', 'jungle', 'top'],
     model: 0, arche: 'staff', body: [1.0, 1.0, 1.0], coat: 0xeee6d2, trim: 0x2fb8a8, accent: 0x7af0e0,
     stats: { hp: 520, hpG: 78, mp: 380, mpG: 40, ad: 46, adG: 2.6, armor: 22, armG: 3.5, mr: 30, mrG: 1.3, as: 0.64, asG: 0.02, range: 5.4, ms: 3.35, hpR: 1.2, mpR: 2.2, ranged: true, proj: 'alch', projSpeed: 16, windup: 0.30 },
     passive: { name: '조제 순환', desc: '스킬을 사용할 때마다 조제 게이지가 1 쌓입니다. 3이 되면 다음 일반 스킬이 강화됩니다(Q 피해 +50%, W 회복 +50%, E 둔화 +20%p·속박 0.6초).' },
@@ -44,7 +44,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'park', name: '박철호', title: '용광로의 장인', roles: ['fighter'], lanePref: ['top', 'jungle', 'mid', 'bot'],
+    id: 'park', name: '팽재현', title: '용광로의 장인', roles: ['fighter'], lanePref: ['top', 'jungle', 'mid', 'bot'],
     model: 3, arche: 'hammer', body: [1.1, 1.0, 1.08], coat: 0x7a5232, trim: 0x5a3a22, accent: 0xff7a2a,
     stats: { hp: 610, hpG: 96, mp: 300, mpG: 34, ad: 64, adG: 3.6, armor: 30, armG: 4.0, mr: 30, mrG: 1.5, as: 0.63, asG: 0.022, range: 2.0, ms: 3.3, hpR: 2.0, mpR: 1.6, ranged: false, windup: 0.34 },
     passive: { name: '달아오른 강철', desc: '공격 시 열기 12, 스킬 시 20을 얻습니다. 열기가 100이 되면 다음 일반 스킬 피해가 40% 증가하고 Q가 0.5초 기절을 겁니다.' },
@@ -56,7 +56,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'jung', name: '정석호', title: '여명의 기사', roles: ['fighter', 'tank'], lanePref: ['top', 'bot', 'jungle', 'mid'],
+    id: 'jung', name: '이선용', title: '여명의 기사', roles: ['fighter', 'tank'], lanePref: ['top', 'bot', 'jungle', 'mid'],
     model: 4, arche: 'sword', body: [1.05, 1.06, 1.02], coat: 0xf2efe6, trim: 0xd7a83a, accent: 0x4a8adf,
     stats: { hp: 600, hpG: 92, mp: 320, mpG: 36, ad: 60, adG: 3.3, armor: 30, armG: 4.1, mr: 32, mrG: 1.6, as: 0.65, asG: 0.022, range: 2.0, ms: 3.35, hpR: 1.9, mpR: 1.7, ranged: false, windup: 0.28 },
     passive: { name: '기사의 맹세', desc: '아군 영웅이 6 거리 안에 있으면 방어력과 마법 저항력이 15 증가합니다.' },
@@ -68,7 +68,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'cha', name: '차동호', title: '폭풍의 사수', roles: ['marksman'], lanePref: ['bot', 'mid', 'top', 'jungle'],
+    id: 'cha', name: '사공민', title: '폭풍의 사수', roles: ['marksman'], lanePref: ['bot', 'mid', 'top', 'jungle'],
     model: 5, arche: 'bow', body: [0.96, 1.02, 0.96], coat: 0xcfd8e2, trim: 0x2f5f8a, accent: 0x9ae8ff,
     stats: { hp: 520, hpG: 82, mp: 300, mpG: 34, ad: 58, adG: 3.4, armor: 22, armG: 3.4, mr: 30, mrG: 1.0, as: 0.68, asG: 0.035, range: 6.5, ms: 3.3, hpR: 1.3, mpR: 1.6, ranged: true, proj: 'arrow', projSpeed: 26, windup: 0.22 },
     passive: { name: '가속 사격', desc: '같은 대상을 연속 공격하면 공격 속도가 8%씩 증가합니다(최대 5회).' },
@@ -80,7 +80,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'sagong', name: '사공민', title: '별길의 항해사', roles: ['mage'], lanePref: ['mid', 'bot', 'top', 'jungle'],
+    id: 'sagong', name: '차동호', title: '별길의 항해사', roles: ['mage'], lanePref: ['mid', 'bot', 'top', 'jungle'],
     model: 6, arche: 'orb', body: [0.98, 1.0, 0.98], coat: 0x23306a, trim: 0x4a3a8a, accent: 0xf2c94a,
     stats: { hp: 510, hpG: 80, mp: 420, mpG: 45, ad: 50, adG: 2.8, armor: 21, armG: 3.3, mr: 30, mrG: 1.3, as: 0.64, asG: 0.02, range: 6.0, ms: 3.3, hpR: 1.2, mpR: 2.4, ranged: true, proj: 'star', projSpeed: 18, windup: 0.28 },
     passive: { name: '성도 기록', desc: '스킬이 적에게 명중할 때마다 별 표식을 얻습니다. 3개가 되면 다음 기본 공격이 {bonus}의 추가 마법 피해를 줍니다.' },
@@ -104,7 +104,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'kim', name: '김두영', title: '비전 포격수', roles: ['mage', 'marksman'], lanePref: ['mid', 'bot', 'top', 'jungle'],
+    id: 'kim', name: '정석호', title: '비전 포격수', roles: ['mage', 'marksman'], lanePref: ['mid', 'bot', 'top', 'jungle'],
     model: 8, arche: 'cannon', body: [1.02, 0.98, 1.02], coat: 0x5a4a6a, trim: 0x3a3048, accent: 0xd06aff,
     stats: { hp: 520, hpG: 80, mp: 400, mpG: 42, ad: 52, adG: 3.0, armor: 22, armG: 3.4, mr: 30, mrG: 1.3, as: 0.62, asG: 0.02, range: 7.0, ms: 3.25, hpR: 1.2, mpR: 2.3, ranged: true, proj: 'shell', projSpeed: 15, windup: 0.32 },
     passive: { name: '축전', desc: '이동과 스킬 사용으로 축전합니다. 100이 되면 다음 기본 공격이 80% 강화되고 주변에 폭발합니다.' },
@@ -116,7 +116,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'lee', name: '이선용', title: '공명의 지휘자', roles: ['support', 'mage'], lanePref: ['bot', 'jungle', 'mid', 'top'],
+    id: 'lee', name: '박철호', title: '공명의 지휘자', roles: ['support', 'mage'], lanePref: ['bot', 'jungle', 'mid', 'top'],
     model: 9, arche: 'conductor', body: [0.97, 1.02, 0.97], coat: 0x2a8a86, trim: 0x6a2a6a, accent: 0xffa6e0,
     stats: { hp: 530, hpG: 80, mp: 380, mpG: 40, ad: 48, adG: 2.7, armor: 23, armG: 3.5, mr: 30, mrG: 1.3, as: 0.64, asG: 0.02, range: 5.5, ms: 3.35, hpR: 1.3, mpR: 2.2, ranged: true, proj: 'wave', projSpeed: 17, windup: 0.28 },
     passive: { name: '화음', desc: '서로 다른 일반 스킬 2개를 4초 안에 연계하면 다음 기본 공격이 {bonus}의 추가 마법 피해와 20% 둔화를 줍니다.' },

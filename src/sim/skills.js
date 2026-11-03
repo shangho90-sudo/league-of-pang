@@ -20,7 +20,7 @@ export const PRE = {
 };
 
 export const SKILLS = {
-  // ① 팽재현
+  // ① 김두영
   pang: {
     Q(sim, u, c) {
       const emp = consume(u, 'stacks', 3);
@@ -164,7 +164,7 @@ export const SKILLS = {
       }));
     },
   },
-  // ④ 박철호
+  // ④ 팽재현
   park: {
     Q(sim, u, c) {
       const emp = consume(u, 'heat', 100);
@@ -215,7 +215,7 @@ export const SKILLS = {
       });
     },
   },
-  // ⑤ 정석호
+  // ⑤ 이선용
   jung: {
     Q(sim, u, c) {
       const sk = c.sk, hit = new Set();
@@ -255,7 +255,7 @@ export const SKILLS = {
       fx(sim, 'sanctumRise', { x: u.x, z: u.z, r: sk.radius });
     },
   },
-  // ⑥ 차동호
+  // ⑥ 사공민
   cha: {
     Q(sim, u, c) {
       const sk = c.sk;
@@ -283,7 +283,7 @@ export const SKILLS = {
       });
     },
   },
-  // ⑦ 사공민
+  // ⑦ 차동호
   sagong: {
     Q(sim, u, c) {
       const sk = c.sk;
@@ -361,7 +361,7 @@ export const SKILLS = {
       fx(sim, 'primalAura', { u });
     },
   },
-  // ⑨ 김두영
+  // ⑨ 정석호
   kim: {
     Q(sim, u, c) {
       const sk = c.sk, p = c.point;
@@ -416,7 +416,7 @@ export const SKILLS = {
       }
     },
   },
-  // ⑩ 이선용
+  // ⑩ 박철호
   lee: {
     Q(sim, u, c) {
       const sk = c.sk;
