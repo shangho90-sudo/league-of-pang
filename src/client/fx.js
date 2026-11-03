@@ -108,7 +108,7 @@ const TELE_VERT = `
   }`;
 const TELE_FRAG = `
   uniform int uKind; uniform vec4 uP; uniform vec4 uP2; uniform vec3 uColor; uniform float uFill; uniform float uAlpha;
-  uniform float uTime; uniform int uStyle;
+  uniform float uTime; uniform int uStyle; uniform float uFillOpacity; uniform float uBorderOpacity;
   varying vec3 vW;
   void main() {
     vec2 p = vW.xz - uP.xy;
@@ -136,9 +136,9 @@ const TELE_FRAG = `
     if (uStyle == 2) pat = step(0.35, fract((vW.x + vW.z) * 2.2 - uTime * 1.5));                     // 제어: 촘촘한 줄무늬
     if (uStyle == 1) { vec2 g = fract(vW.xz * 1.6) - 0.5; pat = 1.0 - smoothstep(0.08, 0.14, length(g)); } // 아군/지속: 점 패턴
     float fill = (uStyle == 3 ? 0.05 : 0.13) + pat * (uStyle == 1 ? 0.12 : 0.1) + prog * 0.16;
-    float a = (border * 0.95 + fill * (1.0 - border)) * uAlpha;
+    float a = (border * 0.95 * uBorderOpacity + fill * (1.0 - border) * uFillOpacity) * uAlpha;
     // 제어 효과: 안쪽 점선 고리
-    if (uStyle == 2) { float ring2 = abs(d + 0.35) < 0.05 ? step(0.5, fract(atan(p.y, p.x) * 6.0)) : 0.0; a = max(a, ring2 * 0.8 * uAlpha); }
+    if (uStyle == 2) { float ring2 = abs(d + 0.35) < 0.05 ? step(0.5, fract(atan(p.y, p.x) * 6.0)) : 0.0; a = max(a, ring2 * 0.8 * uAlpha * uBorderOpacity); }
     gl_FragColor = vec4(uColor * (0.85 + border * 0.4), a);
     #include <colorspace_fragment>
   }`;
@@ -325,7 +325,7 @@ export class FX {
     const s = tg.shape;
     const mat = new THREE.ShaderMaterial({
       transparent: true, depthWrite: false,
-      uniforms: { uH: { value: this.hTex }, uMapHalf: { value: MAP_HALF }, uKind: { value: 0 }, uP: { value: new THREE.Vector4() }, uP2: { value: new THREE.Vector4() }, uColor: { value: new THREE.Color() }, uFill: { value: 0 }, uAlpha: { value: 1 }, uTime: sharedUniforms.uTime, uStyle: { value: STYLE_ID[tg.style] ?? 0 } },
+      uniforms: { uH: { value: this.hTex }, uMapHalf: { value: MAP_HALF }, uKind: { value: 0 }, uP: { value: new THREE.Vector4() }, uP2: { value: new THREE.Vector4() }, uColor: { value: new THREE.Color() }, uFill: { value: 0 }, uAlpha: { value: 1 }, uTime: sharedUniforms.uTime, uStyle: { value: STYLE_ID[tg.style] ?? 0 }, uFillOpacity: { value: 1 }, uBorderOpacity: { value: 1 } },
       vertexShader: TELE_VERT, fragmentShader: TELE_FRAG,
     });
     const m = new THREE.Mesh(this.teleGeo, mat);
@@ -341,6 +341,7 @@ export class FX {
     // 색: 내 팀 = 청록/파랑, 적 = 주황/빨강 (패턴·테두리로도 구분)
     const mine = tg.team === this.playerTeam;
     const beneficial = tg.style === 'allyZone';
+    if (mine && !beneficial) { U.uFillOpacity.value = 0; U.uBorderOpacity.value = 0.06; }
     U.uColor.value.set(mine ? (beneficial ? 0x5af0c8 : 0x4aa8ff) : (beneficial ? 0xff9a5a : (tg.style === 'cc' ? 0xff4adf : 0xff4a3a)));
     this.scene.add(m);
     return m;

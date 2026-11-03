@@ -36,7 +36,7 @@ void main(){
  float spark=pow(max(0.,sin(a*9.-uTime*1.8)),34.)*line(d,.075);
  float weave=pow(max(0.,sin(p.x*5.+sin(p.y*3.+uTime*.45))),30.)*.025;
  float fill=(.035+weave+rune+spokes)*inside*(1.-uOutline);
- if(uShape>.5&&uShape<1.5){float beam=line(p.x,.04)*(.4+.6*sin(p.y*6.-uTime*5.)*sin(p.y*6.-uTime*5.));fill+=beam*.20*inside;}
+ if(uShape>.5&&uShape<1.5){float beam=line(p.x,.04)*(.4+.6*sin(p.y*6.-uTime*5.)*sin(p.y*6.-uTime*5.));fill+=beam*.20*inside*(1.-uOutline);}
  float strength=rim*.85+halo+spark*.35+ticks*.16*inside+fill;
  if(strength<.008)discard;
  vec3 color=mix(uColor,vec3(.83,.97,1.),clamp(rim*.78+spark*.5,0.,.9));
@@ -71,7 +71,7 @@ export class RangeIndicators {
     if(sk.t==='point'||sk.t==='self'&&sk.radius){const p=sk.t==='point'?point:u,r=sk.radius||1;this.area.set({x:p.x,z:p.z,radius:r,color});this.ringStars(p.x,p.z,r,this.low?4:8);}
     else if(sk.t==='dir'){
       if(sk.angle){const cone=sk.angle*Math.PI/180;this.area.set({x:u.x,z:u.z,shape:2,radius:sk.range,angle,cone,color});for(const a of [-cone/2,0,cone/2])this.star(u.x+Math.sin(angle+a)*sk.range,u.z+Math.cos(angle+a)*sk.range,.38,angle+a);}
-      else{const length=sk.range,width=sk.width||1.2;this.area.set({x:u.x+dir.x*length/2,z:u.z+dir.z*length/2,angle,shape:1,length,width,color});for(const l of [0,length])for(const side of [-1,1])this.star(u.x+dir.x*l+Math.cos(angle)*width/2*side,u.z+dir.z*l-Math.sin(angle)*width/2*side,Math.min(.42,width*.45),angle);}
+      else{const length=sk.range,width=sk.width||1.2;this.area.set({x:u.x+dir.x*length/2,z:u.z+dir.z*length/2,angle,shape:1,length,width,color,outline:1,opacity:.06});for(const l of [0,length])for(const side of [-1,1])this.star(u.x+dir.x*l+Math.cos(angle)*width/2*side,u.z+dir.z*l-Math.sin(angle)*width/2*side,Math.min(.42,width*.45),angle);}
       if(this.arrow.children.length){const len=Math.min(2,sk.range*.4),x=u.x+dir.x*(sk.range-len*.6),z=u.z+dir.z*(sk.range-len*.6);this.arrow.visible=true;this.arrow.position.set(x,groundHeight(x,z)+.18,z);this.arrow.rotation.y=angle;this.arrow.scale.set(Math.min(sk.width||1.2,.75),1,len);}
     }else if(sk.range)this.ringStars(u.x,u.z,sk.range,4);
   }
