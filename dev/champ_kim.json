@@ -1,0 +1,1 @@
+{"Q":{"cast":true,"cd":true,"dmgToEnemy":4520,"fx":["fx:arcaneBlast","shield","fx:ironShield"],"msg":""},"W":{"cast":true,"cd":true,"dmgToEnemy":72,"fx":["status","fx:mineBlast"],"msg":""},"E":{"cast":true,"cd":true,"dmgToEnemy":101,"fx":["fx:recoilBlast"],"msg":""},"R":{"cast":true,"cd":true,"dmgToEnemy":214,"fx":["fx:cannonFire","fx:arcaneBlast"],"msg":""},"errs":[]}

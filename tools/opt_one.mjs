@@ -1,0 +1,13 @@
+import { NodeIO } from '@gltf-transform/core';
+import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
+import { textureCompress, prune, dedup } from '@gltf-transform/functions';
+import sharp from 'sharp';
+import fs from 'fs';
+const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
+const f = process.argv[2]; const outId = process.argv[3];
+const doc = await io.read('/mnt/user-data/uploads/' + f);
+for (const e of doc.getRoot().listExtensionsUsed()) if (e.extensionName==='KHR_materials_volume'||e.extensionName==='KHR_materials_specular') e.dispose();
+await doc.transform(dedup(), prune(), textureCompress({encoder: sharp, targetFormat:'webp', resize:[1024,1024], quality:85}));
+await io.write('public/models/m'+outId+'.glb', doc);
+const map = JSON.parse(fs.readFileSync('tools/model_map.json')); map['m'+outId] = f; fs.writeFileSync('tools/model_map.json', JSON.stringify(map,null,1));
+console.log((fs.statSync('public/models/m'+outId+'.glb').size/1e6).toFixed(2)+'MB');

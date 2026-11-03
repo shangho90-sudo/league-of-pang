@@ -254,6 +254,14 @@ export class FX {
         for (let i = 0; i < 3; i++) { const cr = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.56, 24, 1, -Math.PI / 3, Math.PI / 1.5).rotateX(-Math.PI / 2).rotateY(Math.PI / 2), this.projMat(i === 1 ? 0xffa6e0 : 0x7af0e0)); cr.position.z = -i * 0.25; cr.scale.setScalar(1.2 + i * 0.1); g.add(cr); }
         trail = { color: 0x7af0e0, tex: 'note', size: 0.25, rate: 12 }; break;
       }
+      case 'frost': add(this.projGeo.sphere, 0xbff4ff, V(0.12, 0.12, 0.12)); add(this.projGeo.sphere, 0xffffff, V(0.06, 0.06, 0.06), null, false); trail = { color: 0x8fe0ff, tex: 'shard', size: 0.18, rate: 26 }; break;
+      case 'frostBolt': {
+        add(this.projGeo.cone, 0xdff8ff, V(0.16, 0.16, 0.55), V(0, 0, 0.1));
+        add(this.projGeo.sphere, 0x7fd8ff, V(0.2, 0.2, 0.2));
+        trail = { color: 0x9fe8ff, tex: 'shard', size: 0.3, rate: 40 }; g.userData.spinZ = 8; break;
+      }
+      case 'ember': add(this.projGeo.sphere, 0xffb23a, V(0.13, 0.13, 0.13)); add(this.projGeo.sphere, 0xfff2c0, V(0.06, 0.06, 0.06), null, false); trail = { color: 0xff7a2a, tex: 'spark', size: 0.2, rate: 30 }; break;
+      case 'fireball': add(this.projGeo.sphere, 0xff6a1a, V(0.3, 0.3, 0.3)); add(this.projGeo.sphere, 0xffe08a, V(0.17, 0.17, 0.17), null, false); trail = { color: 0xff8a2a, tex: 'soft', size: 0.55, rate: 50 }; break;
       case 'arcaneShell': add(this.projGeo.sphere, 0xe0a0ff, V(0.22, 0.22, 0.22)); add(this.projGeo.sphere, 0xffffff, V(0.1, 0.1, 0.1), null, false); trail = { color: 0xb05aff, tex: 'soft', size: 0.45, rate: 45 }; break;
       default: add(this.projGeo.sphere, 0xffffff, V(0.12, 0.12, 0.12)); trail = { color: 0xffffff, tex: 'soft', size: 0.2, rate: 20 };
     }
@@ -285,6 +293,7 @@ export class FX {
       if (mv.lengthSq() > 1e-6) v.lookAt(v.position.clone().add(mv));
       if (v.userData.spin) v.rotation.x += dt * 14;
       if (v.userData.spinY) v.rotateY(dt * v.userData.spinY);
+      if (v.userData.spinZ) v.rotateZ(dt * v.userData.spinZ);
       const vis = isVisibleAt(p.x, p.z) || p.src.team === this.playerTeam;
       v.visible = vis;
       const tr = v.userData.trail;

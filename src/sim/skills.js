@@ -444,7 +444,153 @@ export const SKILLS = {
       fx(sim, 'resonanceWave', { x: u.x, z: u.z, dir: c.dir, r: sk.range, angle: sk.angle });
     },
   },
+  // ⑪ 최길용
+  choi: {
+    Q(sim, u, c) {
+      const sk = c.sk;
+      sim.spawnProjectile({ kind: 'line', src: u, x: u.x, z: u.z, dx: c.dir.x, dz: c.dir.z, speed: sk.speed, range: sk.range, w: sk.width, pierce: false, vis: 'frostBolt',
+        onHit(p, t) {
+          sim.dealDamage(u, t, dmgOf(u, sk, c.idx), 'magic');
+          sim.applyStatus(u, t, 'slow', 1.5, 0.35);
+          chill(sim, u, t);
+          fx(sim, 'frostHit', { x: t.x, z: t.z });
+        } });
+      sim.telegraph(rect(u.x, u.z, c.dir.x, c.dir.z, sk.range, sk.width), u.team, 0, sk.range / sk.speed, { style: 'line' });
+    },
+    W(sim, u, c) {
+      const sk = c.sk, p = c.point;
+      const shape = circle(p.x, p.z, sk.radius);
+      const chilled = new Set();
+      sim.telegraph(shape, u.team, 0, 2.5, { style: 'dangerSoft', label: 'choi_W' });
+      sim.spawnZone({ shape, team: u.team, until: sim.time + 2.5, interval: 0.5, vis: 'frost', src: u,
+        filter: (t) => t.team !== u.team && isChampOrMinion(t),
+        onTick(us) {
+          for (const t of us) {
+            sim.dealDamage(u, t, (V(sk.base, c.idx) + sk.ap * u.s.ap) * 0.5, 'magic');
+            sim.applyStatus(u, t, 'slow', 0.6, 0.4);
+            if (t.kind === 'champion' && !chilled.has(t)) { chilled.add(t); chill(sim, u, t); }
+          }
+        } });
+      fx(sim, 'frostBloom', { x: p.x, z: p.z, r: sk.radius });
+    },
+    E(sim, u, c) {
+      const sk = c.sk;
+      sim.startDash(u, u.x + c.dir.x * sk.range, u.z + c.dir.z * sk.range, 17, {});
+      sim.addShield(u, u, V(sk.base, c.idx) + sk.ap * u.s.ap, 2);
+      fx(sim, 'iceSlide', { u, dir: c.dir });
+    },
+    R(sim, u, c) {
+      const sk = c.sk, p = c.point;
+      const shape = circle(p.x, p.z, sk.radius);
+      sim.telegraph(shape, u.team, sk.delay, 0.25, { style: 'cc', label: 'choi_R' });
+      fx(sim, 'absoluteZeroCharge', { x: p.x, z: p.z, r: sk.radius, dur: sk.delay });
+      sim.after(sk.delay, () => {
+        if (u.dead) return;
+        for (const t of sim.enemiesIn(shape, u.team)) {
+          sim.dealDamage(u, t, dmgOf(u, sk, c.idx), 'magic');
+          sim.applyStatus(u, t, 'root', 1.2);
+          if (t.kind === 'champion') chill(sim, u, t);
+        }
+        fx(sim, 'absoluteZero', { x: p.x, z: p.z, r: sk.radius, shake: 0.14 });
+      });
+    },
+  },
+  // ⑫ 불꽃남자
+  flame: {
+    Q(sim, u, c) {
+      const sk = c.sk;
+      let boomed = false;
+      const boom = (x, z) => {
+        if (boomed) return; boomed = true;
+        const shape = circle(x, z, sk.radius);
+        sim.telegraph(shape, u.team, 0, 0.15, { style: 'danger' });
+        for (const t of sim.enemiesIn(shape, u.team)) { sim.dealDamage(u, t, dmgOf(u, sk, c.idx), 'magic'); ignite(sim, u, t); }
+        fx(sim, 'fireBurst', { x, z, r: sk.radius });
+      };
+      sim.spawnProjectile({ kind: 'line', src: u, x: u.x, z: u.z, dx: c.dir.x, dz: c.dir.z, speed: sk.speed, range: sk.range, w: sk.width, pierce: false, vis: 'fireball',
+        onHit(p, t) { boom(t.x, t.z); } });
+      sim.telegraph(rect(u.x, u.z, c.dir.x, c.dir.z, sk.range, sk.width), u.team, 0, sk.range / sk.speed, { style: 'line' });
+    },
+    W(sim, u, c) {
+      const sk = c.sk, p = c.point;
+      const shape = circle(p.x, p.z, sk.radius);
+      sim.telegraph(shape, u.team, sk.delay, 0.2, { style: 'cc', label: 'flame_W' });
+      fx(sim, 'pillarCharge', { x: p.x, z: p.z, r: sk.radius, dur: sk.delay });
+      sim.after(sk.delay, () => {
+        if (u.dead) return;
+        for (const t of sim.enemiesIn(shape, u.team)) { sim.dealDamage(u, t, dmgOf(u, sk, c.idx), 'magic'); sim.applyStatus(u, t, 'stun', 0.75); ignite(sim, u, t); }
+        fx(sim, 'firePillar', { x: p.x, z: p.z, r: sk.radius, shake: 0.08 });
+      });
+    },
+    E(sim, u, c) {
+      const sk = c.sk;
+      const sx = u.x, sz = u.z;
+      sim.startDash(u, u.x + c.dir.x * sk.range, u.z + c.dir.z * sk.range, 18, {
+        onEnd(me) {
+          const len = Math.hypot(me.x - sx, me.z - sz);
+          if (len < 0.3) return;
+          const dx = (me.x - sx) / len, dz = (me.z - sz) / len;
+          const shape = rect(sx, sz, dx, dz, len, sk.width);
+          sim.telegraph(shape, u.team, 0, 2.5, { style: 'dangerSoft', label: 'flame_E' });
+          sim.spawnZone({ shape, team: u.team, until: sim.time + 2.5, interval: 0.5, vis: 'fireTrail', src: u,
+            filter: (t) => t.team !== u.team && isChampOrMinion(t),
+            onTick(us) { for (const t of us) { sim.dealDamage(u, t, (V(sk.base, c.idx) + sk.ap * u.s.ap) * 0.5, 'magic'); ignite(sim, u, t); } } });
+          fx(sim, 'fireTrailFx', { x: sx, z: sz, dir: { x: dx, z: dz }, len });
+        } });
+      fx(sim, 'fireDash', { u });
+    },
+    R(sim, u, c) {
+      const sk = c.sk, p = c.point;
+      const shape = circle(p.x, p.z, sk.radius);
+      const per = dmgOf(u, sk, c.idx);
+      sim.telegraph(shape, u.team, 3, 0.3, { style: 'dangerSoft', label: 'flame_R' });
+      sim.spawnZone({ shape, team: u.team, until: sim.time + 3, interval: 0.5, tickDelay: 0.3, vis: 'firestorm', src: u,
+        filter: (t) => t.team !== u.team && isChampOrMinion(t),
+        onTick(us) { for (const t of us) { sim.dealDamage(u, t, per, 'magic'); sim.applyStatus(u, t, 'slow', 0.6, 0.25); ignite(sim, u, t); } },
+        onEnd() {
+          if (u.dead) return;
+          for (const t of sim.enemiesIn(shape, u.team)) { sim.dealDamage(u, t, per * 2, 'magic'); ignite(sim, u, t); }
+          fx(sim, 'firestormEnd', { x: p.x, z: p.z, r: sk.radius, shake: 0.16 });
+        } });
+      fx(sim, 'firestormStart', { x: p.x, z: p.z, r: sk.radius });
+    },
+  },
 };
+
+// 불꽃남자 패시브: 잔불 (스킬 피해 → 3초 화상, 재적중 시 갱신)
+function ignite(sim, u, t) {
+  if (t.dead || !isChampOrMinion(t)) return;
+  const map = (u.pass.burns ||= new Map());
+  const b = map.get(t);
+  if (b && b.until > sim.time) { b.until = sim.time + 3; return; }
+  const nb = { until: sim.time + 3 };
+  map.set(t, nb);
+  const tick = () => {
+    if (t.dead || sim.time > nb.until + 1e-6 || map.get(t) !== nb) { if (map.get(t) === nb) map.delete(t); return; }
+    sim.dealDamage(u, t, 8 + 3 * u.level + 0.08 * u.s.ap, 'magic');
+    fx(sim, 'burnTick', { x: t.x, z: t.z });
+    sim.after(1, tick);
+  };
+  sim.after(1, tick);
+}
+
+// 최길용 패시브: 냉기 누적 → 3중첩 시 빙결
+function chill(sim, u, t) {
+  if (t.kind !== 'champion' || t.dead) return;
+  const st = (u.pass.chill ||= new Map());
+  const e = st.get(t) || { n: 0, until: 0, lock: 0 };
+  if (sim.time < e.lock) return;
+  if (sim.time > e.until) e.n = 0;
+  e.n++; e.until = sim.time + 4;
+  if (e.n >= 3) {
+    e.n = 0; e.lock = sim.time + 6;
+    sim.applyStatus(u, t, 'root', 0.8);
+    sim.after(0.01, () => sim.dealDamage(u, t, 40 + 10 * u.level + 0.3 * u.s.ap, 'magic'));
+    fx(sim, 'freeze', { x: t.x, z: t.z, t });
+  } else fx(sim, 'chillStack', { x: t.x, z: t.z, n: e.n });
+  st.set(t, e);
+  u.pass.lastChill = e.n;
+}
 
 function starStack(u) { u.pass.stacks = Math.min(3, (u.pass.stacks || 0) + 1); }
 
@@ -529,4 +675,6 @@ export const PASSIVES = {
       return null;
     },
   },
+  choi: {},
+  flame: {},
 };

@@ -200,6 +200,7 @@ export class SelectScreen {
         this.vis.rig.apply(p);
         this.vis.container.position.y = 0; this.vis.container.position.y = this.vis.rig.groundLift();
         this.vis.root.rotation.y = 0.35 + Math.sin(this.t * 0.35) * 0.35;
+        this.vis.updateUprights && this.vis.updateUprights();
         for (const f of this.vis.floats) { f.obj.position.y = (f.instrument ? 1.15 : 1.3) + Math.sin(this.t * 2) * 0.05; if (f.r1) { f.r1.rotation.z = this.t; f.r2.rotation.y = this.t * 1.3; f.planets.forEach((pl, k) => pl.position.set(Math.cos(this.t * (1 + k * 0.4) + k * 2) * 0.38, 0, Math.sin(this.t * (1 + k * 0.4) + k * 2) * 0.38)); } }
       }
       this.swirls.forEach((s, i) => (s.rotation.z = this.t * (0.4 + i * 0.18) * (i % 2 ? -1 : 1)));

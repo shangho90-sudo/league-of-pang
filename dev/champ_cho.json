@@ -1,0 +1,1 @@
+{"Q":{"cast":true,"cd":true,"dmgToEnemy":4422,"fx":["fx:thrust"],"msg":""},"W":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["status","fx:forestBreath","heal"],"msg":""},"E":{"cast":true,"cd":true,"dmgToEnemy":139,"fx":["status","fx:beastLand"],"msg":""},"R":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["status","fx:primalAura"],"msg":""},"errs":[]}

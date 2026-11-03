@@ -127,6 +127,30 @@ export const CHAMPIONS = [
       R: { name: '거대한 공명', t: 'dir', range: 8.5, angle: 60, cd: 90, cost: 100, castTime: 0.35, desc: '전방으로 넓은 공명파를 보내 적을 1.2초간 행동 불가 상태로 만들고 {dmg}의 마법 피해를 줍니다.', base: [100, 160, 220], ap: 0.5 },
     },
   },
+  {
+    id: 'choi', name: '최길용', title: '극저온의 실험가', roles: ['mage', 'fighter'], lanePref: ['mid', 'top', 'jungle', 'bot'],
+    model: 10, arche: 'blaster', body: [1.0, 1.02, 1.0], coat: 0x4f8fc0, trim: 0x1f3550, accent: 0x9fe8ff,
+    stats: { hp: 560, hpG: 86, mp: 360, mpG: 38, ad: 50, adG: 2.9, armor: 25, armG: 3.8, mr: 30, mrG: 1.4, as: 0.66, asG: 0.02, range: 5.0, ms: 3.35, hpR: 1.5, mpR: 2.0, ranged: true, proj: 'frost', projSpeed: 18, windup: 0.27 },
+    passive: { name: '급속 냉각', desc: '스킬이 적 챔피언에게 적중하면 냉기를 1 쌓습니다(4초 유지). 냉기가 3이 되면 대상이 0.8초간 얼어붙어 이동할 수 없고 추가 마법 피해(40 + 레벨당 10, +주문력 30%)를 받습니다. 같은 대상에게는 6초에 한 번만 발동합니다.' },
+    skills: {
+      Q: { name: '냉각 탄환', t: 'dir', range: 9, width: 1.0, cd: 6, cost: 45, castTime: 0.22, speed: 18, desc: '전방으로 냉각 탄환을 쏘아 처음 맞은 적에게 {dmg}의 마법 피해를 주고 1.5초간 35% 둔화시킵니다.', base: [65, 105, 145, 185, 225], ap: 0.6 },
+      W: { name: '서리 장막', t: 'point', range: 7, radius: 2.6, cd: 13, cost: 60, castTime: 0.2, desc: '지정 위치에 2.5초간 서리 구역을 펼쳐 안의 적을 40% 둔화시키고 초당 {dps}의 마법 피해를 줍니다. 처음 닿은 적 챔피언에게 냉기를 쌓습니다.', base: [20, 30, 40, 50, 60], ap: 0.15 },
+      E: { name: '빙판 활주', t: 'dir', range: 5.5, cd: 12, cost: 50, castTime: 0.05, desc: '지정 방향으로 미끄러져 이동하고 2초간 {shield}의 얼음 보호막을 얻습니다.', base: [50, 80, 110, 140, 170], ap: 0.4 },
+      R: { name: '절대 영도', t: 'point', range: 8, radius: 4.2, cd: 90, cost: 100, castTime: 0.35, delay: 0.8, desc: '지정 구역에 0.8초 경고 후 냉기 폭발을 일으켜 {dmg}의 마법 피해를 주고 1.2초간 이동 불가 상태로 만들며 냉기를 쌓습니다.', base: [150, 240, 330], ap: 0.7 },
+    },
+  },
+  {
+    id: 'flame', name: '불꽃남자', title: '업화의 술사', roles: ['mage', 'assassin'], lanePref: ['mid', 'bot', 'top', 'jungle'],
+    model: 11, arche: 'pyro', body: [1.02, 1.03, 1.0], coat: 0xb8321e, trim: 0x2a1410, accent: 0xffb23a,
+    stats: { hp: 540, hpG: 82, mp: 370, mpG: 40, ad: 49, adG: 2.8, armor: 22, armG: 3.5, mr: 30, mrG: 1.3, as: 0.65, asG: 0.02, range: 5.3, ms: 3.4, hpR: 1.3, mpR: 2.1, ranged: true, proj: 'ember', projSpeed: 17, windup: 0.28 },
+    passive: { name: '잔불', desc: '스킬 피해를 입은 적은 3초간 불탑니다. 불타는 동안 초당 추가 마법 피해(8 + 레벨당 3, +주문력 8%)를 받으며, 이미 불타는 적이 다시 맞으면 지속 시간이 초기화됩니다.' },
+    skills: {
+      Q: { name: '화염구', t: 'dir', range: 8.5, width: 1.1, radius: 1.7, cd: 6, cost: 50, castTime: 0.25, speed: 17, desc: '화염구를 던져 처음 맞은 적 주변에 폭발하며 {dmg}의 마법 피해를 줍니다.', base: [70, 115, 160, 205, 250], ap: 0.65 },
+      W: { name: '불기둥', t: 'point', range: 7.5, radius: 1.9, cd: 12, cost: 60, castTime: 0.2, delay: 0.6, desc: '0.6초 뒤 지정 위치에 불기둥을 솟구치게 해 {dmg}의 마법 피해를 주고 0.75초간 기절시킵니다.', base: [60, 95, 130, 165, 200], ap: 0.55 },
+      E: { name: '화염 질주', t: 'dir', range: 5, width: 1.6, cd: 11, cost: 45, castTime: 0.05, desc: '지정 방향으로 돌진하며 지나간 자리에 2.5초간 불길을 남깁니다. 불길 위의 적은 초당 {dps}의 마법 피해를 받습니다.', base: [25, 35, 45, 55, 65], ap: 0.15 },
+      R: { name: '업화 폭풍', t: 'point', range: 7, radius: 3.6, cd: 90, cost: 100, castTime: 0.4, desc: '지정 위치에 3초간 화염 폭풍을 일으켜 0.5초마다 {dmg}의 마법 피해를 주고, 끝날 때 폭발해 2배의 피해를 줍니다. 폭풍 안의 적은 25% 둔화됩니다.', base: [30, 45, 60], ap: 0.12 },
+    },
+  },
 ];
 
 export const CHAMP_BY_ID = Object.fromEntries(CHAMPIONS.map((c) => [c.id, c]));

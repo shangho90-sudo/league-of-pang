@@ -6,7 +6,7 @@
 
 | 자산 | 파일 | 출처 | 사용 조건 | 비고 |
 |---|---|---|---|---|
-| 캐릭터 3D 모델 10종 (리깅 포함) | `public/models/m0.glb` ~ `m9.glb` | 사용자 제공 업로드 파일 10개 (Tripo 계열 자동 리깅 GLB로 추정, 뼈 이름 `Hips/Spine/Left_UpperArm…`) | **사용자 확인 필요** — 생성 도구의 상업적 이용 약관과 얼굴 모델이 된 인물의 동의를 확인하세요 | 원본 텍스처 4096px → 1024px WebP로 변환, `KHR_materials_volume/specular` 제거. 원본 파일명 매핑은 `tools/model_map.json` |
+| 캐릭터 3D 모델 12종 (리깅 포함) | `public/models/m0.glb` ~ `m11.glb` | 사용자 제공 업로드 파일 12개 (Tripo 계열 자동 리깅 GLB로 추정, 뼈 이름 `Hips/Spine/Left_UpperArm…`) | **사용자 확인 필요** — 생성 도구의 상업적 이용 약관과 얼굴 모델이 된 인물의 동의를 확인하세요 | 원본 텍스처 4096px → 1024px WebP로 변환, `KHR_materials_volume/specular` 제거. 원본 파일명 매핑은 `tools/model_map.json` |
 | 시작·로딩 화면 키 아트 | `public/art/keyart.jpg`, `public/art/keyart_load.jpg`(버튼 영역을 잘라낸 로딩용) | 사용자 제공 이미지 (2026-11-03 대화 중 업로드, 1672×941 PNG → JPEG 변환) | **사용자 확인 필요** — 그림 속 실제 인물의 초상 사용 동의와 이미지 생성·제작 도구의 이용 조건 | 로고·START/EXIT가 그림에 포함되어 있어, 실제 버튼은 그림 위 같은 위치에 투명하게 겹쳐 배치 |
 | three.js r17x | `node_modules/three` → `dist/main.js`에 번들 | https://threejs.org | MIT License | 렌더링 엔진 |
 | esbuild | 빌드 도구 (배포 파일에 미포함) | https://esbuild.github.io | MIT License | |
@@ -30,6 +30,8 @@
 | m7 | 4bca1407-3d_character_model.glb | 조강희 |
 | m8 | 79659921-cartoon_scientist_3d_model.glb | 정석호 |
 | m9 | d249af17-3d_chibi_doctor_model.glb | 박철호 |
+| m10 | d7d9c42c-cartoon_scientist_3d_model_2.glb | 최길용 (신규) |
+| m11 | e47b59bc-cartoon_doctor_character_3d_model_1.glb | 불꽃남자 (신규) |
 
 ## 2. 직접 제작한 자산 (코드로 생성, 외부 파일 없음)
 
@@ -51,5 +53,5 @@
 ## 3. 교체 권장 임시 자산
 
 1. **미니언·정글 몬스터·비룡·협곡 거신**: 기본 도형 조립 모델 + 단순 절차 애니메이션. 리깅된 전용 모델로 교체 권장.
-2. **캐릭터 몸체**: 10명 모두 흰 가운 치비 체형을 공유합니다. 장비·가운 색·체형 비율로 구분했지만, 갑옷·로브 등을 입힌 전용 의상 모델이 있으면 실루엣이 더 분명해집니다.
+2. **캐릭터 몸체**: 12명 모두 흰 가운 치비 체형을 공유합니다. 장비·가운 색·체형 비율로 구분했지만, 갑옷·로브 등을 입힌 전용 의상 모델이 있으면 실루엣이 더 분명해집니다.
 3. **효과음**: 합성음입니다. 전용 녹음·디자인 음원으로 교체하면 타격감이 좋아집니다.

@@ -1,0 +1,1 @@
+{"Q":{"cast":true,"cd":true,"dmgToEnemy":4377,"fx":["fx:starHit","shield","fx:ironShield"],"msg":""},"W":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["status","fx:gravityCollapse"],"msg":""},"E":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["fx:blink","fx:starBurst"],"msg":""},"R":{"cast":true,"cd":true,"dmgToEnemy":165,"fx":["fx:meteorFall","fx:meteorImpact"],"msg":""},"errs":[]}

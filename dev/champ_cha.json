@@ -1,0 +1,1 @@
+{"Q":{"cast":true,"cd":true,"dmgToEnemy":4422,"fx":["fx:impact"],"msg":""},"W":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["status","fx:aimFocus"],"msg":""},"E":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["fx:windStep"],"msg":""},"R":{"cast":true,"cd":true,"dmgToEnemy":506,"fx":["fx:bowFire","fx:impact"],"msg":""},"errs":[]}

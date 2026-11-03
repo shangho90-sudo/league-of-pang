@@ -13,6 +13,8 @@ const GLYPH = {
   sagong: { P: 'stars', Q: 'star', W: 'vortex', E: 'orbit', R: 'meteor' },
   cho: { P: 'paw', Q: 'fang', W: 'leaf', E: 'leap', R: 'beast' },
   kim: { P: 'bolt', Q: 'shell', W: 'mine', E: 'recoil', R: 'grid' },
+  choi: { P: 'snow', Q: 'icebolt', W: 'frostzone', E: 'slide', R: 'zero' },
+  flame: { P: 'ember', Q: 'fireball', W: 'pillar', E: 'firedash', R: 'storm' },
   lee: { P: 'chord', Q: 'wave', W: 'harmony', E: 'boots', R: 'resonance' },
 };
 function drawGlyph(ctx, g, S, c) {
@@ -68,6 +70,16 @@ function drawGlyph(ctx, g, S, c) {
     case 'harmony': circ(0, 0, 0.9); circ(0, 0, 0.5); circ(0, 0, 0.15, true); break;
     case 'boots': P([[-0.4, -0.9], [0.1, -0.9], [0.1, 0.3], [0.9, 0.5], [0.9, 0.9], [-0.4, 0.9]], true, true); P([[-1, -0.3], [-0.6, -0.3]]); P([[-1, 0.2], [-0.6, 0.2]]); break;
     case 'resonance': for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.arc(-0.9 * s, 0, (0.3 + i * 0.35) * s, -0.7, 0.7); ctx.stroke(); } break;
+    case 'snow': for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2; P([[0, 0], [Math.cos(a) * 0.95, Math.sin(a) * 0.95]]); P([[Math.cos(a) * 0.55 + Math.cos(a + 1) * 0.25, Math.sin(a) * 0.55 + Math.sin(a + 1) * 0.25], [Math.cos(a) * 0.55, Math.sin(a) * 0.55], [Math.cos(a) * 0.55 + Math.cos(a - 1) * 0.25, Math.sin(a) * 0.55 + Math.sin(a - 1) * 0.25]]); } break;
+    case 'icebolt': P([[0.95, -0.95], [-0.1, -0.35], [-0.75, 0.75], [-0.35, -0.1]], true, true); for (const k of [0.2, 0.5]) P([[-0.9 + k * 0.3, 0.3 + k], [-1, 0.95 - k * 0.2]]); break;
+    case 'frostzone': ctx.beginPath(); ctx.ellipse(0, 0.35 * s, 0.95 * s, 0.4 * s, 0, 0, Math.PI * 2); ctx.stroke(); for (const [x, h] of [[-0.45, 0.8], [0, 1.15], [0.45, 0.7]]) P([[x - 0.17, 0.35], [x, 0.35 - h], [x + 0.17, 0.35]], true, true); break;
+    case 'slide': P([[-0.9, 0.7], [0.9, 0.7]]); P([[-0.6, 0.35], [0.7, -0.7], [0.95, -0.35], [-0.2, 0.55]], true, true); P([[-1, -0.2], [-0.5, -0.2]]); P([[-0.9, 0.15], [-0.45, 0.15]]); break;
+    case 'zero': circ(0, 0, 0.92); for (let i = 0; i < 8; i++) { const a = (i / 8) * Math.PI * 2; P([[Math.cos(a) * 0.3, Math.sin(a) * 0.3], [Math.cos(a) * 0.75, Math.sin(a) * 0.75]]); } circ(0, 0, 0.22, true); break;
+    case 'ember': for (const [x, y, r] of [[0, 0.2, 0.75], [-0.55, -0.45, 0.4], [0.6, -0.55, 0.32]]) { ctx.beginPath(); ctx.moveTo(x * s, (y - r) * s); ctx.quadraticCurveTo((x + r * 0.9) * s, y * s, x * s, (y + r * 0.8) * s); ctx.quadraticCurveTo((x - r * 0.9) * s, y * s, x * s, (y - r) * s); ctx.fill(); } break;
+    case 'fireball': circ(0.35, -0.35, 0.5, true); ctx.beginPath(); ctx.moveTo(0.0 * s, -0.75 * s); ctx.quadraticCurveTo(-0.5 * s, -0.2 * s, -1.0 * s, 0.95 * s); ctx.quadraticCurveTo(-0.2 * s, 0.4 * s, 0.75 * s, 0.05 * s); ctx.fill(); break;
+    case 'pillar': ctx.beginPath(); ctx.moveTo(-0.45 * s, 0.85 * s); ctx.quadraticCurveTo(-0.6 * s, -0.2 * s, 0, -1 * s); ctx.quadraticCurveTo(0.6 * s, -0.2 * s, 0.45 * s, 0.85 * s); ctx.fill(); ctx.beginPath(); ctx.ellipse(0, 0.85 * s, 0.9 * s, 0.18 * s, 0, 0, Math.PI * 2); ctx.stroke(); break;
+    case 'firedash': for (let i = 0; i < 3; i++) { const x = -0.7 + i * 0.5; ctx.beginPath(); ctx.moveTo(x * s, -0.5 * s + i * 0.1 * s); ctx.quadraticCurveTo((x + 0.35) * s, 0.2 * s, x * s, 0.8 * s); ctx.quadraticCurveTo((x - 0.3) * s, 0.2 * s, x * s, -0.5 * s + i * 0.1 * s); ctx.fill(); } P([[0.4, -0.6], [0.95, 0], [0.4, 0.6]]); break;
+    case 'storm': for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(0, 0, (0.3 + i * 0.3) * s, i * 2, i * 2 + 4.2); ctx.stroke(); } circ(0, 0, 0.18, true); break;
     default: circ(0, 0, 0.7, true);
   }
   ctx.restore();
@@ -111,6 +123,7 @@ export function renderPortraits(champs, size = 192) {
     const rim = new THREE.DirectionalLight(new THREE.Color(c.accent), 2.2); rim.position.set(2, 1.5, -2); scene.add(rim);
     const v = createChampionVisual(c);
     v.rig.apply(basePose(c.arche));
+    v.root.rotation.y = 0.35; v.updateUprights && v.updateUprights();
     v.root.rotation.y = 0.35;
     scene.add(v.root);
     const cam = new THREE.PerspectiveCamera(26, 1, 0.1, 20);

@@ -49,7 +49,7 @@ src/
   map/layout.js      전장 정의(공격로·정글·강·덤불·포탑·기지) — 지형·내비·AI·미니맵 공용
   map/grid.js        보행/높이/덤불 그리드, A* 경로 탐색
   sim/sim.js         게임 규칙(이동·전투·상태이상·시야·웨이브·성장·승패) — 렌더링과 분리
-  sim/skills.js      스킬 40개 + 패시브 10개 (판정 도형 = 텔레그래프 도형)
+  sim/skills.js      스킬 48개 + 패시브 12개 (판정 도형 = 텔레그래프 도형)
   sim/ai.js          챔피언 AI (팀 시야만 사용)
   data/champions.js  캐릭터 수치·스킬 데이터 (밸런스 조정 지점)
   data/items.js      아이템·AI 빌드

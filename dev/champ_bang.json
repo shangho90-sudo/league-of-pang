@@ -1,0 +1,1 @@
+{"Q":{"cast":true,"cd":true,"dmgToEnemy":4418,"fx":["status","fx:impact"],"msg":""},"W":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["status","fx:afterimage"],"msg":""},"E":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["fx:afterimage"],"msg":""},"R":{"cast":true,"cd":true,"dmgToEnemy":441,"fx":["status","fx:phantomRing","fx:phantomSlash"],"msg":""},"errs":[]}

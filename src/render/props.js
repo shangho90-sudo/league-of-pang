@@ -37,41 +37,107 @@ function jitter(geo, amt, rnd) {
 }
 // 덩어리형 잎: 구형 법선 + 아래 어둡고 위 밝은 색
 let FOLIAGE_DETAIL = 1;
-function foliageClump(r, cx, cy, cz, dark, light, rnd, squash = 0.8) {
+const SUN = new THREE.Vector3(-14, 26, 10).normalize();
+// 잎 카드 텍스처: 잎 묶음 실루엣 (알파)
+let LEAF_TEX = null;
+function leafTexture() {
+  if (LEAF_TEX) return LEAF_TEX;
+  const S = 128, cv = document.createElement('canvas'); cv.width = cv.height = S;
+  const g = cv.getContext('2d');
+  const r = mulberry(77);
+  for (let i = 0; i < 22; i++) {
+    const a = r() * Math.PI * 2, d = Math.sqrt(r()) * S * 0.32;
+    const x = S / 2 + Math.cos(a) * d, y = S / 2 + Math.sin(a) * d * 0.85;
+    const L = S * (0.11 + r() * 0.08), W = L * 0.42, rot = a + (r() - 0.5) * 1.2;
+    const sh = 0.72 + r() * 0.28 + (1 - y / S) * 0.15;
+    g.save(); g.translate(x, y); g.rotate(rot);
+    g.fillStyle = `rgb(${Math.round(255 * sh)},${Math.round(255 * sh)},${Math.round(255 * sh)})`;
+    g.beginPath(); g.moveTo(-L, 0); g.quadraticCurveTo(0, -W, L, 0); g.quadraticCurveTo(0, W, -L, 0); g.fill();
+    g.strokeStyle = `rgba(0,0,0,0.25)`; g.lineWidth = 1; g.beginPath(); g.moveTo(-L * 0.9, 0); g.lineTo(L * 0.9, 0); g.stroke();
+    g.restore();
+  }
+  LEAF_TEX = new THREE.CanvasTexture(cv);
+  LEAF_TEX.colorSpace = THREE.SRGBColorSpace;
+  return LEAF_TEX;
+}
+// 정점 색에 주광원 방향 명암을 구워 넣음 (실제 조명과 같은 방향)
+function bakeLight(n, base, ao = 1) {
+  const l = Math.max(0, n.dot(SUN));
+  return base.clone().multiplyScalar((0.68 + l * 0.5) * ao);
+}
+// 잎 덩어리: 울퉁불퉁한 구 + 구형 법선 + 아래 어둡고 위 밝은 색 + 수관 안쪽 음영
+function foliageClump(r, cx, cy, cz, dark, light, rnd, squash = 0.8, treeC = null) {
   let g = new THREE.IcosahedronGeometry(r, FOLIAGE_DETAIL);
-  g = g.toNonIndexed();
-  jitter(g, r * 0.35, rnd);
-  g.scale(1, squash, 1);
+  g.deleteAttribute('normal'); g.deleteAttribute('uv');
+  g = mergeVertices(g);
   const p = g.attributes.position;
-  const nrm = new Float32Array(p.count * 3);
   for (let i = 0; i < p.count; i++) {
-    const v = new THREE.Vector3(p.getX(i), p.getY(i) * 1.2 + r * 0.25, p.getZ(i)).normalize();
-    nrm[i * 3] = v.x; nrm[i * 3 + 1] = v.y; nrm[i * 3 + 2] = v.z;
+    const v = new THREE.Vector3(p.getX(i), p.getY(i), p.getZ(i));
+    const n = fbm(v.x * 2.1 + cx * 3, v.z * 2.1 + v.y * 1.7 + cz);
+    v.multiplyScalar(0.78 + n * 0.5);
+    p.setXYZ(i, v.x, v.y * squash, v.z);
+  }
+  g = g.toNonIndexed();
+  const q = g.attributes.position;
+  const nrm = new Float32Array(q.count * 3);
+  const dc = col(dark), lc = col(light), cols = new Float32Array(q.count * 3);
+  for (let i = 0; i < q.count; i++) {
+    const v = new THREE.Vector3(q.getX(i), q.getY(i) * 1.15 + r * 0.25, q.getZ(i)).normalize();
+    nrm.set([v.x, v.y, v.z], i * 3);
+    const t = THREE.MathUtils.clamp((q.getY(i) + r * squash) / (2 * r * squash), 0, 1);
+    let c = dc.clone().lerp(lc, Math.pow(t, 0.85));
+    const wy = cy + q.getY(i), wx = cx + q.getX(i), wz = cz + q.getZ(i);
+    const ao = treeC ? THREE.MathUtils.clamp(0.7 + Math.hypot(wx - treeC.x, wz - treeC.z) * 0.18 + (wy - treeC.y) * 0.08, 0.6, 1.08) : 1;
+    c = bakeLight(v, c, ao).multiplyScalar(0.94 + rnd() * 0.1);
+    cols.set([c.r, c.g, c.b], i * 3);
   }
   g.setAttribute('normal', new THREE.BufferAttribute(nrm, 3));
+  g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
   g.translate(cx, cy, cz);
-  const dc = col(dark), lc = col(light);
-  colorize(g, (x, y, z) => {
-    const t = THREE.MathUtils.clamp((y - (cy - r * squash)) / (2 * r * squash), 0, 1);
-    const c = dc.clone().lerp(lc, Math.pow(t, 0.9));
-    const n = 0.92 + rnd() * 0.16;
-    return c.multiplyScalar(n);
-  });
   return strip(g);
 }
-function trunk(h, r0, r1, bend, colr, rnd, roots = 0) {
+// 잎 카드: 덩어리 표면에서 바깥을 향한 사각형 → 실루엣이 잎 묶음으로 끊어짐
+function leafCards(r, cx, cy, cz, dark, light, rnd, n, squash = 0.8) {
   const parts = [];
-  const g = new THREE.CylinderGeometry(r1, r0, h, 7, 4, true);
+  const dc = col(dark), lc = col(light);
+  for (let i = 0; i < n; i++) {
+    const u = rnd() * 2 - 1, th = rnd() * Math.PI * 2;
+    const dir = new THREE.Vector3(Math.sqrt(1 - u * u) * Math.cos(th), Math.abs(u) * 0.8 + 0.1, Math.sqrt(1 - u * u) * Math.sin(th)).normalize();
+    const s = r * (0.75 + rnd() * 0.5);
+    const g = new THREE.PlaneGeometry(s, s);
+    const m = new THREE.Matrix4().lookAt(new THREE.Vector3(), dir, new THREE.Vector3(0, 1, 0));
+    g.applyMatrix4(m);
+    g.rotateOnAxis?.(dir, rnd() * 6);
+    const c = dir.clone().multiplyScalar(r * 0.92); c.y *= squash;
+    g.translate(cx + c.x, cy + c.y, cz + c.z);
+    const t = THREE.MathUtils.clamp(dir.y * 0.5 + 0.5, 0, 1);
+    const cc = bakeLight(dir, dc.clone().lerp(lc, t)).multiplyScalar(0.95 + rnd() * 0.1);
+    const p = g.attributes.position, colA = new Float32Array(p.count * 3), nA = new Float32Array(p.count * 3);
+    for (let k = 0; k < p.count; k++) { colA.set([cc.r, cc.g, cc.b], k * 3); nA.set([dir.x, dir.y, dir.z], k * 3); }
+    g.setAttribute('color', new THREE.BufferAttribute(colA, 3));
+    g.setAttribute('normal', new THREE.BufferAttribute(nA, 3));
+    parts.push(g.index ? g.toNonIndexed() : g);
+  }
+  return parts;
+}
+function trunk(h, r0, r1, bend, colr, rnd, roots = 0, branches = []) {
+  const parts = [];
+  const g = new THREE.CylinderGeometry(r1, r0, h, 8, 5, true);
   g.translate(0, h / 2, 0);
   const p = g.attributes.position;
-  for (let i = 0; i < p.count; i++) {
-    const t = p.getY(i) / h;
-    p.setX(i, p.getX(i) + Math.sin(t * 2.2) * bend);
-  }
+  for (let i = 0; i < p.count; i++) { const t = p.getY(i) / h; p.setX(i, p.getX(i) + Math.sin(t * 2.2) * bend); }
   g.computeVertexNormals();
   const c = col(colr);
-  colorize(g, (x, y) => c.clone().multiplyScalar(0.6 + 0.5 * (y / h)));
+  const nr = g.attributes.normal;
+  colorize(g, (x, y, z, i) => bakeLight(new THREE.Vector3(nr.getX(i), nr.getY(i), nr.getZ(i)), c, 0.55 + 0.5 * (y / h)));
   parts.push(strip(g));
+  // 가지: 줄기에서 잎 덩어리로
+  for (const b of branches) {
+    const curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(Math.sin(b.from * 2.2) * bend, b.from * h, 0), new THREE.Vector3(b.x * 0.4, b.y * 0.85, b.z * 0.4), new THREE.Vector3(b.x, b.y, b.z));
+    const bg = new THREE.TubeGeometry(curve, 5, r1 * 0.55, 5, false);
+    colorize(bg, (x, y) => c.clone().multiplyScalar(0.7 + 0.25 * (y / (b.y || 1))));
+    parts.push(strip(bg));
+  }
   for (let k = 0; k < roots; k++) {
     const a = (k / roots) * Math.PI * 2 + rnd() * 0.6;
     const curve = new THREE.QuadraticBezierCurve3(
@@ -80,88 +146,77 @@ function trunk(h, r0, r1, bend, colr, rnd, roots = 0) {
       new THREE.Vector3(Math.cos(a) * (r0 * 3 + rnd() * 0.6), -0.08, Math.sin(a) * (r0 * 3 + rnd() * 0.6)),
     );
     const rg = new THREE.TubeGeometry(curve, 5, r0 * 0.32, 5, false);
-    colorize(rg, () => c.clone().multiplyScalar(0.55));
+    colorize(rg, () => c.clone().multiplyScalar(0.5));
     parts.push(strip(rg));
   }
   return parts;
 }
 
-function makeTreeVariants(rnd) {
+// 나무 종류: 불투명 몸체(줄기·가지·잎 덩어리) + 잎 카드(알파 테스트)
+function makeTreeVariants(rnd, cardsPerClump) {
   const variants = [];
-  // A: 둥근 활엽수 (짙은 녹색)
-  for (let v = 0; v < 2; v++) {
-    const parts = trunk(2.2, 0.32, 0.2, 0.15, 0x5a3e2b, rnd, 4);
-    const n = 4 + v;
-    for (let i = 0; i < n; i++) {
-      const a = (i / n) * Math.PI * 2 + rnd();
-      const rr = 0.7 + rnd() * 0.5;
-      parts.push(foliageClump(1.1 + rnd() * 0.5, Math.cos(a) * rr, 2.6 + rnd() * 0.9, Math.sin(a) * rr, 0x173020, 0x4a7a32, rnd));
-    }
-    parts.push(foliageClump(1.3, 0, 3.6, 0, 0x204526, 0x5f8f3c, rnd));
-    variants.push({ geo: mergeGeometries(parts), windMinY: 1.6 });
-  }
-  // B: 양식화된 침엽수 (청록)
+  const broad = (trunkCol, dark, light, nCl, spread, hTop, sq, roots, extra = {}) => {
+    const clumps = [];
+    for (let i = 0; i < nCl; i++) { const a = (i / nCl) * Math.PI * 2 + rnd() * 0.7; const rr = spread * (0.7 + rnd() * 0.5); clumps.push({ x: Math.cos(a) * rr, y: hTop - 0.4 + rnd() * 0.9, z: Math.sin(a) * rr, r: 0.95 + rnd() * 0.45 }); }
+    clumps.push({ x: 0, y: hTop + 0.65, z: 0, r: 1.15 + rnd() * 0.2 });
+    const tc = { x: 0, y: hTop, z: 0 };
+    const parts = trunk(hTop - 0.5, 0.3, 0.18, extra.bend ?? 0.15, trunkCol, rnd, roots, clumps.slice(0, nCl).map((c) => ({ from: 0.55 + rnd() * 0.25, x: c.x * 0.8, y: c.y - 0.3, z: c.z * 0.8 })));
+    const cards = [];
+    for (const c of clumps) { parts.push(foliageClump(c.r, c.x, c.y, c.z, dark, light, rnd, sq, tc)); cards.push(...leafCards(c.r, c.x, c.y, c.z, dark, light, rnd, cardsPerClump, sq)); }
+    return { geo: mergeGeometries(parts), cards: cards.length ? mergeGeometries(cards) : null, windMinY: hTop - 1.2, rare: extra.rare };
+  };
+  variants.push(broad(0x5a3e2b, 0x163020, 0x5f9238, 4, 0.85, 2.7, 0.82, 4));          // 짙은 활엽수
+  variants.push(broad(0x4d3627, 0x1a3a26, 0x6a9a3e, 5, 1.05, 2.9, 0.78, 4));          // 큰 활엽수
+  // 침엽수: 층층이 쌓인 원뿔 (톱니 가장자리)
   {
     const parts = trunk(1.6, 0.25, 0.14, 0.05, 0x4a3426, rnd, 3);
+    const cards = [];
     for (let i = 0; i < 4; i++) {
       const r = 1.55 - i * 0.32, y = 1.3 + i * 0.95;
-      let g = new THREE.ConeGeometry(r, 1.5, 8, 2).toNonIndexed();
-      jitter(g, 0.12, rnd);
-      g.translate(0, y + 0.75, 0);
-      g.computeVertexNormals();
-      const p = g.attributes.position;
+      let g = new THREE.ConeGeometry(r, 1.5, 9, 2);
+      const pp = g.attributes.position;
+      for (let k = 0; k < pp.count; k++) { const yy = pp.getY(k); if (yy < -0.6) { const a = Math.atan2(pp.getZ(k), pp.getX(k)); const f = 1 + 0.18 * Math.sin(a * 9); pp.setX(k, pp.getX(k) * f); pp.setZ(k, pp.getZ(k) * f); pp.setY(k, yy - (f - 1) * 0.6); } }
+      g = g.toNonIndexed(); g.translate(0, y + 0.75, 0); g.computeVertexNormals();
       const nr = g.attributes.normal;
-      for (let k = 0; k < p.count; k++) { const nn = new THREE.Vector3(nr.getX(k), nr.getY(k) + 0.6, nr.getZ(k)).normalize(); nr.setXYZ(k, nn.x, nn.y, nn.z); }
-      colorize(g, (x, yy) => col(0x173a2e).lerp(col(0x4f8a5a), THREE.MathUtils.clamp((yy - y) / 1.5, 0, 1)).multiplyScalar(0.92 + rnd() * 0.15));
+      for (let k = 0; k < nr.count; k++) { const nn = new THREE.Vector3(nr.getX(k), nr.getY(k) + 0.55, nr.getZ(k)).normalize(); nr.setXYZ(k, nn.x, nn.y, nn.z); }
+      colorize(g, (x, yy, z, k) => bakeLight(new THREE.Vector3(nr.getX(k), nr.getY(k), nr.getZ(k)), col(0x10302a).lerp(col(0x3f7a52), THREE.MathUtils.clamp((yy - y) / 1.5, 0, 1))).multiplyScalar(0.93 + rnd() * 0.12));
       parts.push(strip(g));
     }
-    variants.push({ geo: mergeGeometries(parts), windMinY: 1.2 });
+    variants.push({ geo: mergeGeometries(parts), cards: null, windMinY: 1.2 });
   }
-  // C: 넓게 퍼진 연두빛 나무
-  {
-    const parts = trunk(1.9, 0.36, 0.22, -0.2, 0x6b4a33, rnd, 5);
-    for (let i = 0; i < 6; i++) {
-      const a = (i / 6) * Math.PI * 2 + rnd() * 0.5;
-      parts.push(foliageClump(0.95 + rnd() * 0.35, Math.cos(a) * 1.3, 2.3 + rnd() * 0.5, Math.sin(a) * 1.3, 0x24401e, 0x6e9440, rnd, 0.7));
-    }
-    parts.push(foliageClump(1.2, 0, 2.9, 0, 0x2c4c22, 0x7aa046, rnd, 0.7));
-    variants.push({ geo: mergeGeometries(parts), windMinY: 1.4 });
-  }
-  // D: 가을빛 악센트 나무 (드물게)
-  {
-    const parts = trunk(2.0, 0.28, 0.16, 0.25, 0x5b4033, rnd, 3);
-    for (let i = 0; i < 4; i++) {
-      const a = (i / 4) * Math.PI * 2 + rnd();
-      parts.push(foliageClump(0.9 + rnd() * 0.3, Math.cos(a) * 0.7, 2.6 + rnd() * 0.6, Math.sin(a) * 0.7, 0x4d3a1c, 0xb68a3a, rnd));
-    }
-    variants.push({ geo: mergeGeometries(parts), windMinY: 1.6, rare: true });
-  }
+  variants.push(broad(0x6b4a33, 0x24401e, 0x86a848, 6, 1.25, 2.3, 0.7, 5, { bend: -0.2 })); // 넓게 퍼진 연두빛
+  variants.push(broad(0x5b4033, 0x4a3518, 0xc0903a, 4, 0.7, 2.6, 0.8, 3, { bend: 0.25, rare: true })); // 가을빛 악센트
   return variants;
 }
 
+// 바위: 큰 면/작은 면이 구분되는 깎인 형태 (플랫 셰이딩) + 위쪽 이끼, 면 방향별 명암을 정점 색에 반영
 function makeRockVariants(rnd) {
   const out = [];
-  for (let v = 0; v < 4; v++) {
-    let g = new THREE.IcosahedronGeometry(1, 1);
-    g.deleteAttribute('uv'); g.deleteAttribute('normal');
+  const one = (sx, sy, sz, ox = 0, oz = 0, mossy = true) => {
+    let g = new THREE.IcosahedronGeometry(1, 0);
+    g.deleteAttribute('normal'); g.deleteAttribute('uv');
     g = mergeVertices(g);
     const pp = g.attributes.position;
-    for (let k = 0; k < pp.count; k++) { const f = 0.78 + rnd() * 0.42; pp.setXYZ(k, pp.getX(k) * f, pp.getY(k) * f, pp.getZ(k) * f); }
-    g.scale(1 + rnd() * 0.6, 0.55 + rnd() * 0.35, 1 + rnd() * 0.4);
-    // 바닥을 평평하게
-    for (let k = 0; k < pp.count; k++) if (pp.getY(k) < -0.25) pp.setY(k, -0.25 + (pp.getY(k) + 0.25) * 0.2);
-    g.translate(0, 0.15, 0);
-    g.computeVertexNormals();
-    g = g.toNonIndexed();
-    const mossy = rnd() > 0.4;
-    colorize(g, (x, y, z) => {
-      const top = THREE.MathUtils.clamp((y + 0.1) * 1.3, 0, 1);
-      const c = col(0x333d47).lerp(col(0x6c7b88), top);
-      if (mossy && y > 0.3) c.lerp(col(0x4a6630), THREE.MathUtils.clamp((y - 0.3) * 2.5, 0, 0.75));
-      return c.multiplyScalar(0.92 + rnd() * 0.1);
+    for (let k = 0; k < pp.count; k++) { const f = 0.72 + rnd() * 0.5; pp.setXYZ(k, pp.getX(k) * f * sx, pp.getY(k) * f * sy, pp.getZ(k) * f * sz); if (pp.getY(k) < -0.2 * sy) pp.setY(k, -0.2 * sy); }
+    g = g.toNonIndexed(); g.computeVertexNormals();
+    g.translate(ox, 0.18 * sy, oz);
+    const nr = g.attributes.normal;
+    const faceRand = [];
+    colorize(g, (x, y, z, i) => {
+      const f = Math.floor(i / 3);
+      faceRand[f] ??= rnd();
+      const n = new THREE.Vector3(nr.getX(i), nr.getY(i), nr.getZ(i));
+      let c = col(0x46515d).lerp(col(0x7a8794), THREE.MathUtils.clamp(n.y * 0.6 + 0.4, 0, 1)).multiplyScalar(0.88 + faceRand[f] * 0.22);
+      if (mossy && n.y > 0.72 && faceRand[f] > 0.25) c.lerp(col(0x4f6e2e), 0.75);
+      c = bakeLight(n, c, 0.8 + THREE.MathUtils.clamp(y, 0, 1) * 0.25);
+      return c;
     });
-    out.push(strip(g));
-  }
+    return strip(g);
+  };
+  out.push(mergeGeometries([one(1.2, 0.8, 1.0), one(0.45, 0.35, 0.5, 1.1, 0.5)]));
+  out.push(mergeGeometries([one(1.0, 1.1, 0.9)]));
+  out.push(mergeGeometries([one(1.4, 0.6, 1.1), one(0.5, 0.45, 0.4, -1.1, -0.4), one(0.35, 0.3, 0.35, 0.6, -1.0)]));
+  out.push(mergeGeometries([one(0.9, 0.7, 1.3, 0, 0, false)]));
   return out;
 }
 
@@ -205,9 +260,9 @@ function makeGrassTuft(rnd, dark, light, h = 0.45, blades = 9) {
 function makeBrushClump(rnd) {
   const parts = [];
   for (let i = 0; i < 20; i++) {
-    const a = rnd() * Math.PI * 2, r = Math.sqrt(rnd()) * 0.9;
-    const h = 0.8 + rnd() * 0.45;
-    const g = new THREE.PlaneGeometry(0.34, h, 1, 3);
+    const a = rnd() * Math.PI * 2, r = Math.sqrt(rnd()) * 0.95;
+    const h = 0.42 + rnd() * 0.26;
+    const g = new THREE.PlaneGeometry(0.26, h, 1, 3);
     g.translate(0, h / 2, 0);
     const p = g.attributes.position;
     const bend = 0.25 + rnd() * 0.35;
@@ -216,7 +271,7 @@ function makeBrushClump(rnd) {
     g.translate(Math.cos(a) * r, 0, Math.sin(a) * r);
     const nr = g.attributes.normal;
     for (let k = 0; k < nr.count; k++) { const v = new THREE.Vector3(Math.cos(a), 1.4, Math.sin(a)).normalize(); nr.setXYZ(k, v.x, v.y, v.z); }
-    colorize(g, (x, y) => col(0x123528).lerp(col(0x3f8a5c), THREE.MathUtils.clamp(y / h, 0, 1)).multiplyScalar(0.9 + rnd() * 0.2));
+    colorize(g, (x, y) => col(0x24624a).lerp(col(0x7cc98a), THREE.MathUtils.clamp(y / h, 0, 1)).multiplyScalar(0.9 + rnd() * 0.2));
     parts.push(strip(g));
   }
   return mergeGeometries(parts);
@@ -259,7 +314,9 @@ export function buildProps(quality) {
   group.name = 'props';
   const density = quality.foliage; // 0.4 ~ 1
   FOLIAGE_DETAIL = quality.foliage >= 0.95 ? 1 : 0; // 모델 LOD: 낮음/중간 품질은 저폴리 잎
-  const trees = makeTreeVariants(rnd);
+  const cardsPerClump = quality.foliage >= 0.95 ? 9 : quality.foliage >= 0.6 ? 6 : 3;
+  const trees = makeTreeVariants(rnd, cardsPerClump);
+  const aoPoints = [];
   const treeItems = trees.map(() => []);
   // 나무 배치: 지터 격자 + 노이즈 클러스터 → 일정 간격 반복 방지
   const step = 2.3;
@@ -280,10 +337,16 @@ export function buildProps(quality) {
       treeItems[vi].push({ x: px, z: pz, y: groundHeight(px, pz) - 0.1, s: sc, rot: rnd() * Math.PI * 2, tilt: (rnd() - 0.5) * 0.12, tilt2: (rnd() - 0.5) * 0.12 });
     }
   }
-  const treeMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0 });
+  const treeMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 });
+  const cardMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, map: leafTexture(), alphaTest: 0.45, side: THREE.DoubleSide });
   trees.forEach((t, i) => {
     const m = patchFow(treeMat.clone(), { wind: true, windAmp: 0.05, windMinY: t.windMinY, occlude: true });
     group.add(chunkedInstances(t.geo, m, treeItems[i]));
+    if (t.cards) {
+      const cm = patchFow(cardMat.clone(), { wind: true, windAmp: 0.07, windMinY: t.windMinY, occlude: true });
+      group.add(chunkedInstances(t.cards, cm, treeItems[i], { cast: true }));
+    }
+    for (const it of treeItems[i]) aoPoints.push({ x: it.x, z: it.z, r: 2.6 * it.s, a: 0.5 });
   });
   let treeCount = treeItems.reduce((a, b) => a + b.length, 0);
 
@@ -300,14 +363,21 @@ export function buildProps(quality) {
       rockItems[i % 4].push({ x, z, y: groundHeight(x, z) - 0.2, s: 0.6 + rnd() * 0.8, rot: rnd() * 6.28 });
     }
   }
+  // 강둑 바위 돌출부: 강과 맞닿은 절벽/숲 가장자리 (이동 불가 영역에만 → 판정과 어긋나지 않음)
+  for (let i = 0; i < 5000; i++) {
+    const x = (rnd() * 2 - 1) * MAP_HALF, z = (rnd() * 2 - 1) * MAP_HALF;
+    const c = classify(x, z);
+    if (c.rD < 9 && c.sd > 0.05 && c.sd < 1.6 && rnd() < 0.5) rockItems[i % 4].push({ x, z, y: groundHeight(x, z) - 0.25, s: 0.55 + rnd() * 0.75, rot: rnd() * 6.28, tilt: (rnd() - 0.5) * 0.3 });
+  }
   // 이동 경로 가장자리의 작은 돌 (판정 없음, 평평)
   for (let i = 0; i < 2200; i++) {
     const x = (rnd() * 2 - 1) * MAP_HALF, z = (rnd() * 2 - 1) * MAP_HALF;
     const s = sdAt(x, z);
     if (s > -1.3 && s < -0.15 && rnd() < 0.5) rockItems[(i + 1) % 4].push({ x, z, y: groundHeight(x, z) - 0.05, s: 0.12 + rnd() * 0.16, rot: rnd() * 6.28 });
   }
-  const rockMat = patchFow(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, flatShading: false }));
+  const rockMat = patchFow(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.8, flatShading: true }));
   rocks.forEach((g, i) => group.add(chunkedInstances(g, rockMat, rockItems[i])));
+  for (const r of rockItems) for (const it of r) if (it.s > 0.3) aoPoints.push({ x: it.x, z: it.z, r: 1.6 * it.s, a: 0.35 });
 
   // 양치식물·낮은 식생: 숲 가장자리
   const fern = makeFern(rnd);
@@ -339,7 +409,7 @@ export function buildProps(quality) {
   const brushItems = [];
   for (const b of BRUSHES) {
     const area = Math.PI * b.rx * b.rz;
-    const n = Math.ceil(area / 1.5);
+    const n = Math.ceil(area / 1.9);
     for (let i = 0; i < n * 2; i++) {
       const lx = (rnd() * 2 - 1) * b.rx, lz = (rnd() * 2 - 1) * b.rz;
       if ((lx * lx) / (b.rx * b.rx) + (lz * lz) / (b.rz * b.rz) > 1) continue;
@@ -353,5 +423,5 @@ export function buildProps(quality) {
   const brushGroup = chunkedInstances(clump, brushMat, brushItems, { cast: true });
   group.add(brushGroup);
 
-  return { group, stats: { trees: treeCount, rocks: rockItems.reduce((a, b) => a + b.length, 0), ferns: fernItems.length, tufts: tuftItems.length, brush: brushItems.length } };
+  return { group, aoPoints, stats: { trees: treeCount, rocks: rockItems.reduce((a, b) => a + b.length, 0), ferns: fernItems.length, tufts: tuftItems.length, brush: brushItems.length } };
 }

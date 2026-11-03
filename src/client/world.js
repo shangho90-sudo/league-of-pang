@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { TURRETS, BASES, MAP_HALF, TEAM_COLORS } from '../map/layout.js';
 import { groundHeight, brushAt } from '../map/grid.js';
 import { makeGroundTextures, makeFxTextures } from '../render/textures.js';
-import { buildTerrain, buildWater, sharedUniforms, fowData, fowTexture, FOW_RES } from '../render/terrain.js';
+import { buildTerrain, buildWater, bakeCanopyAO, sharedUniforms, fowData, fowTexture, FOW_RES } from '../render/terrain.js';
 import { buildProps } from '../render/props.js';
 import { buildFountain, buildShop, buildBanner } from '../render/structures.js';
 import { createScene, QuarterCamera, updateSunFollow, applyEnvironment } from '../render/scene.js';
@@ -35,9 +35,9 @@ export class World {
   build(sim, playerTeam, onProgress = () => {}) {
     this.sim = sim; this.playerTeam = playerTeam;
     const tex = makeGroundTextures(); onProgress(0.2);
-    this.scene.add(buildTerrain(tex, this.q)); onProgress(0.35);
+    const props = buildProps(this.q); this.scene.add(props.group); this.propStats = props.stats; onProgress(0.4);
+    this.scene.add(buildTerrain(tex, this.q, bakeCanopyAO(props.aoPoints))); onProgress(0.6);
     this.scene.add(buildWater());
-    const props = buildProps(this.q); this.scene.add(props.group); this.propStats = props.stats; onProgress(0.6);
     this.treeMats = [];
     props.group.traverse((o) => { if (o.isInstancedMesh && o.material && !this.treeMats.includes(o.material)) this.treeMats.push(o.material); });
     for (const b of BASES) {
@@ -190,6 +190,21 @@ export class World {
     const U = e.u;
     const at = (o) => ({ x: o.x, y: gy(o.x, o.z), z: o.z });
     switch (e.name) {
+      case 'frostHit': { const p = at(e); fx.burst(p.x, p.y + 0.9, p.z, 12, { color: 0xdff8ff, tex: 'shard', speed: 4, elev: 0.5, g: 8, life: 0.45, size: 0.22, spin: 8 }); fx.ring(p.x, p.z, 0.2, 0.9, 0x9fe8ff, 0.3, { y: p.y + 0.12 }); audio.play('glass', 0.5); break; }
+      case 'frostBloom': { const p = at(e); fx.ring(p.x, p.z, 0.3, e.r, 0xbff0ff, 0.5, { y: p.y + 0.13 }); fx.burst(p.x, p.y + 0.2, p.z, 16, { color: 0xeafcff, tex: 'shard', speed: 3, elev: 0.6, g: 6, life: 0.6, size: 0.25, spin: 6, floor: p.y + 0.05 }); audio.play('glass', 0.4); break; }
+      case 'iceSlide': { const y = gy(U.x, U.z); fx.ring(U.x, U.z, 0.2, 1.0, 0x9fe8ff, 0.35, { y: y + 0.12 }); for (let i = 0; i < 8; i++) fx.particle({ x: U.x + (Math.random() - 0.5) * 0.6, y: y + 0.15, z: U.z + (Math.random() - 0.5) * 0.6, color: 0xdff8ff, tex: 'shard', size: 0.25, life: 0.6, vy: 0.4, spin: 5 }); audio.play('swing'); break; }
+      case 'absoluteZeroCharge': { const p = at(e); fx.ring(p.x, p.z, e.r, e.r * 0.25, 0x9fe8ff, e.dur, { y: p.y + 0.14, alpha: 0.6 }); for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; fx.particle({ x: p.x + Math.cos(a) * e.r, y: p.y + 0.3, z: p.z + Math.sin(a) * e.r, vx: -Math.cos(a) * e.r / e.dur, vz: -Math.sin(a) * e.r / e.dur, color: 0xcff6ff, tex: 'soft', size: 0.3, life: e.dur, a: 0.8 }); } break; }
+      case 'absoluteZero': { const p = at(e); fx.ring(p.x, p.z, 0.3, e.r, 0xeafcff, 0.55, { y: p.y + 0.15 }); fx.ring(p.x, p.z, 0.2, e.r * 0.7, 0x7fd8ff, 0.45, { y: p.y + 0.14, alpha: 0.6 }); for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2, r = e.r * (0.3 + Math.random() * 0.6); fx.column(p.x + Math.cos(a) * r, p.z + Math.sin(a) * r, 0xcff6ff, 0.7, 1.4, 0.18); } fx.burst(p.x, p.y + 0.4, p.z, 30, { color: 0xeafcff, tex: 'shard', speed: 6, elev: 0.6, g: 10, life: 0.8, size: 0.3, spin: 8, floor: p.y + 0.05 }); audio.play('boom', 0.6); this.camera.addShake(e.shake * this.settings.shake); break; }
+      case 'freeze': { const p = at(e); fx.column(p.x, p.z, 0xbff0ff, 0.8, 2.0, 0.55); fx.burst(p.x, p.y + 1.0, p.z, 14, { color: 0xffffff, tex: 'shard', speed: 3, life: 0.6, size: 0.25, spin: 6 }); audio.play('glass', 0.7); break; }
+      case 'chillStack': { const p = at(e); fx.burst(p.x, p.y + 1.6, p.z, 3 + e.n * 2, { color: 0xbff0ff, tex: 'soft', speed: 1, life: 0.5, size: 0.2 }); break; }
+      case 'fireBurst': { const p = at(e); fx.ring(p.x, p.z, 0.3, e.r, 0xff7a2a, 0.35, { y: p.y + 0.13 }); fx.burst(p.x, p.y + 0.6, p.z, 20, { color: 0xffa040, tex: 'soft', speed: 4, elev: 0.6, life: 0.45, size: 0.5 }); fx.burst(p.x, p.y + 0.6, p.z, 10, { color: 0xfff0b0, tex: 'spark', speed: 6, elev: 0.6, g: 8, life: 0.4, size: 0.25 }); fx.burst(p.x, p.y + 0.5, p.z, 6, { color: 0x4a3a32, tex: 'smoke', additive: false, speed: 1.5, vy: 1, life: 0.9, size: 0.8, a: 0.5 }); audio.play('boom', 0.45); break; }
+      case 'pillarCharge': { const p = at(e); fx.ring(p.x, p.z, e.r * 0.2, e.r, 0xff6a1a, e.dur, { y: p.y + 0.13, alpha: 0.7 }); for (let i = 0; i < 8; i++) fx.particle({ x: p.x + (Math.random() - 0.5) * e.r, y: p.y + 0.1, z: p.z + (Math.random() - 0.5) * e.r, color: 0xff8a2a, tex: 'spark', size: 0.2, vy: 1.5, life: e.dur }); break; }
+      case 'firePillar': { const p = at(e); fx.column(p.x, p.z, 0xff6a1a, 0.7, 4.2, e.r * 0.75); fx.column(p.x, p.z, 0xffe08a, 0.5, 3.6, e.r * 0.35); fx.burst(p.x, p.y + 0.4, p.z, 24, { color: 0xffa040, tex: 'soft', speed: 2.5, vy: 6, life: 0.7, size: 0.55 }); fx.ring(p.x, p.z, 0.3, e.r * 1.2, 0xff8a2a, 0.35, { y: p.y + 0.13 }); audio.play('boom', 0.55); this.camera.addShake(e.shake * this.settings.shake); break; }
+      case 'fireDash': { const y = gy(U.x, U.z); fx.burst(U.x, y + 0.5, U.z, 12, { color: 0xff8a2a, tex: 'soft', speed: 2.5, vy: 1.5, life: 0.5, size: 0.45 }); audio.play('swing'); break; }
+      case 'fireTrailFx': { for (let k = 0; k <= 6; k++) { const x = e.x + e.dir.x * e.len * (k / 6), z = e.z + e.dir.z * e.len * (k / 6); fx.burst(x, gy(x, z) + 0.2, z, 3, { color: 0xffb23a, tex: 'soft', speed: 1, vy: 2, life: 0.5, size: 0.45 }); } break; }
+      case 'firestormStart': { const p = at(e); fx.ring(p.x, p.z, 0.4, e.r, 0xff5a1a, 0.6, { y: p.y + 0.14 }); audio.play('boom', 0.4); break; }
+      case 'firestormEnd': { const p = at(e); fx.ring(p.x, p.z, 0.3, e.r * 1.1, 0xffe08a, 0.5, { y: p.y + 0.15 }); fx.burst(p.x, p.y + 0.6, p.z, 40, { color: 0xff8a2a, tex: 'soft', speed: 7, elev: 0.5, life: 0.6, size: 0.7 }); fx.burst(p.x, p.y + 0.5, p.z, 14, { color: 0x3a2e28, tex: 'smoke', additive: false, speed: 2.5, vy: 1.5, life: 1.2, size: 1.2, a: 0.55 }); audio.play('boom'); this.camera.addShake(e.shake * this.settings.shake); break; }
+      case 'burnTick': { const p = at(e); fx.burst(p.x, p.y + 1.0, p.z, 3, { color: 0xff8a2a, tex: 'soft', speed: 0.6, vy: 1.4, life: 0.5, size: 0.3 }); break; }
       case 'glassBurst': { const p = at(e); fx.burst(p.x, p.y + 0.3, p.z, 18, { color: 0xdffbff, tex: 'shard', speed: 5, elev: 0.7, g: 12, life: 0.7, size: 0.22, spin: 10, floor: p.y + 0.05 }); fx.burst(p.x, p.y + 0.2, p.z, 16, { color: e.color, tex: 'drop', speed: 3.5, elev: 0.8, g: 10, life: 0.8, size: 0.3, floor: p.y + 0.05 }); fx.ring(p.x, p.z, 0.4, e.r, e.color, 0.4, { y: p.y + 0.12 }); audio.play('glass'); break; }
       case 'healBurst': { fx.column(U.x, U.z, e.color, 0.7, 2.6, 0.55); fx.burst(U.x, gy(U.x, U.z) + 0.5, U.z, 14, { color: e.color, tex: 'drop', speed: 1.5, vy: 2.5, life: 0.9, size: 0.25 }); audio.play('heal'); break; }
       case 'gooSplash': { const p = at(e); fx.burst(p.x, p.y + 0.2, p.z, 20, { color: 0x3ac8a8, tex: 'drop', speed: 3, elev: 0.5, g: 9, life: 0.7, size: 0.35, additive: false, floor: p.y + 0.05 }); break; }
@@ -261,7 +276,7 @@ export class World {
       z._acc = (z._acc || 0) + dt * this.q.particles;
       const s = z.shape, r = s.r || 1, gy = groundHeight(s.x, s.z);
       const rnd = () => { const a = Math.random() * Math.PI * 2, d = Math.sqrt(Math.random()) * r; return [s.x + Math.cos(a) * d, s.z + Math.sin(a) * d]; };
-      const rate = { goo: 14, elixir: 18, heatAura: 16, sanctum: 22, gravity: 26, mine: 1 }[z.vis] || 8;
+      const rate = { frost: 16, fireTrail: 14, firestorm: 30, goo: 14, elixir: 18, heatAura: 16, sanctum: 22, gravity: 26, mine: 1 }[z.vis] || 8;
       while (z._acc > 1 / rate) {
         z._acc -= 1 / rate;
         const [x, zz] = rnd();
@@ -270,6 +285,9 @@ export class World {
         else if (z.vis === 'heatAura') this.fx.particle({ x, y: gy + 0.3, z: zz, color: 0xff8a3a, tex: 'spark', size: 0.2, vy: 1.4, life: 0.6 });
         else if (z.vis === 'sanctum') this.fx.particle({ x, y: gy + 0.2, z: zz, color: 0xffe08a, tex: 'star', size: 0.22, vy: 1.2, life: 1.0, spin: 2 });
         else if (z.vis === 'gravity') { const dx = s.x - x, dz = s.z - zz; this.fx.particle({ x, y: gy + 0.3, z: zz, vx: dx * 1.4, vz: dz * 1.4, color: 0x9a7aff, tex: 'star', size: 0.2, life: 0.6 }); }
+        else if (z.vis === 'frost') this.fx.particle({ x, y: gy + 0.15, z: zz, color: 0xcff6ff, tex: Math.random() < 0.5 ? 'shard' : 'soft', size: 0.28, vy: 0.5, life: 0.9, a: 0.75, spin: 3 });
+        else if (z.vis === 'fireTrail') this.fx.particle({ x, y: gy + 0.15, z: zz, color: Math.random() < 0.6 ? 0xff7a2a : 0xffc04a, tex: 'soft', size: 0.38, vy: 1.6, life: 0.55, a: 0.85 });
+        else if (z.vis === 'firestorm') { const dx = x - s.x, dz = zz - s.z; this.fx.particle({ x, y: gy + 0.2, z: zz, vx: -dz * 1.2, vz: dx * 1.2, vy: 2.2, color: Math.random() < 0.5 ? 0xff5a1a : 0xffb23a, tex: Math.random() < 0.3 ? 'smoke' : 'soft', size: 0.5, life: 0.8, a: 0.8 }); }
         else if (z.vis === 'mine') this.fx.particle({ x: s.x, y: gy + 0.25, z: s.z, color: 0xd06aff, tex: 'soft', size: 0.5, life: 0.6, a: 0.8 });
       }
     }

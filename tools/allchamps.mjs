@@ -1,4 +1,4 @@
-// 10명 전원: 모바일 터치로 Q/W/E/R 드래그 시전 → 쿨다운·피해/효과 발생 확인
+// 전원: 모바일 터치로 Q/W/E/R 드래그 시전 → 쿨다운·피해/효과 발생 확인
 import { chromium } from 'playwright';
 import http from 'http'; import fs from 'fs'; import path from 'path';
 const root = process.cwd();

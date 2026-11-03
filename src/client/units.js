@@ -131,6 +131,7 @@ export class ChampionView extends BaseView {
     this.gLift = (this.gLift || 0) + (gl - (this.gLift || 0)) * Math.min(1, dt * 30);
     v.container.position.y = lift + this.gLift;
     // 부유 장치
+    v.updateUprights && v.updateUprights();
     for (const f of v.floats) {
       f.obj.position.y = (f.instrument ? 1.15 : 1.3) + Math.sin(t * 2) * 0.05;
       if (f.r1) {

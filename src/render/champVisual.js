@@ -7,7 +7,7 @@ import { HumanoidRig } from './rig.js';
 import { patchFow } from './terrain.js';
 
 export const CHAR_HEIGHT = 1.75;
-export const HEAD_SCALE = 0.74;
+export const HEAD_SCALE = 0.68;
 const templates = new Map();
 const loader = new GLTFLoader();
 let ASSET_BASE = '';
@@ -285,6 +285,48 @@ const KITS = {
     out.rsh = { obj: mesh(new THREE.SphereGeometry(0.15, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.25, 0.6, 1.1), mat('canM', () => std(0x5a5068, 0.42, 0.55))), bone: 'Right_UpperArm', off: [-0.03, 0.06, 0], rot: [0, 0, 15] };
     return out;
   },
+  choi(c) {
+    const out = {};
+    // 냉각 분사기 (오른손): 몸통 + 노즐 + 빛나는 냉각 코일
+    const gun = new THREE.Group();
+    const metal = mat('cryoM', () => std(0xb8c4d0, 0.35, 0.7));
+    gun.add(mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.16, 8).translate(0, 0.06, 0), mat('grip', () => std(0x2a3040, 0.7))));
+    gun.add(mesh(new THREE.BoxGeometry(0.11, 0.12, 0.34).translate(0, 0.17, 0.08), metal));
+    gun.add(mesh(new THREE.CylinderGeometry(0.035, 0.05, 0.22, 10).rotateX(Math.PI / 2).translate(0, 0.19, 0.34), metal));
+    for (const z of [0.0, 0.08, 0.16]) gun.add(mesh(new THREE.TorusGeometry(0.068, 0.014, 5, 12).translate(0, 0.17, z), mat('coil', () => glow(c.accent, 1.5)), false));
+    gun.add(mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.02, 10).rotateX(Math.PI / 2).translate(0, 0.19, 0.455), mat('coil', () => glow(c.accent, 1.5)), false));
+    out.right = { obj: gun, grip: [0, 0, 0], off: [0, 0, 0] };
+    // 냉각 탱크 배낭 + 호스
+    const tank = new THREE.Group();
+    for (const x of [-0.08, 0.08]) {
+      tank.add(mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.36, 12).translate(x, 0, 0), metal));
+      tank.add(mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.22, 12).translate(x, 0, 0.0), mat('cryoGlass', () => glow(0x7fd8ff, 0.9)), false));
+      tank.add(mesh(new THREE.SphereGeometry(0.07, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).translate(x, 0.18, 0), metal));
+    }
+    tank.add(mesh(new THREE.BoxGeometry(0.3, 0.06, 0.06).translate(0, -0.16, 0.03), mat('grip', () => std(0x2a3040, 0.7))));
+    out.back = { obj: tank, bone: 'UpperChest', off: [0, 0.02, -0.2] };
+    // 반투명 바이저
+    out.visor = { obj: mesh(new THREE.CylinderGeometry(0.21, 0.21, 0.07, 18, 1, true, -Math.PI * 0.45, Math.PI * 0.9).translate(0, 0, 0), mat('visor', () => glow(0x9fe8ff, 0.6)), false), bone: 'Head', off: [0, 0.22, 0.0] };
+    return out;
+  },
+  flame(c) {
+    const out = {};
+    // 양손의 불꽃 (발광 원뿔 2겹)
+    const fire = () => {
+      const g = new THREE.Group();
+      g.add(mesh(new THREE.ConeGeometry(0.075, 0.26, 8).translate(0, 0.16, 0), mat('fireO', () => glow(0xff6a1a, 2.0)), false));
+      g.add(mesh(new THREE.ConeGeometry(0.04, 0.17, 8).translate(0, 0.12, 0), mat('fireI', () => glow(0xffe08a, 2.4)), false));
+      g.add(mesh(new THREE.SphereGeometry(0.06, 8, 6).translate(0, 0.05, 0), mat('fireI', () => glow(0xffe08a, 2.4)), false));
+      return g;
+    };
+    out.right = { obj: fire(), bone: 'Right_Hand', off: [0, 0.07, 0.03], upright: true };
+    out.left = { obj: fire(), bone: 'Left_Hand', off: [0, 0.07, 0.03], upright: true };
+    // 그을린 목도리(망토형) + 어깨 불씨 장식
+    const scarf = mesh(new THREE.CylinderGeometry(0.16, 0.3, 0.32, 14, 1, true, Math.PI * 0.6, Math.PI * 0.8).translate(0, -0.12, 0), mat('scarf', () => std(0x6a1a12, 0.8, 0, { side: THREE.DoubleSide })));
+    out.scarf = { obj: scarf, bone: 'UpperChest', off: [0, 0.14, 0], cape: true };
+    out.collar = { obj: mesh(new THREE.TorusGeometry(0.15, 0.04, 6, 16).rotateX(Math.PI / 2), mat('ember', () => glow(c.accent, 0.8)), false), bone: 'UpperChest', off: [0, 0.2, 0] };
+    return out;
+  },
   lee(c) {
     const out = {};
     out.right = { obj: (() => { const g = new THREE.Group(); g.add(mesh(new THREE.CylinderGeometry(0.008, 0.014, 0.45, 6).translate(0, 0.2, 0), mat('baton', () => std(0xf0e6d0, 0.4)))); g.add(mesh(new THREE.SphereGeometry(0.025, 8, 6).translate(0, 0.43, 0), mat('note', () => glow(c.accent, 1.4)), false)); return g; })(), grip: [70, 0, 0], off: [0, 0, 0] };
@@ -329,9 +371,20 @@ function recolorMaterial(src, coat, trim, upAxis, hMin, hMax) {
           vec3 tint = mix(uCoat, uTrim, smoothstep(0.42, 0.5, vH) * 0.0);
           vec3 shaded = tint * (0.55 + 0.6 * lum);
           diffuseColor.rgb = mix(c, shaded, w);
-        }`);
+          // 배경 대비: 채도·명암 약간 강화
+          float l2 = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
+          diffuseColor.rgb = clamp(mix(vec3(l2), diffuseColor.rgb, 1.15) * 1.04, 0.0, 1.0);
+        }`)
+      .replace('#include <opaque_fragment>', `
+        {
+          // 따뜻한 림라이트 — 지형 위에서 실루엣 분리
+          vec3 Vd = normalize(vViewPosition);
+          float rimF = pow(1.0 - clamp(dot(normal, Vd), 0.0, 1.0), 2.6);
+          outgoingLight += vec3(1.0, 0.86, 0.62) * rimF * 0.42;
+        }
+        #include <opaque_fragment>`);
   };
-  m.customProgramCacheKey = () => 'recolor' + coat + '_' + trim;
+  m.customProgramCacheKey = () => 'recolor2' + coat + '_' + trim;
   return patchFow(m);
 }
 
@@ -382,6 +435,7 @@ export function createChampionVisual(champ) {
   const sockets = {};
   const floats = [];
   const capes = [];
+  const uprights = [];
   for (const [key, part] of Object.entries(kit)) {
     if (part.float) { container.add(part.obj); floats.push(part); continue; }
     const boneName = part.bone || (key === 'right' ? 'Right_Hand' : key === 'left' ? 'Left_Hand' : 'UpperChest');
@@ -403,8 +457,17 @@ export function createChampionVisual(champ) {
     part.obj.traverse((o) => { if (o.isMesh) o.frustumCulled = false; });
     sockets[key] = sock;
     if (part.cape) capes.push({ obj: part.obj, base: part.obj.rotation.x });
+    if (part.upright) uprights.push(part.obj);
   }
-  return { root, container, model, rig, sockets, floats, capes, kit };
+  // 손에 든 불꽃 등: 뼈 회전과 무관하게 항상 위로 향함
+  const _q1 = new THREE.Quaternion(), _q2 = new THREE.Quaternion();
+  const updateUprights = () => {
+    if (!uprights.length) return;
+    root.updateMatrixWorld(true);
+    root.getWorldQuaternion(_q1);
+    for (const o of uprights) { o.parent.getWorldQuaternion(_q2); o.quaternion.copy(_q2.invert().multiply(_q1)); }
+  };
+  return { root, container, model, rig, sockets, floats, capes, kit, updateUprights };
 }
 
 // 무기 끝(발사 지점) 월드 좌표

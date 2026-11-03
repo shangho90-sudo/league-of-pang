@@ -1,0 +1,1 @@
+{"Q":{"cast":true,"cd":true,"dmgToEnemy":4412,"fx":[],"msg":""},"W":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["shield","fx:harmonyPulse","fx:chordReady"],"msg":""},"E":{"cast":true,"cd":true,"dmgToEnemy":0,"fx":["status","fx:marchPulse"],"msg":""},"R":{"cast":true,"cd":true,"dmgToEnemy":118,"fx":["fx:resonanceWave","status"],"msg":""},"errs":[]}

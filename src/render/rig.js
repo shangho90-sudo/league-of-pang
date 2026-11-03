@@ -168,6 +168,15 @@ export function basePose(arche) {
       p.set('Left_UpperArm', -5, 0, -66).set('Left_LowerArm', 0, -25, 0);
       p.set('Spine', 2, 0, 0);
       break;
+    case 'blaster': // 냉각 분사기를 앞으로 겨눔
+      p.set('Right_UpperArm', -40, 10, 58).set('Right_LowerArm', 0, 55, 0);
+      p.set('Left_UpperArm', -10, 0, -64).set('Left_LowerArm', 0, -30, 0);
+      break;
+    case 'pyro': // 양손에 불꽃을 들고 손바닥을 위로
+      p.set('Left_UpperArm', -20, 0, -58).set('Left_LowerArm', 0, -70, 0);
+      p.set('Right_UpperArm', -20, 0, 58).set('Right_LowerArm', 0, 70, 0);
+      p.set('Spine', 6, 0, 0);
+      break;
     case 'conductor': // 지휘봉
       p.set('Right_UpperArm', -30, 0, 55).set('Right_LowerArm', 0, 50, 0);
       p.set('Left_UpperArm', -20, 0, -55).set('Left_LowerArm', 0, -50, 0);
@@ -198,7 +207,7 @@ export function locomotion(phase, speedN, arche, legLen) {
   p.add('Head', -6 * speedN, s * 4 * speedN, 0);
   p.hipY = -(0.5 + 0.5 * Math.cos(phase * 2)) * legLen * (heavy ? 0.075 : 0.06) * speedN;
   // 팔 반대 스윙 (무기 들린 팔은 감쇠)
-  const armW = { staff: [0.6, 0.25], shield: [0.2, 0.6], dual: [0.7, 0.7], hammer: [0.8, 0.1], sword: [0.7, 0.35], bow: [0.3, 0.8], orb: [0.5, 0.5], spear: [0.35, 0.3], cannon: [0.8, 0.4], conductor: [0.5, 0.4] }[arche] || [1, 1];
+  const armW = { staff: [0.6, 0.25], shield: [0.2, 0.6], dual: [0.7, 0.7], hammer: [0.8, 0.1], sword: [0.7, 0.35], bow: [0.3, 0.8], orb: [0.5, 0.5], spear: [0.35, 0.3], cannon: [0.8, 0.4], conductor: [0.5, 0.4], blaster: [0.6, 0.15], pyro: [0.55, 0.55] }[arche] || [1, 1];
   p.add('Left_UpperArm', s * 28 * speedN * armW[0]);
   p.add('Right_UpperArm', -s * 28 * speedN * armW[1]);
   p.add('Left_LowerArm', 0, -Math.max(0, s) * 18 * speedN * armW[0], 0);
@@ -265,6 +274,18 @@ function actionKeys(arche, kind, slot, variant) {
     case 'bow':
       return [P({ Left_UpperArm: [-70, 25, 50], Left_LowerArm: [0, 30, 0], Right_UpperArm: [-75, -30, -60], Right_LowerArm: [0, 120, 0], Spine: [0, -35, 0], Chest: [0, -15, 0], Head: [0, 35, 0] }),
         P({ Left_UpperArm: [-72, 25, 50], Left_LowerArm: [0, 30, 0], Right_UpperArm: [-60, -50, -70], Right_LowerArm: [0, 40, 0], Spine: [-4, -35, 0], Chest: [0, -15, 0], Head: [0, 35, 0] })];
+    case 'blaster':
+      if (atk || slot === 'Q') return [P({ Right_UpperArm: [-60, 10, 20], Right_LowerArm: [0, 30, 0], Spine: [-2, 10, 0] }), P({ Right_UpperArm: [-72, 0, 25], Right_LowerArm: [0, 10, 0], Spine: [-8, 6, 0], Chest: [-4, 0, 0] })];
+      return [P({ Right_UpperArm: [-30, 0, -10], Left_UpperArm: [-40, 0, 20], Spine: [-8, 0, 0] }, 0.02), P({ Right_UpperArm: [-80, 0, 25], Left_UpperArm: [-70, 0, -20], Left_LowerArm: [0, 30, 0], Spine: [12, 0, 0], Left_UpperLeg: [-12, 0, 0] }, -0.03)];
+    case 'pyro': {
+      const flip = variant % 2 ? -1 : 1;
+      if (atk) return flip > 0
+        ? [P({ Right_UpperArm: [10, 20, -10], Right_LowerArm: [0, -30, 0], Spine: [-4, 18, 0] }), P({ Right_UpperArm: [-85, -10, 30], Right_LowerArm: [0, -15, 0], Spine: [8, -14, 0] })]
+        : [P({ Left_UpperArm: [10, -20, 10], Left_LowerArm: [0, 30, 0], Spine: [-4, -18, 0] }), P({ Left_UpperArm: [-85, 10, -30], Left_LowerArm: [0, 15, 0], Spine: [8, 14, 0] })];
+      const big = slot === 'R';
+      return [P({ Left_UpperArm: [-40, 0, big ? 90 : 30], Right_UpperArm: [-40, 0, big ? -90 : -30], Spine: [-12, 0, 0], Head: [-8, 0, 0] }, 0.03),
+        P({ Left_UpperArm: [-85, -15, 25], Right_UpperArm: [-85, 15, -25], Left_LowerArm: [0, 20, 0], Right_LowerArm: [0, -20, 0], Spine: [16, 0, 0], Left_UpperLeg: [-16, 0, 0], Left_LowerLeg: [12, 0, 0] }, -0.04)];
+    }
     case 'cannon':
       return [P({ Spine: [-6, 0, 0], Right_UpperArm: [-30, 0, -10], Right_LowerArm: [0, 40, 0] }),
         P({ Spine: [-14, 0, 0], Chest: [-8, 0, 0], Right_UpperArm: [-10, 0, 0], Left_UpperLeg: [12, 0, 0], Right_UpperLeg: [12, 0, 0] }, -0.03)];

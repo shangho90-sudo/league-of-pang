@@ -14,7 +14,7 @@ const SETUP = (cam) => `(() => {
   for (const c of sim.champions) { const p = pos[c.def.id]; c.x = p[0]; c.z = p[1]; c.path = null; c.target = null; c.recall = null; c.dead = false; c.hp = c.s.hp * (c.team ? 0.7 : 0.85); c.facing = c.team ? -2.2 : 0.9; }
   sim.updateVision();
   const C = GAME.world.camera; ${cam}
-  C.locked = false; C.goal.set(-5.5, 0, 6.5); C.target.copy(C.goal);
+  C.locked = false; C.goal.set(-8.5, 0, 9.5); C.target.copy(C.goal);
   STEP(3); return { dist: C.dist, pitch: +(C.pitch*180/Math.PI).toFixed(1), calls: GAME.renderer.info.render.calls, tris: GAME.renderer.info.render.triangles, geom: GAME.renderer.info.memory.geometries, tex: GAME.renderer.info.memory.textures };
 })()`;
 const camCode = camDist ? `C.dist = ${camDist}; C.minDist = Math.min(C.minDist, ${camDist}); C.maxDist = Math.max(C.maxDist, ${camDist}); C.pitch = ${camPitch || 53} * Math.PI / 180;` : '';
