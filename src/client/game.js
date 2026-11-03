@@ -35,7 +35,7 @@ export class Game {
     document.addEventListener('visibilitychange', this._onVis);
     window.GAME = this;
     audio.startMusic('battle');
-    this.hud.announce('전장에 오신 것을 환영합니다 — 미니언 생성까지 25초', 'neutral');
+    this.hud.announce('전장에 오신 것을 환영합니다 — 미니언·몬스터 생성까지 10초', 'neutral');
   }
   resize() {
     const W = innerWidth, H = innerHeight;

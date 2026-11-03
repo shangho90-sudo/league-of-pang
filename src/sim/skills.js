@@ -646,7 +646,7 @@ export const PASSIVES = {
       if (r && r.until > sim.time && t.kind === 'champion') { u.pass.rStun = null; sim.applyStatus(u, t, 'stun', 1.0); fx(sim, 'beastBite', { x: t.x, z: t.z }); return { dmg: dmg + r.dmg }; }
       return null;
     },
-    onMonsterKill(sim, u) { sim.heal(u, u, u.s.hp * 0.08); sim.applyStatus(u, u, 'haste', 2, 0.3); },
+    onTakedown(sim, u) { sim.heal(u, u, u.s.hp * 0.1); sim.applyStatus(u, u, 'haste', 2, 0.3); sim.recalcStats(u); },
   },
   kim: {
     tick(sim, u) {

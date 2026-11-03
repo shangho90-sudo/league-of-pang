@@ -16,8 +16,8 @@ for (let g = 0; g < games; g++) {
   const assign = (team, list) => {
     // 역할 선호 기반 배치
     const left = [...lanes], res = [];
-    const sorted = [...list].sort((a, b) => CHAMPIONS.find(c=>c.id===a).lanePref.indexOf('jungle') - CHAMPIONS.find(c=>c.id===b).lanePref.indexOf('jungle'));
-    for (const id of sorted) { const pref = CHAMPIONS.find(c => c.id === id).lanePref.find(l => left.includes(l)); left.splice(left.indexOf(pref), 1); res.push({ id, team, lane: pref }); }
+    // 선호 공격로 없음: 섞인 순서대로 공격로 배정
+    list.forEach((id, i) => res.push({ id, team, lane: left[i] }));
     return res;
   };
   const picks = [...assign(0, t0), ...assign(1, t1)];

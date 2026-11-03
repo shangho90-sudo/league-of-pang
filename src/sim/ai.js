@@ -31,7 +31,7 @@ export class ChampionAI {
     this.sim = sim; this.u = u;
     this.next = sim.rand() * 0.3;
     const role = u.def.roles;
-    this.role = role.includes('support') ? 'support' : role.includes('marksman') ? 'marksman' : role.includes('tank') ? 'tank' : role.includes('assassin') ? 'assassin' : role.includes('mage') ? 'mage' : role.includes('jungle') ? 'jungle' : 'fighter';
+    this.role = role.includes('support') ? 'support' : role.includes('marksman') ? 'marksman' : role.includes('tank') ? 'tank' : role.includes('assassin') ? 'assassin' : role.includes('mage') ? 'mage' : 'fighter';
     this.build = [...(BUILDS[u.lane === 'jungle' ? 'jungle' : this.role] || BUILDS.fighter)];
     this.lanes = {};
     for (const k of ['top', 'mid', 'bot']) { const pts = u.team === 0 ? LANES[k] : [...LANES[k]].reverse(); this.lanes[k] = { pts, acc: laneArc(pts) }; }

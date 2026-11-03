@@ -175,7 +175,7 @@ async function boot() {
   const b = $('#t-start');
   if (b) { b.disabled = false; b.innerHTML = ''; b.title = 'AI 대전 시작 (플레이어 1 + AI 7)'; }
   if (params.get('autostart')) {
-    const id = params.get('autostart'), lane = params.get('lane') || CHAMPIONS.find((c) => c.id === id).lanePref[0];
+    const id = params.get('autostart'), lane = params.get('lane') || 'mid';
     startGame(autoPicks(id, lane, Math.random));
   } else if (params.get('picks')) {
     try { startGame(JSON.parse(params.get('picks'))); } catch (e) { showSelect(); }

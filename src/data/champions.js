@@ -3,12 +3,12 @@
 // model: public/models/m{n}.glb (사용자 제공 리깅 모델 — 머리/얼굴 기반), 매핑은 자유롭게 변경 가능
 
 export const ROLES = {
-  tank: '탱커', fighter: '전사', assassin: '암살자', marksman: '원거리 딜러', mage: '마법사', support: '서포터', jungle: '정글러',
+  tank: '탱커', fighter: '전사', assassin: '암살자', marksman: '원거리 딜러', mage: '마법사', support: '서포터',
 };
 
 export const CHAMPIONS = [
   {
-    id: 'pang', name: '김두영', title: '생명의 연금약사', roles: ['support', 'mage'], lanePref: ['bot', 'mid', 'jungle', 'top'],
+    id: 'pang', name: '김두영', title: '생명의 연금약사', roles: ['support', 'mage'],
     model: 0, arche: 'staff', body: [1.0, 1.0, 1.0], coat: 0xeee6d2, trim: 0x2fb8a8, accent: 0x7af0e0,
     stats: { hp: 520, hpG: 78, mp: 380, mpG: 40, ad: 46, adG: 2.6, armor: 22, armG: 3.5, mr: 30, mrG: 1.3, as: 0.64, asG: 0.02, range: 5.4, ms: 3.35, hpR: 1.2, mpR: 2.2, ranged: true, proj: 'alch', projSpeed: 16, windup: 0.30 },
     passive: { name: '조제 순환', desc: '스킬을 사용할 때마다 조제 게이지가 1 쌓입니다. 3이 되면 다음 일반 스킬이 강화됩니다(Q 피해 +50%, W 회복 +50%, E 둔화 +20%p·속박 0.6초).' },
@@ -20,7 +20,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'koo', name: '구자현', title: '흑철의 수호자', roles: ['tank'], lanePref: ['top', 'jungle', 'bot', 'mid'],
+    id: 'koo', name: '구자현', title: '흑철의 수호자', roles: ['tank'],
     model: 1, arche: 'shield', body: [1.18, 1.05, 1.15], coat: 0x4c5563, trim: 0x2c3038, accent: 0xff8a2a,
     stats: { hp: 640, hpG: 105, mp: 300, mpG: 35, ad: 58, adG: 3.2, armor: 34, armG: 4.4, mr: 32, mrG: 1.8, as: 0.62, asG: 0.018, range: 1.9, ms: 3.25, hpR: 2.2, mpR: 1.6, ranged: false, windup: 0.32 },
     passive: { name: '철갑 축적', desc: '전투 중 10초마다 최대 체력의 9% 보호막을 4초간 얻습니다.' },
@@ -32,7 +32,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'bang', name: '방지욱', title: '허상의 추적자', roles: ['assassin', 'jungle'], lanePref: ['mid', 'jungle', 'top', 'bot'],
+    id: 'bang', name: '방지욱', title: '허상의 추적자', roles: ['assassin'],
     model: 2, arche: 'dual', body: [0.92, 1.04, 0.92], coat: 0x262f52, trim: 0x3a2f6a, accent: 0xb06aff,
     stats: { hp: 560, hpG: 86, mp: 280, mpG: 30, ad: 62, adG: 3.4, armor: 26, armG: 3.6, mr: 30, mrG: 1.3, as: 0.68, asG: 0.03, range: 1.8, ms: 3.5, hpR: 1.6, mpR: 1.8, ranged: false, windup: 0.22 },
     passive: { name: '빈틈 추적', desc: '표식이 있는 적을 공격하면 표식을 소모해 {mark}의 추가 마법 피해를 줍니다.' },
@@ -44,7 +44,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'park', name: '팽재현', title: '용광로의 장인', roles: ['fighter'], lanePref: ['top', 'jungle', 'mid', 'bot'],
+    id: 'park', name: '팽재현', title: '용광로의 장인', roles: ['fighter'],
     model: 3, arche: 'hammer', body: [1.1, 1.0, 1.08], coat: 0x7a5232, trim: 0x5a3a22, accent: 0xff7a2a,
     stats: { hp: 610, hpG: 96, mp: 300, mpG: 34, ad: 64, adG: 3.6, armor: 30, armG: 4.0, mr: 30, mrG: 1.5, as: 0.63, asG: 0.022, range: 2.0, ms: 3.3, hpR: 2.0, mpR: 1.6, ranged: false, windup: 0.34 },
     passive: { name: '달아오른 강철', desc: '공격 시 열기 12, 스킬 시 20을 얻습니다. 열기가 100이 되면 다음 일반 스킬 피해가 40% 증가하고 Q가 0.5초 기절을 겁니다.' },
@@ -56,7 +56,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'jung', name: '이선용', title: '여명의 기사', roles: ['fighter', 'tank'], lanePref: ['top', 'bot', 'jungle', 'mid'],
+    id: 'jung', name: '이선용', title: '여명의 기사', roles: ['fighter', 'tank'],
     model: 4, arche: 'sword', body: [1.05, 1.06, 1.02], coat: 0xf2efe6, trim: 0xd7a83a, accent: 0x4a8adf,
     stats: { hp: 600, hpG: 92, mp: 320, mpG: 36, ad: 60, adG: 3.3, armor: 30, armG: 4.1, mr: 32, mrG: 1.6, as: 0.65, asG: 0.022, range: 2.0, ms: 3.35, hpR: 1.9, mpR: 1.7, ranged: false, windup: 0.28 },
     passive: { name: '기사의 맹세', desc: '아군 영웅이 6 거리 안에 있으면 방어력과 마법 저항력이 15 증가합니다.' },
@@ -68,7 +68,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'cha', name: '사공민', title: '폭풍의 사수', roles: ['marksman'], lanePref: ['bot', 'mid', 'top', 'jungle'],
+    id: 'cha', name: '사공민', title: '폭풍의 사수', roles: ['marksman'],
     model: 5, arche: 'bow', body: [0.96, 1.02, 0.96], coat: 0xcfd8e2, trim: 0x2f5f8a, accent: 0x9ae8ff,
     stats: { hp: 520, hpG: 82, mp: 300, mpG: 34, ad: 58, adG: 3.4, armor: 22, armG: 3.4, mr: 30, mrG: 1.0, as: 0.68, asG: 0.035, range: 6.5, ms: 3.3, hpR: 1.3, mpR: 1.6, ranged: true, proj: 'arrow', projSpeed: 26, windup: 0.22 },
     passive: { name: '가속 사격', desc: '같은 대상을 연속 공격하면 공격 속도가 8%씩 증가합니다(최대 5회).' },
@@ -80,7 +80,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'sagong', name: '차동호', title: '별길의 항해사', roles: ['mage'], lanePref: ['mid', 'bot', 'top', 'jungle'],
+    id: 'sagong', name: '차동호', title: '별길의 항해사', roles: ['mage'],
     model: 6, arche: 'orb', body: [0.98, 1.0, 0.98], coat: 0x23306a, trim: 0x4a3a8a, accent: 0xf2c94a,
     stats: { hp: 510, hpG: 80, mp: 420, mpG: 45, ad: 50, adG: 2.8, armor: 21, armG: 3.3, mr: 30, mrG: 1.3, as: 0.64, asG: 0.02, range: 6.0, ms: 3.3, hpR: 1.2, mpR: 2.4, ranged: true, proj: 'star', projSpeed: 18, windup: 0.28 },
     passive: { name: '성도 기록', desc: '스킬이 적에게 명중할 때마다 별 표식을 얻습니다. 3개가 되면 다음 기본 공격이 {bonus}의 추가 마법 피해를 줍니다.' },
@@ -92,10 +92,10 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'cho', name: '조강희', title: '숲의 맹약자', roles: ['jungle', 'fighter'], lanePref: ['jungle', 'top', 'mid', 'bot'],
+    id: 'cho', name: '조강희', title: '숲의 맹약자', roles: ['fighter'],
     model: 7, arche: 'spear', body: [1.0, 1.03, 1.0], coat: 0x4a6a34, trim: 0x6a4a2a, accent: 0x9adf5a,
     stats: { hp: 590, hpG: 92, mp: 300, mpG: 32, ad: 63, adG: 3.5, armor: 28, armG: 3.8, mr: 30, mrG: 1.4, as: 0.67, asG: 0.025, range: 2.3, ms: 3.45, hpR: 1.9, mpR: 1.7, ranged: false, windup: 0.27 },
-    passive: { name: '사냥의 맹약', desc: '정글 몬스터에게 20% 추가 피해를 주며, 처치 시 최대 체력의 8%를 회복하고 2초간 이동 속도가 30% 증가합니다.' },
+    passive: { name: '사냥의 맹약', desc: '적 챔피언 처치 또는 처치 관여 시 최대 체력의 10%를 회복하고 2초간 이동 속도가 30% 증가합니다.' },
     skills: {
       Q: { name: '송곳니 찌르기', t: 'dir', range: 3.6, width: 1.1, cd: 5, cost: 30, castTime: 0.25, desc: '전방의 좁은 범위를 찔러 {dmg}의 물리 피해를 줍니다.', base: [70, 110, 150, 190, 230], ad: 0.9 },
       W: { name: '숲의 숨결', t: 'self', cd: 12, cost: 50, castTime: 0.1, desc: '2초간 {heal}을 회복하고 3초간 방어력이 20 증가합니다.', base: [50, 80, 110, 140, 170], ad: 0.3 },
@@ -104,7 +104,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'kim', name: '정석호', title: '비전 포격수', roles: ['mage', 'marksman'], lanePref: ['mid', 'bot', 'top', 'jungle'],
+    id: 'kim', name: '정석호', title: '비전 포격수', roles: ['mage', 'marksman'],
     model: 8, arche: 'cannon', body: [1.02, 0.98, 1.02], coat: 0x5a4a6a, trim: 0x3a3048, accent: 0xd06aff,
     stats: { hp: 520, hpG: 80, mp: 400, mpG: 42, ad: 52, adG: 3.0, armor: 22, armG: 3.4, mr: 30, mrG: 1.3, as: 0.62, asG: 0.02, range: 7.0, ms: 3.25, hpR: 1.2, mpR: 2.3, ranged: true, proj: 'shell', projSpeed: 15, windup: 0.32 },
     passive: { name: '축전', desc: '이동과 스킬 사용으로 축전합니다. 100이 되면 다음 기본 공격이 80% 강화되고 주변에 폭발합니다.' },
@@ -116,7 +116,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'lee', name: '박철호', title: '공명의 지휘자', roles: ['support', 'mage'], lanePref: ['bot', 'jungle', 'mid', 'top'],
+    id: 'lee', name: '박철호', title: '공명의 지휘자', roles: ['support', 'mage'],
     model: 9, arche: 'conductor', body: [0.97, 1.02, 0.97], coat: 0x2a8a86, trim: 0x6a2a6a, accent: 0xffa6e0,
     stats: { hp: 530, hpG: 80, mp: 380, mpG: 40, ad: 48, adG: 2.7, armor: 23, armG: 3.5, mr: 30, mrG: 1.3, as: 0.64, asG: 0.02, range: 5.5, ms: 3.35, hpR: 1.3, mpR: 2.2, ranged: true, proj: 'wave', projSpeed: 17, windup: 0.28 },
     passive: { name: '화음', desc: '서로 다른 일반 스킬 2개를 4초 안에 연계하면 다음 기본 공격이 {bonus}의 추가 마법 피해와 20% 둔화를 줍니다.' },
@@ -128,7 +128,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'choi', name: '최길용', title: '극저온의 실험가', roles: ['mage', 'fighter'], lanePref: ['mid', 'top', 'jungle', 'bot'],
+    id: 'choi', name: '최길용', title: '극저온의 실험가', roles: ['mage', 'fighter'],
     model: 10, arche: 'blaster', body: [1.0, 1.02, 1.0], coat: 0x4f8fc0, trim: 0x1f3550, accent: 0x9fe8ff,
     stats: { hp: 560, hpG: 86, mp: 360, mpG: 38, ad: 50, adG: 2.9, armor: 25, armG: 3.8, mr: 30, mrG: 1.4, as: 0.66, asG: 0.02, range: 5.0, ms: 3.35, hpR: 1.5, mpR: 2.0, ranged: true, proj: 'frost', projSpeed: 18, windup: 0.27 },
     passive: { name: '급속 냉각', desc: '스킬이 적 챔피언에게 적중하면 냉기를 1 쌓습니다(4초 유지). 냉기가 3이 되면 대상이 0.8초간 얼어붙어 이동할 수 없고 추가 마법 피해(40 + 레벨당 10, +주문력 30%)를 받습니다. 같은 대상에게는 6초에 한 번만 발동합니다.' },
@@ -140,7 +140,7 @@ export const CHAMPIONS = [
     },
   },
   {
-    id: 'flame', name: '불꽃남자', title: '업화의 술사', roles: ['mage', 'assassin'], lanePref: ['mid', 'bot', 'top', 'jungle'],
+    id: 'flame', name: '불꽃남자', title: '업화의 술사', roles: ['mage', 'assassin'],
     model: 11, arche: 'pyro', body: [1.02, 1.03, 1.0], coat: 0xb8321e, trim: 0x2a1410, accent: 0xffb23a,
     stats: { hp: 540, hpG: 82, mp: 370, mpG: 40, ad: 49, adG: 2.8, armor: 22, armG: 3.5, mr: 30, mrG: 1.3, as: 0.65, asG: 0.02, range: 5.3, ms: 3.4, hpR: 1.3, mpR: 2.1, ranged: true, proj: 'ember', projSpeed: 17, windup: 0.28 },
     passive: { name: '잔불', desc: '스킬 피해를 입은 적은 3초간 불탑니다. 불타는 동안 초당 추가 마법 피해(8 + 레벨당 3, +주문력 8%)를 받으며, 이미 불타는 적이 다시 맞으면 지속 시간이 초기화됩니다.' },

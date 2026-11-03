@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { HumanoidRig } from './rig.js';
+import { HumanoidRig, basePose } from './rig.js';
 import { patchFow } from './terrain.js';
 
 export const CHAR_HEIGHT = 1.75;
@@ -71,7 +71,7 @@ const KITS = {
     const liquid = mesh(new THREE.SphereGeometry(0.04, 10, 8).translate(0, 1.355, 0), mat('liqT', () => glow(c.accent, 1.4)), false);
     staff.add(liquid);
     staff.add(mesh(new THREE.SphereGeometry(0.05, 8, 6).translate(0, -0.52, 0), mat('ivory', () => std(0xefe6cf, 0.55))));
-    out.right = { obj: staff, grip: [90, 0, 0], off: [0, 0, 0] };
+    out.right = { obj: staff, grip: [90, 0, 0], off: [0, 0, 0], rest: { up: [0.06, 1, 0.1], fwd: [0, 0, 1] } };
     // 등의 약병 장치
     const back = new THREE.Group();
     back.add(mesh(new THREE.BoxGeometry(0.34, 0.36, 0.08), mat('leather', () => std(0x6a4a30, 0.85))));
@@ -97,8 +97,8 @@ const KITS = {
     for (const [x, y] of [[-0.24, 0.36], [0.24, 0.36], [-0.24, -0.36], [0.24, -0.36], [0, 0.4], [0, -0.4]]) sh.add(mesh(new THREE.SphereGeometry(0.025, 6, 4).translate(x, y, 0.05), mat('brass', () => std(0xc09a50, 0.35, 0.8))));
     sh.add(mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.06, 6).rotateX(Math.PI / 2).translate(0, 0.02, 0.06), mat('iron', () => std(0x58606c, 0.42, 0.55))));
     sh.add(mesh(new THREE.OctahedronGeometry(0.075, 0).translate(0, 0.02, 0.1), mat('coreO', () => glow(c.accent, 1.6)), false));
-    sh.scale.setScalar(0.82);
-    out.left = { obj: sh, bone: 'Left_LowerArm', grip: [0, 70, 0], off: [0.2, -0.12, 0.08] };
+    sh.scale.setScalar(0.6);
+    out.left = { obj: sh, bone: 'Left_LowerArm', grip: [0, 70, 0], off: [0.16, -0.06, 0.1], rest: { up: [0.05, 1, 0], fwd: [0.3, 0, 1] } };
     // 겹판 어깨 갑옷 (상체 실루엣 확대)
     const pauld = () => {
       const g = new THREE.Group();
@@ -110,8 +110,8 @@ const KITS = {
       return g;
     };
     const pl = pauld(), pr = pauld(); pl.scale.setScalar(0.78); pr.scale.setScalar(0.78);
-    out.lsh = { obj: pl, bone: 'Left_UpperArm', off: [0.03, 0.07, 0], rot: [0, 0, -18] };
-    out.rsh = { obj: pr, bone: 'Right_UpperArm', off: [-0.03, 0.07, 0], rot: [0, 0, 18] };
+    out.lsh = { obj: pl, bone: 'Left_UpperArm', off: [0.02, 0.05, 0], rest: { up: [0.55, 1, 0] } };
+    out.rsh = { obj: pr, bone: 'Right_UpperArm', off: [-0.02, 0.05, 0], rest: { up: [-0.55, 1, 0] } };
     const chest = mesh(new THREE.SphereGeometry(0.24, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.6).rotateX(Math.PI / 2).scale(1.25, 1.0, 0.55), mat('iron', () => std(0x58606c, 0.42, 0.55)));
     const cg = new THREE.Group(); cg.add(chest);
     cg.add(mesh(new THREE.CircleGeometry(0.05, 6).translate(0, 0, 0.14), mat('coreO', () => glow(c.accent, 1.5)), false));
@@ -126,7 +126,7 @@ const KITS = {
       const g = new THREE.Group();
       g.add(mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.14, 6), mat('grip', () => std(0x1a1a24, 0.7))));
       g.add(mesh(new THREE.BoxGeometry(0.14, 0.025, 0.04).translate(0, 0.08, 0), mat('steelD', () => std(0x6a6a80, 0.35, 0.8))));
-      g.add(mesh(extrude(bladeShape(0.52, 0.09, 0.05), 0.012, 0.004).translate(0, 0.09, 0), mat('bladeP', () => std(0x9a7aff, 0.25, 0.6, { emissive: 0x5a2aaa, emissiveIntensity: 0.6 }))));
+      g.add(mesh(extrude(bladeShape(0.36, 0.08, 0.04), 0.012, 0.004).translate(0, 0.09, 0), mat('bladeP', () => std(0x9a7aff, 0.25, 0.6, { emissive: 0x5a2aaa, emissiveIntensity: 0.6 }))));
       return g;
     };
     out.right = { obj: dagger(), grip: [-70, 0, 0], off: [0, 0, 0] };
@@ -147,25 +147,25 @@ const KITS = {
     const out = {};
     const ham = new THREE.Group();
     ham.add(mesh(new THREE.CylinderGeometry(0.035, 0.04, 1.15, 8).translate(0, 0.32, 0), mat('wood', () => std(0x7a5a3a, 0.8))));
-    ham.add(mesh(new THREE.BoxGeometry(0.42, 0.24, 0.24).translate(0, 0.95, 0), mat('steelH', () => std(0x6a6a72, 0.42, 0.6))));
-    ham.add(mesh(new THREE.BoxGeometry(0.44, 0.05, 0.26).translate(0, 0.86, 0), mat('brass', () => std(0xc09a50, 0.35, 0.8))));
-    ham.add(mesh(new THREE.BoxGeometry(0.44, 0.05, 0.26).translate(0, 1.04, 0), mat('brass', () => std(0xc09a50, 0.35, 0.8))));
+    ham.add(mesh(new THREE.BoxGeometry(0.36, 0.21, 0.21).translate(0, 0.95, 0), mat('steelH', () => std(0x6a6a72, 0.42, 0.6))));
+    ham.add(mesh(new THREE.BoxGeometry(0.38, 0.045, 0.23).translate(0, 0.865, 0), mat('brass', () => std(0xc09a50, 0.35, 0.8))));
+    ham.add(mesh(new THREE.BoxGeometry(0.38, 0.045, 0.23).translate(0, 1.035, 0), mat('brass', () => std(0xc09a50, 0.35, 0.8))));
     // 달아오른 균열
-    ham.add(mesh(new THREE.BoxGeometry(0.43, 0.02, 0.18).translate(0, 0.95, 0), mat('heat', () => glow(c.accent, 1.3)), false));
+    ham.add(mesh(new THREE.BoxGeometry(0.37, 0.02, 0.16).translate(0, 0.95, 0), mat('heat', () => glow(c.accent, 1.3)), false));
     ham.add(mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.12, 8).translate(0, -0.25, 0), mat('steelH', () => std(0x6a6a72, 0.42, 0.6))));
-    out.right = { obj: ham, grip: [90, 0, 0], off: [0, 0, 0] };
+    out.right = { obj: ham, grip: [90, 0, 0], off: [0, 0, 0], rest: { up: [0.1, 1, 0.12], fwd: [0, 0, 1] } };
     // 가죽 앞치마
-    const ap = new THREE.PlaneGeometry(0.42, 0.55, 3, 4);
-    ap.translate(0, -0.2, 0);
+    const ap = new THREE.PlaneGeometry(0.3, 0.3, 6, 4);
+    ap.translate(0, -0.13, 0);
     const pp = ap.attributes.position;
-    for (let i = 0; i < pp.count; i++) pp.setZ(i, -Math.abs(pp.getX(i)) * 0.35);
+    for (let i = 0; i < pp.count; i++) { const x = pp.getX(i), y = pp.getY(i); pp.setZ(i, -x * x * 2.4 + Math.max(0, -y - 0.1) * 0.12); }
     ap.computeVertexNormals();
-    out.apron = { obj: mesh(ap, mat('apron', () => std(0x6a4426, 0.85, 0, { side: THREE.DoubleSide }))), bone: 'Spine', off: [0, 0.05, 0.16] };
+    out.apron = { obj: mesh(ap, mat('apron', () => std(0x6a4426, 0.85, 0, { side: THREE.DoubleSide }))), bone: 'Spine', off: [0, 0.04, 0.13], cape: true };
     const bracer = () => mesh(new THREE.CylinderGeometry(0.07, 0.065, 0.16, 8).rotateZ(Math.PI / 2), mat('steelH', () => std(0x6a6a72, 0.42, 0.6)));
     out.lb = { obj: bracer(), bone: 'Left_LowerArm', off: [0.08, 0, 0] };
     out.rb = { obj: bracer(), bone: 'Right_LowerArm', off: [-0.08, 0, 0] };
     // 금속 어깨 보호대 (한쪽 비대칭)
-    out.lsh = { obj: mesh(new THREE.SphereGeometry(0.16, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.2, 0.6, 1), mat('steelH', () => std(0x6a6a72, 0.42, 0.6))), bone: 'Left_UpperArm', off: [0.03, 0.07, 0], rot: [0, 0, -15] };
+    out.lsh = { obj: mesh(new THREE.SphereGeometry(0.14, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.15, 0.6, 1), mat('steelH', () => std(0x6a6a72, 0.42, 0.6))), bone: 'Left_UpperArm', off: [0.02, 0.05, 0], rest: { up: [0.55, 1, 0] } };
     out.goggles = { obj: (() => { const g = new THREE.Group(); g.add(mesh(new THREE.TorusGeometry(0.2, 0.02, 5, 20).rotateX(Math.PI / 2).scale(1.05, 1, 1.1), mat('leather', () => std(0x6a4a30, 0.85)))); for (const x of [-0.08, 0.08]) g.add(mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.04, 10).rotateX(Math.PI / 2).translate(x, 0, 0.2), mat('brass', () => std(0xc09a50, 0.35, 0.8)))); return g; })(), bone: 'Head', off: [0, 0.2, 0] };
     return out;
   },
@@ -184,19 +184,20 @@ const KITS = {
       g.add(mesh(new THREE.TorusGeometry(0.18, 0.016, 5, 16).rotateX(Math.PI / 2).scale(1.2, 1, 1.05), mat('gold', () => std(0xd7a83a, 0.3, 0.9))));
       return g;
     };
-    out.lsh = { obj: pauld(), bone: 'Left_UpperArm', off: [0.03, 0.08, 0], rot: [0, 0, -16] };
-    out.rsh = { obj: pauld(), bone: 'Right_UpperArm', off: [-0.03, 0.08, 0], rot: [0, 0, 16] };
+    const jl = pauld(), jr = pauld(); jl.scale.setScalar(0.72); jr.scale.setScalar(0.72);
+    out.lsh = { obj: jl, bone: 'Left_UpperArm', off: [0.02, 0.05, 0], rest: { up: [0.55, 1, 0] } };
+    out.rsh = { obj: jr, bone: 'Right_UpperArm', off: [-0.02, 0.05, 0], rest: { up: [-0.55, 1, 0] } };
     // 푸른 장식 천 (앞뒤 휘장)
     const tab = (back) => {
       const g = new THREE.PlaneGeometry(0.18, 0.3, 2, 4); g.translate(0, -0.15, 0);
       const p = g.attributes.position; for (let i = 0; i < p.count; i++) p.setZ(i, (back ? -1 : 1) * Math.pow(Math.max(0, -p.getY(i)), 1.5) * 0.12);
       g.computeVertexNormals();
       const m = new THREE.Group();
-      m.add(mesh(g, mat('blueCloth', () => std(c.accent, 0.85, 0, { side: THREE.DoubleSide }))));
+      m.add(mesh(g, mat('blueCloth', () => std(0x2a4f8f, 0.85, 0, { side: THREE.DoubleSide }))));
       m.add(mesh(new THREE.PlaneGeometry(0.19, 0.025).translate(0, -0.29, 0.002), mat('gold', () => std(0xd7a83a, 0.3, 0.9))));
       return m;
     };
-    out.tabF = { obj: tab(false), bone: 'Hips', off: [0, 0.02, 0.15], cape: true };
+    out.tabF = { obj: tab(false), bone: 'Hips', off: [0, 0.0, 0.13], cape: true };
     out.tabB = { obj: tab(true), bone: 'UpperChest', off: [0, 0.05, -0.16], cape: true };
     return out;
   },
@@ -216,7 +217,7 @@ const KITS = {
     for (let i = 0; i < 5; i++) quiver.add(mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.25, 4).translate(-0.03 + (i % 3) * 0.03, 0.33, -0.02 + Math.floor(i / 3) * 0.03), mat('steelW', () => std(0xd8e0ea, 0.25, 0.9))));
     quiver.rotation.z = 0.5;
     out.back = { obj: quiver, bone: 'UpperChest', off: [0, 0.0, -0.17] };
-    out.lsh = { obj: mesh(new THREE.SphereGeometry(0.15, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.2, 0.55, 1), mat('bowM', () => std(0x55697c, 0.4, 0.55))), bone: 'Left_UpperArm', off: [0.03, 0.06, 0], rot: [0, 0, -15] };
+    out.lsh = { obj: mesh(new THREE.SphereGeometry(0.15, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.2, 0.55, 1), mat('bowM', () => std(0x55697c, 0.4, 0.55))), bone: 'Left_UpperArm', off: [0.02, 0.05, 0], rest: { up: [0.55, 1, 0] } };
     out.visor = { obj: mesh(new THREE.TorusGeometry(0.21, 0.018, 4, 20, Math.PI).rotateX(Math.PI / 2).rotateY(Math.PI).scale(1, 1, 1.1), mat('energy', () => glow(c.accent, 1.0)), false), bone: 'Head', off: [0, 0.14, 0.02] };
     return out;
   },
@@ -229,7 +230,7 @@ const KITS = {
     comp.add(mesh(new THREE.ConeGeometry(0.02, 0.16, 4).rotateZ(-0.6).translate(0.02, 0.02, 0.025), mat('starG', () => glow(c.accent, 1.5)), false));
     out.left = { obj: comp, bone: 'Left_Hand', grip: [0, 90, 0], off: [0, 0, 0.08] };
     // 로브 자락 (원뿔) — 실루엣이 아래로 넓어짐
-    const robe = mesh(new THREE.CylinderGeometry(0.2, 0.36, 0.5, 14, 1, true).translate(0, -0.25, 0), mat('robe', () => std(c.coat, 0.85, 0, { side: THREE.DoubleSide })));
+    const robe = mesh(new THREE.CylinderGeometry(0.21, 0.27, 0.36, 16, 1, true, 1.25, Math.PI * 2 - 2.5).translate(0, -0.17, 0), mat('robe', () => std(c.trim, 0.85, 0, { side: THREE.DoubleSide })));
     out.robe = { obj: robe, bone: 'Hips', off: [0, 0.02, 0] };
     const collar = mesh(new THREE.CylinderGeometry(0.2, 0.15, 0.16, 12, 1, true, -Math.PI * 0.8, Math.PI * 1.6).translate(0, 0.06, 0), mat('collarV', () => std(c.trim, 0.8, 0, { side: THREE.DoubleSide })));
     out.collar = { obj: collar, bone: 'UpperChest', off: [0, 0.14, -0.02] };
@@ -241,8 +242,9 @@ const KITS = {
     orr.add(r1, r2);
     const planets = [];
     for (let i = 0; i < 3; i++) { const pl = mesh(new THREE.SphereGeometry(0.045 + i * 0.012, 10, 8), mat('pl' + i, () => glow([c.accent, 0x9ab0ff, 0xd88aff][i], 0.9)), false); orr.add(pl); planets.push(pl); }
-    orr.position.set(0, 1.25, -0.1);
-    out.float = { obj: orr, float: true, planets, r1, r2 };
+    orr.position.set(0, 0.22, -0.48); orr.scale.setScalar(0.85);
+    const orrW = new THREE.Group(); orrW.add(orr);
+    out.float = { obj: orrW, float: true, planets, r1, r2 };
     return out;
   },
   cho(c) {
@@ -252,7 +254,7 @@ const KITS = {
     sp.add(mesh(extrude(bladeShape(0.42, 0.12, 0.09), 0.014, 0.005).translate(0, 1.18, 0), mat('steelG', () => std(0xc8d2c0, 0.3, 0.85))));
     sp.add(mesh(new THREE.ConeGeometry(0.05, 0.1, 6).rotateX(Math.PI).translate(0, 1.18, 0), mat('brass', () => std(0xc09a50, 0.35, 0.8))));
     for (let i = 0; i < 3; i++) sp.add(mesh(new THREE.ConeGeometry(0.018, 0.16, 4).translate(0.04, 1.06 - i * 0.05, 0).rotateY(i * 2), mat('feather', () => std(0x9adf5a, 0.8)), false));
-    out.right = { obj: sp, grip: [90, 0, 0], off: [0, 0, 0] };
+    out.right = { obj: sp, grip: [90, 0, 0], off: [0, 0, 0], rest: { up: [0.05, 1, 0.14], fwd: [0, 0, 1] } };
     // 야수 털 망토 (뾰족한 덩어리)
     const fur = new THREE.Group();
     for (let i = 0; i < 9; i++) {
@@ -263,7 +265,8 @@ const KITS = {
       fur.add(k);
     }
     fur.add(mesh(new THREE.TorusGeometry(0.17, 0.06, 6, 14).rotateX(Math.PI / 2).scale(1.2, 1, 0.9), mat('fur', () => std(0x8a6a4a, 0.95))));
-    out.fur = { obj: fur, bone: 'UpperChest', off: [0, 0.14, 0] };
+    fur.scale.setScalar(0.85);
+    out.fur = { obj: fur, bone: 'UpperChest', off: [0, 0.12, -0.01] };
     out.band = { obj: mesh(new THREE.TorusGeometry(0.2, 0.025, 5, 18).rotateX(Math.PI / 2).scale(1.05, 1, 1.1), mat('leafBand', () => std(c.accent, 0.7))), bone: 'Head', off: [0, 0.16, 0] };
     return out;
   },
@@ -276,13 +279,13 @@ const KITS = {
     can.add(mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.02, 12).rotateX(Math.PI / 2).translate(0, 0, 0.475), mat('muzzle', () => glow(c.accent, 1.6)), false));
     can.add(mesh(new THREE.BoxGeometry(0.16, 0.12, 0.18).translate(0, -0.08, -0.12), mat('canM', () => std(0x5a5068, 0.42, 0.55))));
     can.add(mesh(new THREE.BoxGeometry(0.04, 0.2, 0.04).translate(0, -0.18, -0.05), mat('brass', () => std(0xc09a50, 0.35, 0.8))));
-    out.cannon = { obj: can, bone: 'UpperChest', off: [-0.22, 0.2, 0.0], muzzle: [0, 0, 0.48] };
+    out.cannon = { obj: can, bone: 'UpperChest', off: [-0.42, -0.03, -0.1], muzzle: [0, 0, 0.48], rot: [-8, 0, 0] };
     const pack = new THREE.Group();
     pack.add(mesh(new THREE.BoxGeometry(0.3, 0.34, 0.14), mat('canM', () => std(0x5a5068, 0.42, 0.55))));
     pack.add(mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.26, 10).translate(0, 0, -0.08), mat('muzzle', () => glow(c.accent, 1.2)), false));
     out.back = { obj: pack, bone: 'UpperChest', off: [0, 0, -0.19] };
     out.goggles = { obj: (() => { const g = new THREE.Group(); g.add(mesh(new THREE.TorusGeometry(0.2, 0.018, 5, 20).rotateX(Math.PI / 2).scale(1.05, 1, 1.1), mat('leather', () => std(0x6a4a30, 0.85)))); for (const x of [-0.08, 0.08]) g.add(mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.05, 10).rotateX(Math.PI / 2).translate(x, 0, 0.2), mat('lensP', () => glow(0xd06aff, 0.8)), false)); return g; })(), bone: 'Head', off: [0, 0.22, 0] };
-    out.rsh = { obj: mesh(new THREE.SphereGeometry(0.15, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.25, 0.6, 1.1), mat('canM', () => std(0x5a5068, 0.42, 0.55))), bone: 'Right_UpperArm', off: [-0.03, 0.06, 0], rot: [0, 0, 15] };
+    out.rsh = { obj: mesh(new THREE.SphereGeometry(0.15, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2).scale(1.25, 0.6, 1.1), mat('canM', () => std(0x5a5068, 0.42, 0.55))), bone: 'Right_UpperArm', off: [-0.02, 0.05, 0], rest: { up: [-0.55, 1, 0] } };
     return out;
   },
   choi(c) {
@@ -295,7 +298,7 @@ const KITS = {
     gun.add(mesh(new THREE.CylinderGeometry(0.035, 0.05, 0.22, 10).rotateX(Math.PI / 2).translate(0, 0.19, 0.34), metal));
     for (const z of [0.0, 0.08, 0.16]) gun.add(mesh(new THREE.TorusGeometry(0.068, 0.014, 5, 12).translate(0, 0.17, z), mat('coil', () => glow(c.accent, 1.5)), false));
     gun.add(mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.02, 10).rotateX(Math.PI / 2).translate(0, 0.19, 0.455), mat('coil', () => glow(c.accent, 1.5)), false));
-    out.right = { obj: gun, grip: [0, 0, 0], off: [0, 0, 0] };
+    out.right = { obj: gun, grip: [0, 0, 0], off: [0, 0, 0], rest: { up: [0, 1, -0.15], fwd: [0, 0.15, 1] } };
     // 냉각 탱크 배낭 + 호스
     const tank = new THREE.Group();
     for (const x of [-0.08, 0.08]) {
@@ -305,8 +308,6 @@ const KITS = {
     }
     tank.add(mesh(new THREE.BoxGeometry(0.3, 0.06, 0.06).translate(0, -0.16, 0.03), mat('grip', () => std(0x2a3040, 0.7))));
     out.back = { obj: tank, bone: 'UpperChest', off: [0, 0.02, -0.2] };
-    // 반투명 바이저
-    out.visor = { obj: mesh(new THREE.CylinderGeometry(0.21, 0.21, 0.07, 18, 1, true, -Math.PI * 0.45, Math.PI * 0.9).translate(0, 0, 0), mat('visor', () => glow(0x9fe8ff, 0.6)), false), bone: 'Head', off: [0, 0.22, 0.0] };
     return out;
   },
   flame(c) {
@@ -314,9 +315,10 @@ const KITS = {
     // 양손의 불꽃 (발광 원뿔 2겹)
     const fire = () => {
       const g = new THREE.Group();
-      g.add(mesh(new THREE.ConeGeometry(0.075, 0.26, 8).translate(0, 0.16, 0), mat('fireO', () => glow(0xff6a1a, 2.0)), false));
-      g.add(mesh(new THREE.ConeGeometry(0.04, 0.17, 8).translate(0, 0.12, 0), mat('fireI', () => glow(0xffe08a, 2.4)), false));
-      g.add(mesh(new THREE.SphereGeometry(0.06, 8, 6).translate(0, 0.05, 0), mat('fireI', () => glow(0xffe08a, 2.4)), false));
+      const tear = (r, h) => lathe([[0, 0], [r * 0.7, h * 0.08], [r, h * 0.25], [r * 0.8, h * 0.5], [r * 0.35, h * 0.8], [0, h]], 10);
+      const o = mesh(tear(0.06, 0.2), mat('fireO', () => new THREE.MeshBasicMaterial({ color: 0xff7a2a, transparent: true, opacity: 0.85, depthWrite: false })), false);
+      const i = mesh(tear(0.032, 0.12).translate(0, 0.015, 0), mat('fireI', () => new THREE.MeshBasicMaterial({ color: 0xfff0b0 })), false);
+      g.add(o, i); g.userData.flicker = [o, i];
       return g;
     };
     out.right = { obj: fire(), bone: 'Right_Hand', off: [0, 0.07, 0.03], upright: true };
@@ -324,7 +326,6 @@ const KITS = {
     // 그을린 목도리(망토형) + 어깨 불씨 장식
     const scarf = mesh(new THREE.CylinderGeometry(0.16, 0.3, 0.32, 14, 1, true, Math.PI * 0.6, Math.PI * 0.8).translate(0, -0.12, 0), mat('scarf', () => std(0x6a1a12, 0.8, 0, { side: THREE.DoubleSide })));
     out.scarf = { obj: scarf, bone: 'UpperChest', off: [0, 0.14, 0], cape: true };
-    out.collar = { obj: mesh(new THREE.TorusGeometry(0.15, 0.04, 6, 16).rotateX(Math.PI / 2), mat('ember', () => glow(c.accent, 0.8)), false), bone: 'UpperChest', off: [0, 0.2, 0] };
     return out;
   },
   lee(c) {
@@ -367,9 +368,9 @@ function recolorMaterial(src, coat, trim, upAxis, hMin, hMax) {
           float lum = dot(c, vec3(0.299, 0.587, 0.114));
           // 몸통 높이 대역(신발·얼굴 제외)의 흰 천만
           float band = smoothstep(0.1, 0.16, vH) * (1.0 - smoothstep(0.5, 0.56, vH));
-          float w = smoothstep(0.18, 0.08, sat) * smoothstep(0.38, 0.6, lum) * band;
+          float w = smoothstep(0.24, 0.1, sat) * smoothstep(0.26, 0.5, lum) * band;
           vec3 tint = mix(uCoat, uTrim, smoothstep(0.42, 0.5, vH) * 0.0);
-          vec3 shaded = tint * (0.55 + 0.6 * lum);
+          vec3 shaded = tint * (0.72 + 0.38 * smoothstep(0.2, 0.95, lum));
           diffuseColor.rgb = mix(c, shaded, w);
           // 배경 대비: 채도·명암 약간 강화
           float l2 = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
@@ -384,7 +385,7 @@ function recolorMaterial(src, coat, trim, upAxis, hMin, hMax) {
         }
         #include <opaque_fragment>`);
   };
-  m.customProgramCacheKey = () => 'recolor2' + coat + '_' + trim;
+  m.customProgramCacheKey = () => 'recolor3' + coat + '_' + trim;
   return patchFow(m);
 }
 
@@ -458,6 +459,23 @@ export function createChampionVisual(champ) {
     sockets[key] = sock;
     if (part.cape) capes.push({ obj: part.obj, base: part.obj.rotation.x });
     if (part.upright) uprights.push(part.obj);
+  }
+  // 기본 자세 기준 정렬: 바인드 포즈가 아니라 실제 대기 자세에서 장비가 의도한 방향(up/fwd, 캐릭터 공간)을 향하도록
+  // 소켓 회전을 한 번 계산해 고정한다. 이후 동작에서는 손·팔과 함께 자연스럽게 움직인다.
+  const rested = Object.values(kit).filter((p) => p.rest && p.obj.parent);
+  if (rested.length) {
+    rig.apply(basePose(champ.arche));
+    root.updateMatrixWorld(true);
+    const cq = container.getWorldQuaternion(new THREE.Quaternion());
+    for (const p of rested) {
+      const up = new THREE.Vector3(...p.rest.up).normalize();
+      const fw = new THREE.Vector3(...(p.rest.fwd || [0, 0, 1]));
+      fw.addScaledVector(up, -fw.dot(up)).normalize();
+      const x = new THREE.Vector3().crossVectors(up, fw);
+      const qChar = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, up, fw));
+      const pq = p.obj.parent.getWorldQuaternion(new THREE.Quaternion());
+      p.obj.quaternion.copy(pq.invert().multiply(cq.clone().multiply(qChar)));
+    }
   }
   // 손에 든 불꽃 등: 뼈 회전과 무관하게 항상 위로 향함
   const _q1 = new THREE.Quaternion(), _q2 = new THREE.Quaternion();

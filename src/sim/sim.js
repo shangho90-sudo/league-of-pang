@@ -2,6 +2,8 @@
 import { LANES, TURRETS, BASES, JUNGLE, PITS, FOUNTAIN_R, MAP_HALF } from '../map/layout.js';
 import { buildGrid, isWalkable, nearestWalkable, findPath, lineWalkable, brushAt, sdAt, toCell, walk, N as GN, cellCenter } from '../map/grid.js';
 import { CHAMPIONS, CHAMP_BY_ID, XP_TABLE, MAX_LEVEL, R_LEVELS, SKILL_ORDER, respawnTime } from '../data/champions.js';
+export const FIRST_SPAWN = 10; // 미니언·정글·대형 몬스터 첫 등장 (초)
+export const XP_MULT = 1.5;   // 경험치 획득 배율
 import { ITEM_BY_ID, MAX_SLOTS } from '../data/items.js';
 import { hitShape } from './shapes.js';
 import { SKILLS, PASSIVES, PRE } from './skills.js';
@@ -53,7 +55,7 @@ export class Sim {
     this.events = []; this.over = false; this.winner = -1;
     this.teamKills = [0, 0]; this.teamGold = [0, 0];
     this.teamBuffs = [{ drake: 0, colossusUntil: 0 }, { drake: 0, colossusUntil: 0 }];
-    this.waveN = 0; this.nextWave = 25; this.fast = fast;
+    this.waveN = 0; this.nextWave = FIRST_SPAWN; this.fast = fast;
     this.stats = { stuckRecoveries: 0, paths: 0, cheatChecks: 0, hiddenTargetViolations: 0 };
     this.visGrid = [new Uint8Array(136 * 136), new Uint8Array(136 * 136)];
     this.lastVision = -1;
@@ -92,8 +94,8 @@ export class Sim {
   }
   setupJungle() {
     this.camps = [];
-    for (const c of JUNGLE.camps) this.camps.push({ ...c, members: [], respawnAt: c.kind === 'golem' ? 75 : 60, alive: false });
-    for (const p of PITS) this.camps.push({ ...p, team: 2, members: [], respawnAt: p.kind === 'drake' ? 180 : 420, alive: false, big: true });
+    for (const c of JUNGLE.camps) this.camps.push({ ...c, members: [], respawnAt: FIRST_SPAWN, alive: false });
+    for (const p of PITS) this.camps.push({ ...p, team: 2, members: [], respawnAt: FIRST_SPAWN, alive: false, big: true });
   }
   spawnCamp(c) {
     c.members = [];
@@ -516,7 +518,6 @@ export class Sim {
       if (src.kind === 'minion' && src.empowered) a *= 1.5;
       if (src.kind === 'champion' && !opts.basic) a *= 0.5; // 스킬은 건물에 절반
     }
-    if (src.kind === 'champion' && t.kind === 'monster' && src.def.id === 'cho') a *= 1.2;
     if (src.kind === 'champion' && t.kind === 'monster') a *= 1.15;
     if (src.kind === 'monster' && t.kind === 'champion') a *= 1;
     if (type === 'phys') a *= 100 / (100 + Math.max(0, t.s.armor));
@@ -597,7 +598,7 @@ export class Sim {
   }
   giveXp(c, amt) {
     if (c.dead && amt < 0) return;
-    c.xp += amt;
+    c.xp += amt * XP_MULT;
     while (c.level < MAX_LEVEL && c.xp >= XP_TABLE[c.level]) {
       c.level++; c.skillPoints++;
       const gainHp = c.def.stats.hpG, gainMp = c.def.stats.mpG;
@@ -631,6 +632,7 @@ export class Sim {
       killer.multiKill.t = this.time;
     } else if (killer) this.teamKills[1 - t.team]++;
     for (const a of assists) { a.a++; a.gold += Math.round(150 / Math.max(1, assists.length)) + 25; }
+    for (const c of [killer, ...assists]) if (c && c.kind === 'champion' && c.team !== t.team && !c.dead) PASSIVES[c.def.id]?.onTakedown?.(this, c, t);
     this.shareXp(t.x, t.z, 1 - t.team, 90 + t.level * 30, 15);
     t.lastHitBy.clear();
     this.events.push({ type: 'killfeed', killer, victim: t, assists, multi: killer?.multiKill?.n || 1 });
@@ -653,7 +655,6 @@ export class Sim {
       killer.gold += gold; killer.cs++;
       this.events.push({ type: 'gold', u: killer, amt: gold, x: t.x, z: t.z });
       this.shareXp(t.x, t.z, killer.team, xp, 10);
-      PASSIVES[killer.def.id]?.onMonsterKill?.(this, killer, t);
       if (t.monsterKind === 'golem' && t.big) { killer.buffs.push({ type: 'verdant', until: this.time + 75 }); this.recalcStats(killer); this.events.push({ type: 'announce', text: `${killer.name} — 이끼의 축복 획득`, tone: killer.team === this.player?.team ? 'ally' : 'enemy', team: killer.team }); }
       if (t.monsterKind === 'drake') {
         const tb = this.teamBuffs[killer.team]; tb.drake = Math.min(3, tb.drake + 1);

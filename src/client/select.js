@@ -19,10 +19,9 @@ export function autoPicks(playerId, playerLane, rand = Math.random) {
     const left = [...lanes];
     if (fixed) { out.push({ id: fixed.id, team, lane: fixed.lane, isPlayer: true }); used.add(fixed.id); left.splice(left.indexOf(fixed.lane), 1); }
     for (const lane of left) {
-      // 해당 공격로를 선호하는 챔피언 우선 (팀 내 중복 금지)
+      // 모든 챔피언이 어느 공격로든 갈 수 있음 — 무작위 배치 (팀 내 중복 금지)
       const pool = ids.filter((id) => !used.has(id)).map((id) => CHAMPIONS.find((c) => c.id === id));
-      pool.sort((a, b) => a.lanePref.indexOf(lane) - b.lanePref.indexOf(lane) + (rand() - 0.5) * 1.6);
-      const c = pool[0];
+      const c = pool[Math.floor(rand() * pool.length)];
       used.add(c.id);
       out.push({ id: c.id, team, lane });
     }
@@ -89,7 +88,7 @@ export class SelectScreen {
     r.querySelectorAll('.card').forEach((k) => k.classList.toggle('sel', k.dataset.id === id));
     r.querySelector('.tname').textContent = c.name;
     r.querySelector('.sel-center .ttl').textContent = c.title;
-    r.querySelector('.sel-center .roles').innerHTML = c.roles.map((x) => `<span>${ROLES[x]}</span>`).join('') + `<span>추천: ${LANE_KO[c.lanePref[0]].replace('·로밍', '')}</span>`;
+    r.querySelector('.sel-center .roles').innerHTML = c.roles.map((x) => `<span>${ROLES[x]}</span>`).join('');
     const desc = (sk) => sk.desc.replace(/\{\w+\}/g, () => `<b>${sk.base[0]}${sk.ad ? `(+${Math.round(sk.ad * 100)}% 공격력)` : sk.ap ? `(+${Math.round(sk.ap * 100)}% 주문력)` : ''}</b>`);
     r.querySelector('.skills').innerHTML =
       `<div class="sk"><div class="ic"><img src="${skillIcon(c, 'P')}"></div><div><div class="hd"><span class="tag">패시브</span><span class="nm">${c.passive.name}</span></div><p>${c.passive.desc.replace(/\{\w+\}/g, '추가')}</p></div></div>` +

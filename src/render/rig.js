@@ -140,8 +140,8 @@ export function basePose(arche) {
       p.set('Left_UpperLeg', -18, 0, -8).set('Right_UpperLeg', -8, 0, 8).set('Left_LowerLeg', 28, 0, 0).set('Right_LowerLeg', 22, 0, 0);
       p.hipY = -0.05;
       break;
-    case 'hammer': // 망치를 어깨에 걸침
-      p.set('Right_UpperArm', -30, 0, 30).set('Right_LowerArm', 0, 120, 0);
+    case 'hammer': // 큰 망치를 옆에 세워 쥠
+      p.set('Right_UpperArm', -12, 0, 60).set('Right_LowerArm', 0, 65, 0);
       p.set('Left_UpperArm', 0, 0, -68).set('Left_LowerArm', 0, -20, 0);
       p.set('Spine', 6, -6, 0);
       break;
@@ -169,7 +169,7 @@ export function basePose(arche) {
       p.set('Spine', 2, 0, 0);
       break;
     case 'blaster': // 냉각 분사기를 앞으로 겨눔
-      p.set('Right_UpperArm', -40, 10, 58).set('Right_LowerArm', 0, 55, 0);
+      p.set('Right_UpperArm', -18, 0, 62).set('Right_LowerArm', 0, 62, 0);
       p.set('Left_UpperArm', -10, 0, -64).set('Left_LowerArm', 0, -30, 0);
       break;
     case 'pyro': // 양손에 불꽃을 들고 손바닥을 위로
@@ -275,7 +275,7 @@ function actionKeys(arche, kind, slot, variant) {
       return [P({ Left_UpperArm: [-70, 25, 50], Left_LowerArm: [0, 30, 0], Right_UpperArm: [-75, -30, -60], Right_LowerArm: [0, 120, 0], Spine: [0, -35, 0], Chest: [0, -15, 0], Head: [0, 35, 0] }),
         P({ Left_UpperArm: [-72, 25, 50], Left_LowerArm: [0, 30, 0], Right_UpperArm: [-60, -50, -70], Right_LowerArm: [0, 40, 0], Spine: [-4, -35, 0], Chest: [0, -15, 0], Head: [0, 35, 0] })];
     case 'blaster':
-      if (atk || slot === 'Q') return [P({ Right_UpperArm: [-60, 10, 20], Right_LowerArm: [0, 30, 0], Spine: [-2, 10, 0] }), P({ Right_UpperArm: [-72, 0, 25], Right_LowerArm: [0, 10, 0], Spine: [-8, 6, 0], Chest: [-4, 0, 0] })];
+      if (atk || slot === 'Q') return [P({ Right_UpperArm: [-12, 0, -4], Spine: [-2, 8, 0] }), P({ Right_UpperArm: [6, 0, 2], Spine: [-9, 3, 0], Chest: [-5, 0, 0] })]; // 겨눔 → 반동 (가산 포즈)
       return [P({ Right_UpperArm: [-30, 0, -10], Left_UpperArm: [-40, 0, 20], Spine: [-8, 0, 0] }, 0.02), P({ Right_UpperArm: [-80, 0, 25], Left_UpperArm: [-70, 0, -20], Left_LowerArm: [0, 30, 0], Spine: [12, 0, 0], Left_UpperLeg: [-12, 0, 0] }, -0.03)];
     case 'pyro': {
       const flip = variant % 2 ? -1 : 1;

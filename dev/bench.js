@@ -30,6 +30,7 @@ async function main() {
   if (mode === 'poses') return poses(champs);
   if (mode === 'feet') return feet(champs);
   if (mode === 'lineup') return lineup(champs);
+  if (mode === 'kit') return kitSheet(champs);
   const tex = makeGroundTextures();
   scene.add(buildTerrain(tex, q));
   scene.add(buildWater());
@@ -182,6 +183,35 @@ function lineup(champs) {
   });
   const cam = new THREE.PerspectiveCamera(30, W / H, 1, 100);
   cam.position.set(0, 6.5, 11.5); cam.lookAt(0, 0.8, 0);
+  sun.position.set(-6, 12, 10);
+  renderer.render(scene, cam);
+  window.DONE = true;
+}
+
+// 장비 점검: 챔피언마다 [정면, 3/4, 측면, 후면, 공격, 시전, 달리기] — 겹침·뜬 부품 확인용 근접 시트
+function kitSheet(champs) {
+  scene.background = new THREE.Color(0x4a5560); scene.fog = null;
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0x5a6650 }));
+  ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  const cols = [['idle', 0], ['idle', 0.8], ['idle', Math.PI / 2], ['idle', Math.PI], ['atk', 0.35], ['cast', 0.45], ['run', 0.6]];
+  champs.forEach((c, r) => {
+    cols.forEach(([k, ry], i) => {
+      const v = createChampionVisual(c);
+      v.root.position.set(i * 1.32 - 3.96, 0, r * -2.2);
+      v.root.rotation.y = k === 'idle' ? ry : 0.6;
+      const p = basePose(c.arche);
+      if (k === 'atk') p.addPose(actionPose(c.arche, 'attack', null, ry, 0.3, 0.9));
+      if (k === 'cast') p.addPose(actionPose(c.arche, 'cast', 'Q', ry, 0.3, 0.9));
+      if (k === 'run') p.addPose(locomotion(1.2, 1, c.arche, v.rig.legLen));
+      v.rig.apply(p);
+      for (const f of v.floats) f.obj.position.y = f.instrument ? 1.15 : 1.3;
+      v.updateUprights && v.updateUprights();
+      scene.add(v.root);
+    });
+  });
+  const n = champs.length;
+  const cam = new THREE.PerspectiveCamera(22, W / H, 0.5, 200);
+  cam.position.set(0, 2.0, 8.4); cam.lookAt(0, 0.85, 0);
   sun.position.set(-6, 12, 10);
   renderer.render(scene, cam);
   window.DONE = true;
