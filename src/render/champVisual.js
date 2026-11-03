@@ -17,7 +17,15 @@ export async function loadModelTemplates(ids, onProgress) {
   let done = 0;
   await Promise.all(ids.map((id) => new Promise((res, rej) => {
     if (templates.has(id)) { done++; return res(); }
-    loader.load(`${ASSET_BASE}public/models/m${id}.glb`, (g) => { templates.set(id, g.scene); done++; onProgress && onProgress(done / ids.length); res(); }, undefined, rej);
+    const ok = (g) => { templates.set(id, g.scene); done++; onProgress && onProgress(done / ids.length); res(); };
+    if (globalThis.MODEL_EXT === 'b64.js') {
+      // .glb를 직접 제공할 수 없는 호스팅용: base64 텍스트로 받아 같은 파서로 해석
+      fetch(`${ASSET_BASE}public/models/m${id}.b64.js`).then((r) => r.text()).then((t) => {
+        const bin = atob(t.trim()); const u8 = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+        loader.parse(u8.buffer, '', ok, rej);
+      }).catch(rej);
+    } else loader.load(`${ASSET_BASE}public/models/m${id}.${globalThis.MODEL_EXT || 'glb'}`, ok, undefined, rej);
   })));
 }
 
