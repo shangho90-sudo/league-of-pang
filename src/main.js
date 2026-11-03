@@ -34,15 +34,51 @@ const EMBLEM = `<svg class="emblem" viewBox="0 0 120 120"><defs><linearGradient 
 
 let renderer = null, portraits = null, game = null, rafId = 0;
 
+// 키 아트(사용자 제공 이미지) 위 버튼 위치: 이미지 원본 좌표(1672×941)
+const KEYART = { src: 'public/art/keyart.jpg', w: 1672, h: 941, start: [575, 690, 1090, 800], exit: [672, 815, 992, 882] };
+// cover 배치 계산 (세로가 잘릴 때는 아래쪽 버튼이 보이도록 posY 비율 적용)
+function coverMap(W, H, posY) {
+  const s = Math.max(W / KEYART.w, H / KEYART.h);
+  const ox = (W - KEYART.w * s) / 2, oy = (H - KEYART.h * s) * posY;
+  return { s, ox, oy, rect: ([x0, y0, x1, y1]) => ({ left: ox + x0 * s, top: oy + y0 * s, width: (x1 - x0) * s, height: (y1 - y0) * s }) };
+}
 function showTitle() {
   const t = $('#title');
   t.classList.remove('hidden');
-  t.innerHTML = `<canvas class="bgart"></canvas><div class="logo">${EMBLEM}<h1>리그 오브 팽재현</h1><div class="sub">LEAGUE OF PANG JAEHYEON</div></div>
-    <div class="menu"><button class="btn gold" id="t-start" disabled>불러오는 중…</button><button class="btn" id="t-help">조작 방법</button></div>
-    <div class="note">4대4 AI 대전 · 플레이어 1명 + AI 7명 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'}<br>실시간 온라인 대전(PC·모바일 크로스플레이)은 별도 구현 단계로 아직 제공되지 않습니다.</div>`;
-  drawTitleArt(t.querySelector('.bgart'));
+  t.classList.add('keyart-title');
+  t.innerHTML = `<img class="keyart" src="${KEYART.src}" alt="리그 오브 팽재현">
+    <button class="hot hot-start" id="t-start" aria-label="START" disabled><span class="ld">불러오는 중…</span></button>
+    <button class="hot hot-exit" id="t-exit" aria-label="EXIT"></button>
+    <div class="title-foot"><button class="tbtn" id="t-help">조작 방법</button><span>4대4 AI 대전 · 플레이어 1명 + AI 7명 · ${mobile ? '터치 조작 (가로 화면)' : 'PC 키보드·마우스'} · 온라인 대전은 별도 구현 단계</span></div>`;
+  const img = t.querySelector('.keyart');
+  const place = () => {
+    const posY = 0.75;
+    img.style.objectPosition = `50% ${posY * 100}%`;
+    const m = coverMap(innerWidth, innerHeight, posY);
+    for (const [id, box] of [['t-start', KEYART.start], ['t-exit', KEYART.exit]]) Object.assign($('#' + id).style, Object.fromEntries(Object.entries(m.rect(box)).map(([k, v]) => [k, v + 'px'])));
+  };
+  place();
+  window.addEventListener('resize', place);
+  t._place = place;
   $('#t-help').onclick = () => showHelp();
-  $('#t-start').onclick = () => { audio.init(); audio.play('click'); t.classList.add('hidden'); showSelect(); };
+  $('#t-start').onclick = () => { audio.init(); audio.play('click'); window.removeEventListener('resize', place); t.classList.add('hidden'); showSelect(); };
+  $('#t-exit').onclick = () => { audio.init(); audio.play('click'); showExit(); };
+}
+function showExit() {
+  const t = $('#title');
+  if (t.querySelector('.exitbox')) return;
+  const box = document.createElement('div');
+  box.className = 'panel gilt modal exitbox';
+  box.style.position = 'fixed'; box.style.zIndex = 70; box.style.width = 'min(360px, 90vw)'; box.style.textAlign = 'center';
+  box.innerHTML = `<h3 style="justify-content:center">게임을 종료할까요?</h3><p class="msg" style="color:#c8d4e2;font-size:14px;margin:6px 0 14px">웹 게임은 브라우저 탭을 닫으면 종료됩니다.</p>
+    <div style="display:flex;gap:10px;justify-content:center"><button class="btn" data-a="no">취소</button><button class="btn gold" data-a="yes">종료</button></div>`;
+  t.appendChild(box);
+  box.querySelector('[data-a=no]').onclick = () => box.remove();
+  box.querySelector('[data-a=yes]').onclick = () => {
+    audio.stopMusic();
+    window.close(); // 스크립트로 연 창이 아니면 브라우저가 막음 → 안내로 대체
+    setTimeout(() => { box.querySelector('.msg').textContent = '브라우저가 자동 종료를 막았습니다. 이 탭을 직접 닫아 주세요.'; box.querySelector('[data-a=yes]').remove(); box.querySelector('[data-a=no]').textContent = '돌아가기'; }, 250);
+  };
 }
 function drawTitleArt(cv) {
   cv.width = innerWidth; cv.height = innerHeight;
@@ -86,9 +122,11 @@ async function startGame(picks) {
   const L = $('#loading');
   L.classList.remove('hidden');
   const col = (team) => picks.filter((p) => p.team === team).map((p) => `<div><img src="${portraits[p.id]}"><div class="cap">${CHAMPIONS.find((c) => c.id === p.id).name}${p.isPlayer ? ' (나)' : ''}</div></div>`).join('');
-  L.innerHTML = `<div class="logo">${EMBLEM}<h1 style="font-size:40px">리그 오브 팽재현</h1></div><div class="teams"><div class="col">${col(0)}</div><div class="col red">${col(1)}</div></div><div class="bar"><div></div></div><div class="tip">전장을 준비하는 중… (AI 대전)</div>`;
+  L.classList.add('keyart-loading');
+  L.innerHTML = `<img class="keyart" src="public/art/keyart_load.jpg" alt=""><div class="load-band"><div class="teams"><div class="col">${col(0)}</div><div class="vs">VS</div><div class="col red">${col(1)}</div></div><div class="bar"><div></div></div><div class="tip">전장을 준비하는 중… (AI 대전)</div></div>`;
   const bar = L.querySelector('.bar div');
   await new Promise((r) => setTimeout(r, 30));
+  if (params.get('holdload')) { bar.style.width = '42%'; await new Promise((r) => (window.CONTINUE = r)); } // 검증용: 로딩 화면 유지
   const q = QUALITY[settings.quality] || QUALITY.medium;
   if (!renderer) renderer = createRenderer($('#game'), q);
   renderer.setSize(innerWidth, innerHeight, false);
@@ -132,10 +170,10 @@ async function boot() {
   buildGrid();
   if (!params.get('autostart') && !params.get('picks') && !params.get('select')) showTitle();
   const ids = [...new Set(CHAMPIONS.map((c) => c.model))];
-  await loadModelTemplates(ids, (k) => { const b = $('#t-start'); if (b) b.textContent = `불러오는 중… ${Math.round(k * 100)}%`; });
+  await loadModelTemplates(ids, (k) => { const b = $('#t-start .ld'); if (b) b.textContent = `불러오는 중… ${Math.round(k * 100)}%`; });
   portraits = renderPortraits(CHAMPIONS);
   const b = $('#t-start');
-  if (b) { b.disabled = false; b.textContent = 'AI 대전 시작 (1 + AI 7)'; }
+  if (b) { b.disabled = false; b.innerHTML = ''; b.title = 'AI 대전 시작 (플레이어 1 + AI 7)'; }
   if (params.get('autostart')) {
     const id = params.get('autostart'), lane = params.get('lane') || CHAMPIONS.find((c) => c.id === id).lanePref[0];
     startGame(autoPicks(id, lane, Math.random));

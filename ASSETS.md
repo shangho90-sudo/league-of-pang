@@ -7,6 +7,7 @@
 | 자산 | 파일 | 출처 | 사용 조건 | 비고 |
 |---|---|---|---|---|
 | 캐릭터 3D 모델 10종 (리깅 포함) | `public/models/m0.glb` ~ `m9.glb` | 사용자 제공 업로드 파일 10개 (Tripo 계열 자동 리깅 GLB로 추정, 뼈 이름 `Hips/Spine/Left_UpperArm…`) | **사용자 확인 필요** — 생성 도구의 상업적 이용 약관과 얼굴 모델이 된 인물의 동의를 확인하세요 | 원본 텍스처 4096px → 1024px WebP로 변환, `KHR_materials_volume/specular` 제거. 원본 파일명 매핑은 `tools/model_map.json` |
+| 시작·로딩 화면 키 아트 | `public/art/keyart.jpg`, `public/art/keyart_load.jpg`(버튼 영역을 잘라낸 로딩용) | 사용자 제공 이미지 (2026-11-03 대화 중 업로드, 1672×941 PNG → JPEG 변환) | **사용자 확인 필요** — 그림 속 실제 인물의 초상 사용 동의와 이미지 생성·제작 도구의 이용 조건 | 로고·START/EXIT가 그림에 포함되어 있어, 실제 버튼은 그림 위 같은 위치에 투명하게 겹쳐 배치 |
 | three.js r17x | `node_modules/three` → `dist/main.js`에 번들 | https://threejs.org | MIT License | 렌더링 엔진 |
 | esbuild | 빌드 도구 (배포 파일에 미포함) | https://esbuild.github.io | MIT License | |
 | gltf-transform, sharp | 모델 최적화 도구 (배포 파일에 미포함) | https://gltf-transform.dev, https://sharp.pixelplumbing.com | MIT / Apache-2.0 | |
