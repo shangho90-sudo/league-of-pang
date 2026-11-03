@@ -148,7 +148,15 @@ export class World {
               const d = { x: Math.sin(s.facing), z: Math.cos(s.facing) };
               const accent = s.def.accent;
               if (a === 'hammer') { fx.ring(t.x, t.z, 0.3, 1.3, 0xffb06a, 0.3); fx.burst(t.x, y - 0.6, t.z, 8, { color: 0xffa040, tex: 'spark', speed: 4, life: 0.35, g: 8, size: 0.25 }); }
-              else fx.arc(s.x, groundHeight(s.x, s.z) + 1.0, s.z, d, s.def.stats.range + 0.5, a === 'spear' ? 30 : a === 'dual' ? 120 : 140, accent, 0.18, a === 'spear' ? 0.25 : 0.4);
+              else if (a === 'dual') {
+                // 쌍검: 넓게 휘두르는 두 줄기 베기 궤적 + 흰 심선 + 파편
+                const gy0 = groundHeight(s.x, s.z), R = s.def.stats.range + 0.9;
+                fx.arc(s.x, gy0 + 1.15, s.z, d, R, 170, accent, 0.24, 0.62);
+                fx.arc(s.x, gy0 + 0.8, s.z, d, R * 0.92, 150, 0xffffff, 0.16, 0.26);
+                fx.burst(t.x, y, t.z, 10, { color: accent, tex: 'shard', speed: 6, life: 0.3, size: 0.32, elev: 0.3, spin: 10 });
+                audio.play('swing', 0.6);
+              }
+              else fx.arc(s.x, groundHeight(s.x, s.z) + 1.0, s.z, d, s.def.stats.range + 0.5, a === 'spear' ? 30 : 140, accent, 0.18, a === 'spear' ? 0.25 : 0.4);
               audio.play(a === 'hammer' || a === 'shield' ? 'hitHeavy' : 'hitPhys', s.isPlayer || t.isPlayer ? 1 : 0.4);
             } else if (s.kind === 'champion') audio.play(e.dmgType === 'magic' ? 'hitMagic' : 'hitPhys', s.isPlayer || t.isPlayer ? 0.8 : 0.3);
             else if (s.kind === 'turret') audio.play('hitHeavy', 0.4);
@@ -342,7 +350,9 @@ export class World {
     this.fx.update(dt);
     this.updateFog(dt);
     // 카메라
-    const follow = player && !player.dead ? player : player;
+    // 카메라는 보간된 화면 위치를 따라감 (30Hz 틱 계단 현상 제거)
+    const pv = player && this.views.get(player.id);
+    const follow = pv && pv.root.visible ? pv.root.position : player;
     this.camera.update(dt, follow);
     updateSunFollow(this.sun, this.camera.target);
     // 가림 완화: 플레이어 앞(카메라 쪽) 나무를 디더링
@@ -373,7 +383,7 @@ export class World {
       const v = this.views.get(u.id); if (!v) continue;
       let lift = 0;
       if (u.kind === 'champion' && v.v) lift = v.v.container.position.y;
-      const p = this.project(u.x, groundHeight(u.x, u.z) + v.headY() + lift, u.z);
+      const rp = v.root.position; const p = this.project(rp.x, groundHeight(rp.x, rp.z) + v.headY() + lift, rp.z);
       if (p.behind || p.x < -100 || p.x > W + 100 || p.y < -60 || p.y > H + 60) continue;
       list.push({ u, p });
     }

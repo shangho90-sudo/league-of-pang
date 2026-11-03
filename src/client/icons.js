@@ -109,6 +109,7 @@ export function skillIcon(champ, slot, S = 96) {
 
 // 3D 초상화: 실제 챔피언 모델을 오프스크린 렌더
 let pr = null;
+export const PORTRAIT_HEAD_UP = 0.17, PORTRAIT_DIST = 1.75;
 export function renderPortraits(champs, size = 192) {
   if (!pr) {
     const canvas = document.createElement('canvas');
@@ -123,12 +124,18 @@ export function renderPortraits(champs, size = 192) {
     const rim = new THREE.DirectionalLight(new THREE.Color(c.accent), 2.2); rim.position.set(2, 1.5, -2); scene.add(rim);
     const v = createChampionVisual(c);
     v.rig.apply(basePose(c.arche));
-    v.root.rotation.y = 0.35; v.updateUprights && v.updateUprights();
-    v.root.rotation.y = 0.35;
+    // 얼굴 정면: 머리 뼈 위치를 기준으로 머리를 화면 가운데에 맞춤
+    v.root.rotation.y = 0; v.updateUprights && v.updateUprights();
+    // 얼굴을 가리는 손 무기·부유 장치는 초상화에서 숨김
+    for (const k of ['right', 'left', 'cannon']) if (v.sockets[k]) v.sockets[k].visible = false;
+    for (const f of v.floats) f.obj.visible = false;
     scene.add(v.root);
-    const cam = new THREE.PerspectiveCamera(26, 1, 0.1, 20);
-    const h = 1.75 * c.body[1];
-    cam.position.set(0.15, h * 0.78, 2.2); cam.lookAt(0, h * 0.72, 0);
+    v.root.updateMatrixWorld(true);
+    let headY = 1.75 * c.body[1] * 0.78;
+    v.model.traverse((o) => { if (o.isBone && o.name === 'Head') headY = o.getWorldPosition(new THREE.Vector3()).y; });
+    const cy = headY + PORTRAIT_HEAD_UP;
+    const cam = new THREE.PerspectiveCamera(24, 1, 0.1, 20);
+    cam.position.set(0, cy + 0.03, PORTRAIT_DIST); cam.lookAt(0, cy, 0);
     pr.setClearColor(0x000000, 0);
     pr.render(scene, cam);
     out[c.id] = pr.domElement.toDataURL('image/png');

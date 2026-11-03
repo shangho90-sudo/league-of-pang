@@ -998,6 +998,8 @@ export class Sim {
   // ---------------- 메인 틱 ----------------
   step(dt = TICK) {
     if (this.over) return;
+    // 렌더 보간용 이전 틱 위치 (화면은 60Hz 이상, 시뮬레이션은 30Hz)
+    for (const u of this.units) { u.px = u.x; u.pz = u.z; }
     this.time += dt;
     // 웨이브
     if (this.time >= this.nextWave) { this.spawnWave(); this.nextWave += 30; }

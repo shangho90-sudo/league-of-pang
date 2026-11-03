@@ -251,16 +251,16 @@ function actionKeys(arche, kind, slot, variant) {
   switch (arche) {
     case 'sword':
     case 'spear': {
-      if (arche === 'spear' && (atk || slot === 'Q')) // 찌르기
-        return [P({ Right_UpperArm: [30, 20, -10], Right_LowerArm: [0, 40, 0], Spine: [-4, 25, 0], Chest: [0, 10, 0], Left_UpperLeg: [10, 0, 0] }),
-          P({ Right_UpperArm: [-70, -10, -20], Right_LowerArm: [0, -50, 0], Spine: [12, -20, 0], Chest: [4, -10, 0], Left_UpperLeg: [-22, 0, 0], Left_LowerLeg: [12, 0, 0] }, -0.03)];
+      if (arche === 'spear' && (atk || slot === 'Q')) // 찌르기: 몸을 뒤로 비틀어 당겼다가 앞발 디디며 뻗음
+        return [P({ Right_UpperArm: [20, 25, -18], Right_LowerArm: [0, 45, 0], Left_UpperArm: [-30, 0, 20], Spine: [-8, 32, 0], Chest: [-2, 14, 0], Right_UpperLeg: [14, 0, 0], Left_UpperLeg: [6, 0, 0] }, 0.0),
+          P({ Right_UpperArm: [-62, -14, -22], Right_LowerArm: [0, -55, 0], Left_UpperArm: [-55, -10, 10], Spine: [16, -24, 0], Chest: [6, -12, 0], Left_UpperLeg: [-34, 0, 0], Left_LowerLeg: [22, 0, 0], Right_UpperLeg: [12, 0, 0] }, -0.06)];
       const flip = variant % 2 ? -1 : 1;
       return [P({ Right_UpperArm: [-30, 30 * flip, -70], Right_LowerArm: [0, 30, 0], Spine: [-6, 28 * flip, 0], Chest: [0, 14 * flip, 0] }),
         P({ Right_UpperArm: [-60, -55 * flip, -15], Right_LowerArm: [0, -25, 0], Spine: [14, -30 * flip, 0], Chest: [6, -16 * flip, 0], Left_UpperLeg: [-16, 0, 0], Left_LowerLeg: [10, 0, 0] }, -0.035)];
     }
-    case 'hammer':
-      return [P({ Right_UpperArm: [-40, 10, -60], Right_LowerArm: [0, -40, 0], Left_UpperArm: [-60, 0, 30], Left_LowerArm: [0, -40, 0], Spine: [-14, 12, 0], Chest: [-8, 0, 0] }, 0.02),
-        P({ Right_UpperArm: [-40, -10, 20], Right_LowerArm: [0, -100, 0], Left_UpperArm: [-50, 0, 25], Spine: [26, -8, 0], Chest: [12, 0, 0], Left_UpperLeg: [-20, 0, 0], Left_LowerLeg: [24, 0, 0], Right_LowerLeg: [20, 0, 0] }, -0.07)];
+    case 'hammer': // 양팔로 머리 위까지 들어 올렸다가 무릎을 굽히며 내려찍기
+      return [P({ Right_UpperArm: [-120, 0, -40], Right_LowerArm: [0, -30, 0], Left_UpperArm: [-110, 0, 40], Left_LowerArm: [0, 30, 0], Spine: [-18, 6, 0], Chest: [-10, 0, 0], Head: [-6, 0, 0] }, 0.03),
+        P({ Right_UpperArm: [-38, -6, -10], Right_LowerArm: [0, -20, 0], Left_UpperArm: [-45, 0, 30], Left_LowerArm: [0, 25, 0], Spine: [32, -6, 0], Chest: [14, 0, 0], Head: [10, 0, 0], Left_UpperLeg: [-30, 0, 0], Left_LowerLeg: [36, 0, 0], Right_UpperLeg: [-8, 0, 0], Right_LowerLeg: [30, 0, 0] }, -0.11)];
     case 'shield':
       if (atk || slot === 'Q')
         return [P({ Left_UpperArm: [20, 30, 10], Spine: [-6, -20, 0], Chest: [0, -10, 0] }),
@@ -268,8 +268,9 @@ function actionKeys(arche, kind, slot, variant) {
       return [P({ Spine: [-8, 0, 0], Left_UpperArm: [10, 0, 0] }, 0.02), P({ Spine: [20, 0, 0], Left_UpperArm: [-30, 0, 10], Left_UpperLeg: [-20, 0, 0] }, -0.06)];
     case 'dual': {
       const flip = variant % 2 ? -1 : 1;
-      return [P({ Right_UpperArm: [20, 25, -20], Left_UpperArm: [20, -25, 20], Spine: [-4, 20 * flip, 0] }),
-        P({ Right_UpperArm: [-75, -30 * flip, -10], Right_LowerArm: [0, -40, 0], Left_UpperArm: [-60, 30 * flip, 10], Left_LowerArm: [0, 40, 0], Spine: [16, -25 * flip, 0], Left_UpperLeg: [-14, 0, 0] }, -0.04)];
+      // 크게 몸을 비틀어 감았다가 양손 칼날로 대각선을 끝까지 베어 넘김
+      return [P({ Right_UpperArm: [30, 55 * flip, -55], Right_LowerArm: [0, 60, 0], Left_UpperArm: [30, -55 * flip, 55], Left_LowerArm: [0, -60, 0], Spine: [-10, 42 * flip, 0], Chest: [-4, 18 * flip, 0], Right_UpperLeg: [10, 0, 0] }, 0.02),
+        P({ Right_UpperArm: [-95, -60 * flip, 25], Right_LowerArm: [0, -70, 0], Left_UpperArm: [-90, 60 * flip, -25], Left_LowerArm: [0, 70, 0], Spine: [22, -48 * flip, 0], Chest: [8, -22 * flip, 0], Left_UpperLeg: [-30, 0, 0], Left_LowerLeg: [24, 0, 0] }, -0.07)];
     }
     case 'bow':
       return [P({ Left_UpperArm: [-70, 25, 50], Left_LowerArm: [0, 30, 0], Right_UpperArm: [-75, -30, -60], Right_LowerArm: [0, 120, 0], Spine: [0, -35, 0], Chest: [0, -15, 0], Head: [0, 35, 0] }),
@@ -302,6 +303,40 @@ function actionKeys(arche, kind, slot, variant) {
         P({ Left_UpperArm: [-80, -20, 30], Right_UpperArm: [-80, 20, -30], Left_LowerArm: [0, 40, 0], Right_LowerArm: [0, -40, 0], Spine: [14, 0, 0], Left_UpperLeg: [-14, 0, 0] }, -0.03)];
     }
   }
+}
+
+// 공격 단계 (actionPose와 같은 시간 구분): 0 준비 → 1 타격 → 2 회수
+export function actionPhase(t, windup, total) {
+  const strikeDur = Math.min(0.12, (total - windup) * 0.4 + 0.02);
+  if (t < windup) return { phase: 0, k: ease(t / Math.max(0.001, windup)) };
+  if (t < windup + strikeDur) return { phase: 1, k: easeOut((t - windup) / strikeDur) };
+  return { phase: 2, k: ease(Math.min(1, (t - windup - strikeDur) / Math.max(0.05, total - windup - strikeDur))) };
+}
+
+// 무기 자체의 궤적 (캐릭터 공간 방향). 손 회전만으로는 창을 수평으로 찌르거나 망치를 머리 위에서
+// 내려찍는 궤적이 나오지 않으므로, 기본 공격 동안 무기 방향·위치를 직접 보간한다.
+// 반환: { up, fwd, slide:[x,y,z], w } — up = 무기 자루 방향, w = 휴식 방향 대비 적용 비율
+export function weaponMotion(arche, kind, t, windup, total) {
+  if (kind !== 'attack') return null;
+  const { phase, k } = actionPhase(t, windup, total);
+  const mix = (a, b, f) => a.map((v, i) => v + (b[i] - v) * f);
+  if (arche === 'spear') {
+    // 수평으로 눕혀 뒤로 당겼다가(준비) 앞으로 길게 찌르고(타격) 회수
+    const level = { up: [0.06, 0.04, 1], fwd: [0, 1, 0] };
+    if (phase === 0) return { ...level, slide: mix([0, 0, 0], [0.03, 0.02, -0.3], k), w: Math.min(1, k * 1.6) };
+    if (phase === 1) return { ...level, slide: mix([0.03, 0.02, -0.3], [-0.02, 0.0, 0.32], k), w: 1 };
+    return { ...level, slide: mix([-0.02, 0, 0.32], [0, 0, 0], k), w: 1 - k };
+  }
+  if (arche === 'hammer') {
+    // 머리 위로 들어 뒤로 젖혔다가 앞 바닥까지 강하게 내려찍기
+    const over = { up: [0, 0.75, -0.66], fwd: [0, 0.66, 0.75] }, down = { up: [0, -0.55, 1], fwd: [0, 1, 0.55] };
+    const lerpDir = (A, B, f) => ({ up: mix(A.up, B.up, f), fwd: mix(A.fwd, B.fwd, f) });
+    if (phase === 0) return { ...lerpDir({ up: [0.1, 1, 0.1], fwd: [0, 0, 1] }, over, k), slide: mix([0, 0, 0], [0.04, 0.12, 0], k), w: Math.min(1, k * 1.4) };
+    if (phase === 1) return { ...lerpDir(over, down, k), slide: mix([0.04, 0.12, 0], [0.02, 0, 0.12], k), w: 1 };
+    const hold = Math.max(0, (k - 0.35) / 0.65); // 찍은 자세를 잠깐 유지(타격감)
+    return { ...down, slide: mix([0.02, 0, 0.12], [0, 0, 0], hold), w: 1 - hold };
+  }
+  return null;
 }
 
 export function hitPose(k) {

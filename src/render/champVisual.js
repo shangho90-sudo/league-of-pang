@@ -489,6 +489,30 @@ export function createChampionVisual(champ) {
   for (const [key, part] of Object.entries(kit)) {
     if (part.grasp && sockets[key]) fitGrip(model,container,sockets[key].parent,sockets[key],part,rig);
   }
+  // 무기 궤적 오버라이드용 휴식 상태 저장 (fitGrip 이후 최종 위치 기준)
+  for (const part of Object.values(kit)) if (part.obj && part.obj.parent && !part.float) { part.restQ = part.obj.quaternion.clone(); part.restP = part.obj.position.clone(); }
+  const _wq = new THREE.Quaternion(), _wq2 = new THREE.Quaternion(), _wv = new THREE.Vector3(), _wv2 = new THREE.Vector3(), _wm = new THREE.Matrix4();
+  // spec: { up, fwd, slide, w } (캐릭터 공간). null이면 휴식 상태로 되돌림
+  const weaponPose = (key, spec) => {
+    const part = kit[key]; if (!part || !part.restQ) return;
+    const o = part.obj;
+    if (!spec || spec.w <= 0.001) { o.quaternion.copy(part.restQ); o.position.copy(part.restP); return; }
+    root.updateMatrixWorld(true);
+    const up = _wv.set(...spec.up).normalize(), fw = _wv2.set(...spec.fwd);
+    fw.addScaledVector(up, -fw.dot(up)).normalize();
+    const x = new THREE.Vector3().crossVectors(up, fw);
+    _wq.setFromRotationMatrix(_wm.makeBasis(x, up, fw));
+    const target = container.getWorldQuaternion(_wq2).multiply(_wq);
+    const pq = o.parent.getWorldQuaternion(new THREE.Quaternion());
+    o.quaternion.copy(part.restQ).slerp(pq.invert().multiply(target), Math.min(1, spec.w));
+    o.position.copy(part.restP);
+    if (spec.slide) {
+      const wp = o.parent.localToWorld(part.restP.clone());
+      const d = new THREE.Vector3(...spec.slide).multiplyScalar(Math.min(1, spec.w));
+      d.applyQuaternion(container.getWorldQuaternion(new THREE.Quaternion())).multiply(container.getWorldScale(new THREE.Vector3()));
+      o.position.copy(o.parent.worldToLocal(wp.add(d)));
+    }
+  };
   // 손에 든 불꽃 등: 뼈 회전과 무관하게 항상 위로 향함
   const _q1 = new THREE.Quaternion(), _q2 = new THREE.Quaternion();
   const updateUprights = () => {
@@ -497,7 +521,7 @@ export function createChampionVisual(champ) {
     root.getWorldQuaternion(_q1);
     for (const o of uprights) { o.parent.getWorldQuaternion(_q2); o.quaternion.copy(_q2.invert().multiply(_q1)); }
   };
-  return { root, container, model, rig, sockets, floats, capes, kit, updateUprights };
+  return { root, container, model, rig, sockets, floats, capes, kit, updateUprights, weaponPose };
 }
 
 // 무기 끝(발사 지점) 월드 좌표

@@ -8,7 +8,7 @@ export const HERO_ASSETS = {
   'dawn-sword': {height:1.05, grip:0.16}, 'storm-bow': {height:1.02, grip:0.5},
   'astral-orb': {height:0.48}, 'forest-spear': {height:1.75, grip:0.29},
   'arcane-cannon': {size:[0.22,0.26,0.7]}, 'resonance-baton': {height:0.48, grip:0.12},
-  'resonance-lyre': {height:0.58}, 'cryo-blaster': {size:[0.13,0.30,0.48], grip:0.15},
+  'resonance-lyre': {height:0.58}, 'cryo-blaster': {size:[0.13,0.30,0.48], grip:0.3},
   'ember-focus': {height:0.22}, 'aegis-breastplate': {size:[0.32,0.29,0.08]},
   'aegis-pauldron': {size:[0.24,0.17,0.27]}, 'aegis-bracer': {size:[0.13,0.16,0.12]},
   'mystic-mantle': {size:[0.48,0.21,0.28]}, 'ranger-quiver': {height:0.48},

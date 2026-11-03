@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { createChampionVisual } from '../render/champVisual.js';
-import { basePose, locomotion, actionPose, idleBreath, hitPose, deathPose, recallPose, Pose, isUpper } from '../render/rig.js';
+import { basePose, locomotion, actionPose, idleBreath, hitPose, deathPose, recallPose, Pose, isUpper, weaponMotion } from '../render/rig.js';
 import { buildTurret, buildNexus } from '../render/structures.js';
 import { patchFow } from '../render/terrain.js';
 import { TEAM_COLORS } from '../map/layout.js';
@@ -10,6 +10,12 @@ import { groundHeight } from '../map/grid.js';
 import { createMapAsset, updateAssetMotion } from '../render/mapAssets.js';
 
 const D2R = Math.PI / 180;
+// 시뮬레이션 틱 사이 위치 보간 (30Hz 틱을 화면 프레임에 맞춰 부드럽게). 순간이동·부활 등 큰 점프는 보간하지 않음
+export function lerpPos(u, alphaSec) {
+  const f = Math.min(1, Math.max(0, (alphaSec || 0) * 30));
+  if (u.px == null || Math.abs(u.x - u.px) + Math.abs(u.z - u.pz) > 3) return { x: u.x, z: u.z };
+  return { x: u.px + (u.x - u.px) * f, z: u.pz + (u.z - u.pz) * f };
+}
 function lerpAngle(a, b, k) { let d = b - a; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2; return a + d * k; }
 
 // 발밑 표시: 팀 고리 + 접지 그림자 (캐릭터 고유색은 유지, 팀은 고리/체력바로 구분)
@@ -67,7 +73,7 @@ export class ChampionView extends BaseView {
   update(dt, t, alpha) {
     const u = this.u, v = this.v, arche = u.def.arche;
     // 위치·방향
-    const x = u.x, z = u.z;
+    const { x, z } = lerpPos(u, alpha);
     let y = groundHeight(x, z);
     if (y < -0.3) y = Math.max(y, -0.45); // 강에서는 살짝 잠김(얕은 물)
     this.root.position.set(x, y, z);
@@ -121,6 +127,12 @@ export class ChampionView extends BaseView {
     // 기절: 비틀거림
     if (u.has('stun')) { pose.add('Head', Math.sin(t * 9) * 8, Math.sin(t * 7) * 10, 0); pose.add('Spine', 6, 0, Math.sin(t * 6) * 5); }
     v.rig.apply(pose);
+    // 무기 궤적 (창 찌르기·망치 내려찍기)
+    if (v.weaponPose) {
+      let wm = null;
+      if (a && a.kind === 'attack' && !a.channelUntil) wm = weaponMotion(arche, 'attack', Math.min(a.t + alpha, a.total), a.windup, a.total);
+      v.weaponPose('right', wm);
+    }
     // 공중에 뜸 / 도약
     let lift = 0;
     const air = u.status.find((s) => s.type === 'airborne' && s.until > u.sim.time);
@@ -159,9 +171,9 @@ export class DecoyView extends BaseView {
     this.root.add(v.root);
     this.phase = 0;
   }
-  update(dt, t) {
+  update(dt, t, alpha = 0) {
     const u = this.u;
-    this.root.position.set(u.x, groundHeight(u.x, u.z), u.z);
+    { const q = lerpPos(u, alpha); this.root.position.set(q.x, groundHeight(q.x, q.z), q.z); }
     this.v.root.rotation.y = u.facing;
     this.phase += dt * 9;
     const p = basePose(u.def.arche).addPose(locomotion(this.phase, 1, u.def.arche, this.v.rig.legLen));
@@ -248,7 +260,7 @@ export class MinionView extends BaseView {
   headY() { return this.u.minionKind === 'siege' ? 1.3 : 1.45; }
   update(dt, t, alpha) {
     const u = this.u;
-    this.root.position.set(u.x, Math.max(-0.45, groundHeight(u.x, u.z)), u.z);
+    { const q = lerpPos(u, alpha); this.root.position.set(q.x, Math.max(-0.45, groundHeight(q.x, q.z)), q.z); }
     this.facing = lerpAngle(this.facing, u.facing, 1 - Math.exp(-dt * 14));
     this.body.rotation.y = this.facing;
     if (u.dead) {
@@ -346,7 +358,7 @@ export class MonsterView extends BaseView {
   headY() { return this.model.userData.h + 0.3; }
   update(dt, t, alpha) {
     const u = this.u, P = this.model.userData.parts;
-    this.root.position.set(u.x, Math.max(-0.45, groundHeight(u.x, u.z)), u.z);
+    { const q = lerpPos(u, alpha); this.root.position.set(q.x, Math.max(-0.45, groundHeight(q.x, q.z)), q.z); }
     this.facing = lerpAngle(this.facing, u.facing, 1 - Math.exp(-dt * 8));
     this.model.rotation.y = this.facing;
     if (u.dead) { this.deadT += dt; const k = Math.min(1, this.deadT / 0.6); this.model.rotation.z = k * 1.3; this.model.position.y = -Math.max(0, this.deadT - 1.2) * 0.8; return; }

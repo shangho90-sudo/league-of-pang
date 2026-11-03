@@ -39,7 +39,11 @@ export function upgradeHeroKit(champ, kit) {
       const lyre=replace('float','resonance-lyre',{float:true,instrument:true});if(lyre)lyre.position.set(0.5,1.15,0.05);
       break;
     }
-    case 'choi': replace('right','cryo-blaster',{...grasp,alignPalm:true,palmSign:-1,tip:[0,0.18,0.25]}); replace('back','arcane-backpack',{surface:-1,off:[0,-0.01,-0.20]}); break;
+    case 'choi': {
+      const gun=replace('right','cryo-blaster',{...grasp,tip:[0,0.12,0.25]});
+      // 생성 모델의 총구가 -Z(손등 쪽)를 향해 거꾸로 쥐어짐 → 손잡이 축을 기준으로 180° 돌려 총구를 앞으로
+      if(gun) gun.children.forEach(o=>o.rotateY(Math.PI)); replace('back','arcane-backpack',{surface:-1,off:[0,-0.01,-0.20]}); break;
+    }
     case 'flame': replace('right','ember-focus',{bone:'Right_Hand',off:[0,0.12,0.04],upright:true,tip:[0,0.15,0]}); replace('left','ember-focus',{bone:'Left_Hand',off:[0,0.12,0.04],upright:true}); break;
   }
   for(const key of ['lsh','rsh']) if(kit[key]) replace(key,'aegis-pauldron',{off:[key==='lsh'?0.025:-0.025,0.07,0]});

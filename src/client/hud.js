@@ -78,9 +78,9 @@ export class HUD {
     items.appendChild(el('div', 'gold', `<span class="g">500</span><button class="btn" data-act="shop">상점 (P)</button>`));
     bot.appendChild(items);
     const cp = el('div', 'panel gilt interactive'); cp.id = 'champ-panel';
-    cp.innerHTML = `<div style="position:relative"><div class="xp"><div></div></div><div class="portrait"><img src="${this.portraits[p.def.id]}"></div><div class="lvl">1</div></div>
+    cp.innerHTML = `<div style="position:relative"><svg class="xpring" viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="47"/><circle class="fg" cx="50" cy="50" r="47" pathLength="100" stroke-dasharray="0 100"/></svg><div class="portrait"><img src="${this.portraits[p.def.id]}"></div><div class="lvl">1</div></div>
       <div class="mid"><div class="skills"><div class="skill passive" data-slot="P"><img src="${skillIcon(p.def, 'P')}"><span class="stack"></span></div>${SLOTS.map((s) => `<div style="position:relative">${this.skillSlotHTML(s, s)}<button class="lvlup hidden" data-lv="${s}">+</button></div>`).join('')}</div>
-      <div class="bars"><div class="bar hp"><div class="f"></div><div class="sh"></div><div class="t"></div></div><div class="bar mp"><div class="f"></div><div class="t"></div></div></div></div>
+      <div class="bars"><div class="bar hp"><div class="f"></div><div class="sh"></div><div class="t"></div></div><div class="bar mp"><div class="f"></div><div class="t"></div></div><div class="bar xpb"><div class="f"></div><div class="t"></div></div></div></div>
       <div class="stats"></div>`;
     bot.appendChild(cp);
     const mm = el('div', 'panel interactive'); mm.id = 'minimap-wrap';
@@ -106,7 +106,7 @@ export class HUD {
     tr.innerHTML = `<button class="mbtn" data-act="score"><i>☰</i>전적</button><button class="mbtn" data-act="menu"><i>⚙</i>설정</button>`;
     r.appendChild(tr);
     const hp = el('div', 'panel'); hp.id = 'm-hpbar';
-    hp.innerHTML = `<div class="row1"><span class="lv">Lv 1</span><span class="g">500 G</span><span class="kda">0/0/0</span></div><div class="bar hp"><div class="f"></div><div class="sh"></div><div class="t"></div></div><div class="bar mp"><div class="f"></div><div class="t"></div></div>`;
+    hp.innerHTML = `<div class="row1"><span class="lv">Lv 1</span><span class="g">500 G</span><span class="kda">0/0/0</span></div><div class="bar hp"><div class="f"></div><div class="sh"></div><div class="t"></div></div><div class="bar mp"><div class="f"></div><div class="t"></div></div><div class="bar xpb"><div class="f"></div><div class="t"></div></div>`;
     r.appendChild(hp);
     r.appendChild(el('div', 'interactive hidden', '')).id = 'm-allies';
   }
@@ -159,6 +159,11 @@ export class HUD {
   hideTip() { $('#tooltip', this.root).classList.add('hidden'); }
 
   // ---------- 상점 ----------
+  xpFrac(p) {
+    if (p.level >= MAX_LEVEL) return 1;
+    const cur = XP_TABLE[p.level - 1] || 0, nxt = XP_TABLE[p.level] || cur + 1;
+    return Math.max(0, Math.min(1, (p.xp - cur) / (nxt - cur)));
+  }
   toggleShop(force) {
     const s = $('#shop', this.root);
     const open = force ?? s.classList.contains('hidden');
@@ -386,12 +391,18 @@ export class HUD {
       this.set('hpt', hpBar.querySelector('.t'), 'textContent', hpTxt + (sh > 0 ? ` (+${Math.round(sh)})` : ''));
       mpBar.querySelector('.f').style.width = ((p.mp / p.s.mp) * 100).toFixed(1) + '%';
       this.set('mpt', mpBar.querySelector('.t'), 'textContent', mpTxt);
+      const xpBar = $('.bar.xpb', r);
+      if (xpBar) {
+        const xpk = this.xpFrac(p), cur = XP_TABLE[p.level - 1] || 0, nxt = XP_TABLE[p.level] || cur;
+        this.set('xpw', xpBar.querySelector('.f').style, 'width', (xpk * 100).toFixed(1) + '%');
+        this.set('xpt', xpBar.querySelector('.t'), 'textContent', p.level >= MAX_LEVEL ? `Lv ${p.level} · 최고 레벨` : `Lv ${p.level} · 경험치 ${Math.max(0, Math.floor(p.xp - cur))} / ${nxt - cur}`);
+      }
     }
     if (!this.mobile) {
       const cp = $('#champ-panel', r);
       this.set('lvl', $('.lvl', cp), 'textContent', String(p.level));
-      const cur = XP_TABLE[p.level - 1] || 0, nxt = XP_TABLE[p.level] || cur + 1;
-      $('.xp div', cp).style.width = p.level >= MAX_LEVEL ? '100%' : (((p.xp - cur) / (nxt - cur)) * 100).toFixed(1) + '%';
+      const xpk = this.xpFrac(p);
+      this.set('xpr', $('.xpring .fg', cp).style, 'strokeDasharray', `${(xpk * 100).toFixed(1)} 100`);
       this.set('stats', $('.stats', cp), 'innerHTML', `<div><span>공격력</span>${Math.round(p.s.ad)}</div><div><span>주문력</span>${Math.round(p.s.ap)}</div><div><span>방어력</span>${Math.round(p.s.armor)}</div><div><span>마저</span>${Math.round(p.s.mr)}</div><div><span>공속</span>${p.attackSpeed().toFixed(2)}</div><div><span>이속</span>${p.moveSpeed().toFixed(2)}</div>`);
       this.set('gold', $('#items-panel .g', r), 'textContent', `${Math.floor(p.gold)} G`);
       const slots = r.querySelectorAll('#items-panel .it');
