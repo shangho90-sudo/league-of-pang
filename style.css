@@ -564,4 +564,4 @@ canvas.mm { display: block; border-radius: 4px; cursor: pointer; }
 .objective-notice strong { display: block; font-size: clamp(17px, 2.4vw, 23px); text-shadow: 0 2px 5px #000; }
 .objective-notice span { display: block; margin-top: 4px; font-size: clamp(12px, 1.6vw, 14px); color: #dae5f2; word-break: keep-all; }
 .objective-notice.colossus { border-color: #b99aff; background: linear-gradient(120deg, #251b40f2, #0d1224f2); color: #e2d3ff; }
-@media (max-height: 600px) { #objective-notices { top: calc(76px + var(--sat)); width: min(360px, 62vw); gap: 5px; } .objective-notice { padding: 7px 14px; } }
+@media (max-height: 600px) { #objective-notices { top: calc(112px + var(--sat)); width: min(360px, 62vw); gap: 5px; } .objective-notice { padding: 7px 14px; } }
