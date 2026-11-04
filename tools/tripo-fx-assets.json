@@ -1,0 +1,14 @@
+{
+  "note": "2026-11-04 추가 요청: 참고 이미지(금빛 승천·폭발·빛기둥·파편)처럼 화려한 전투 이펙트용 Tripo 메시. 이 세션에는 Tripo 접속이 없어 생성하지 못함 — 사용자의 Tripo CLI 환경(tools/run-hero-asset.ps1 방식)에서 생성 후 public/models/heroes/에 넣고 src/render/heroAssets.js의 HERO_ASSETS에 id를 추가하면 combatEffects.js에서 사용할 수 있음. 현재 게임은 같은 구성을 src/render/glowFx.js의 절차 메시(섬광·충격파·빛기둥·파편)로 표시함.",
+  "style": "Original stylized fantasy MOBA spell effect mesh for an isometric game, clean low-poly faceted geometry with crisp silhouettes that read from above, designed to be rendered with additive glowing material. One isolated effect shape only, no character, no ground, no pedestal, no text or logos. Untextured.",
+  "outputParent": "_art/tripo-fx",
+  "runtimeDirectory": "public/models/heroes",
+  "assets": [
+    {"id":"fx-shard-burst","label":"금빛 파편 폭발","faces":1800,"texture":false,"prompt":"A radial explosion of twelve slender faceted golden crystal shards flying outward and upward from an empty center, varied lengths and tilt angles, sharp pointed tips, wide open gaps between shards. Untextured standalone effect mesh."},
+    {"id":"fx-light-pillar","label":"승천 빛기둥","faces":1500,"texture":false,"prompt":"A tall vertical column of light made of four thin twisting translucent ribbon strips rising from a small ring and tapering to points at the top, hollow center, elegant spiral. Long axis Y. Untextured standalone effect mesh."},
+    {"id":"fx-radiant-star","label":"섬광 별","faces":1200,"texture":false,"prompt":"A radiant eight-pointed starburst flare with long thin primary rays and short secondary rays around a small faceted core, very thin depth, flat in XY plane. Untextured standalone effect mesh."},
+    {"id":"fx-shock-crown","label":"충격파 왕관","faces":1800,"texture":false,"prompt":"A low wide circular shockwave crown: a thin horizontal ring with sixteen short angled blade-like fins rising outward around its rim, large empty center, very low height. Flat XZ plane. Untextured standalone effect mesh."},
+    {"id":"fx-ascend-wings","label":"궁극기 날개 문장","faces":2000,"texture":false,"prompt":"A symmetrical pair of stylized angular energy wings made of layered tapered feather blades fanning upward from a central diamond emblem, thin depth, open negative space between feathers. Flat in XY plane. Untextured standalone effect mesh."},
+    {"id":"fx-impact-petals","label":"착탄 꽃잎 폭발","faces":1600,"texture":false,"prompt":"A flat explosion bloom of ten curved pointed energy petals radiating from an empty center like a burst flower, petals slightly lifted at the tips, thin geometry, flat XZ plane. Untextured standalone effect mesh."}
+  ]
+}

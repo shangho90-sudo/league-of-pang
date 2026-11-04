@@ -222,13 +222,24 @@ export class FX {
   }
 
   // ---------- 투사체 외형 ----------
+  haloMat(color) {
+    const k = 'halo' + color;
+    if (!this.pmMat[k]) {
+      if (!this._haloTex) { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d'); const gr = x.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.25, 'rgba(255,255,255,0.75)'); gr.addColorStop(0.6, 'rgba(255,255,255,0.18)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(0, 0, 64, 64); this._haloTex = new THREE.CanvasTexture(c); this._haloTex.colorSpace = THREE.SRGBColorSpace; }
+      this.pmMat[k] = new THREE.SpriteMaterial({ map: this._haloTex, color, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+    }
+    return this.pmMat[k];
+  }
   projMat(color, additive = true) {
     const k = color + (additive ? 'a' : 'n');
     return this.pmMat[k] || (this.pmMat[k] = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.95, blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending, depthWrite: false }));
   }
   makeProjView(p) {
     const g = new THREE.Group();
-    const add = (geo, color, s, pos, add2 = true) => { const m = new THREE.Mesh(geo, this.projMat(color, add2)); m.scale.copy(s); if (pos) m.position.copy(pos); g.add(m); return m; };
+    // 챔피언 탄환: 크기 2배 + 채도·밝기 강화 (전장 배경 위에서 잘 보이게)
+    const champ = p.src && p.src.kind === 'champion';
+    const vivid = (c) => { if (!champ) return c; const col = new THREE.Color(c), hsl = {}; col.getHSL(hsl); col.setHSL(hsl.h, Math.min(1, hsl.s * 1.6 + 0.25), Math.min(0.68, Math.max(0.5, hsl.l))); return col.getHex(); };
+    const add = (geo, color, s, pos, add2 = true) => { const m = new THREE.Mesh(geo, this.projMat(vivid(color), add2)); m.scale.copy(s); if (pos) m.position.copy(pos); g.add(m); return m; };
     const V = (x, y, z) => new THREE.Vector3(x, y, z);
     let trail = null, size = 0.2;
     switch (p.vis) {
@@ -276,6 +287,14 @@ export class FX {
         const strong=['pierceArrow','dawnWave','soundWave','fireball','arcaneShell'].includes(p.vis);
         model.scale.setScalar(strong?1.1:0.6);g.add(model);g.userData.heroModel=model;
       }
+    }
+    if (champ) {
+      g.scale.setScalar(2);
+      if (trail) trail = { ...trail, color: vivid(trail.color), size: trail.size * 2, rate: trail.rate * 1.3 };
+      // 발광 후광: 탄환 뒤에 밝은 빛 번짐
+      const col = vivid(trail ? trail.color : (p.src.def?.accent ?? 0xffffff));
+      const halo = new THREE.Sprite(this.haloMat(col)); halo.scale.setScalar(0.7); g.add(halo);
+      const core = new THREE.Sprite(this.haloMat(0xffffff)); core.scale.setScalar(0.28); g.add(core);
     }
     g.userData.trail = trail; g.userData.acc = 0;
     this.scene.add(g);

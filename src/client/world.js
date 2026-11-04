@@ -154,6 +154,7 @@ export class World {
             else if (s.kind === 'turret') audio.play('hitHeavy', 0.4);
           } else {
             fx.burst(t.x, y, t.z, 5, { color: col, tex: 'soft', speed: 2, life: 0.3, size: 0.45 });
+            if (s.kind === 'champion' && e.amt > 25) fx.hero.glow.impact(t.x, t.z, s.def.accent, e.amt > 150 ? 0.8 : 0.4, y);
           }
           if (player && (s === player || t === player)) {
             const big = e.amt > 150;

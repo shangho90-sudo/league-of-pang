@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { createHeroAsset, disposeHeroEffect } from './heroAssets.js';
 import { groundHeight } from '../map/grid.js';
+import { GlowFX } from './glowFx.js';
 
 // Bounded, reusable meshes: all 12 champions share the same reviewed Tripo geometry.
 export class CombatEffects {
-  constructor(scene, quality) {this.scene=scene;this.active=[];this.pool=new Map();this.limit=quality.particles<0.8?16:30;this.spawned=0;}
+  constructor(scene, quality) {this.scene=scene;this.active=[];this.pool=new Map();this.limit=quality.particles<0.8?24:48;this.spawned=0;this.glow=new GlowFX(scene,quality);}
   emit(id, {x=0,y,z=0,color=0x8feaff,size=1,life=0.6,turn=0,rise=0,spin=0,mode='pulse',delay=0}={}) {
     if(this.active.length>=this.limit) return null;
     const pool=this.pool.get(id)||[];this.pool.set(id,pool);
@@ -16,11 +17,15 @@ export class CombatEffects {
   }
   basic(source,target,tip) {
     const c=source.def.accent;
+    // 섬광·충격파: 원거리는 착탄 지점, 근접은 타격 지점에 파편까지
+    if(source.def.stats.ranged){this.glow.impact(target.x,target.z,c,0.45);if(tip)this.glow.muzzle(tip.x,tip.y,tip.z,c);}
+    else this.glow.impact(target.x,target.z,c,source.def.arche==='hammer'?1.1:0.75);
     if(source.def.stats.ranged) this.emit('fx-bolt',{x:target.x,z:target.z,y:groundHeight(target.x,target.z)+0.9,color:c,size:0.36,life:0.22,rise:0.15,spin:4});
     else this.emit('fx-crescent',{x:source.x+Math.sin(source.facing)*0.7,z:source.z+Math.cos(source.facing)*0.7,y:tip?.y??groundHeight(source.x,source.z)+0.8,color:c,size:source.def.arche==='spear'?1.2:1.9,life:0.24,turn:source.facing,spin:1.7,mode:'slash'});
   }
   cast(unit,slot) {
     const ult=slot==='R';
+    this.glow.castFlare(unit,slot);
     this.emit('fx-rune-ring',{x:unit.x,z:unit.z,color:unit.def.accent,size:ult?2.5:1.3,life:ult?0.9:0.45,spin:ult?-0.8:1.2});
     if(ult) this.emit('fx-ward',{x:unit.x,z:unit.z,y:groundHeight(unit.x,unit.z)+0.35,color:unit.def.accent,size:1.8,life:0.65,rise:0.8,spin:0.4});
   }
@@ -28,6 +33,11 @@ export class CombatEffects {
     const u=e.u, x=e.x??u?.x, z=e.z??u?.z;
     if(x==null||z==null)return;
     const common={x,z,color:e.color??u?.def?.accent??0x9ae8ff,size:Math.min(8,(e.r||1.3)*1.5)};
+    // 큰 착탄·궁극기 계열은 빛기둥까지, 일반 스킬 착탄은 섬광+충격파+파편
+    const BIG=['anvilImpact','meteorImpact','absoluteZero','firestormEnd','firePillar','dawnBurst','grandElixir','starBurst','gravityCollapse','arcaneBlast'];
+    const HIT=['groundSlam','hammerSlam','mineBlast','fireBurst','frostBloom','freeze','glassBurst','shieldBash','swordArc','phantomSlash','thrust','beastLand','resonanceWave','sanctumRise','oathShield','iceSlide','fireDash'];
+    if(BIG.includes(e.name)) this.glow.impact(x,z,common.color,Math.min(3,1.6+(e.r||2)*0.25));
+    else if(HIT.includes(e.name)) this.glow.impact(x,z,common.color,Math.min(1.4,0.6+(e.r||1.5)*0.2));
     switch(e.name) {
       case 'anvilDrop': return !!this.emit('fx-anvil',{...common,size:2.1,life:e.delay||0.9,mode:'fall',rise:7});
       case 'meteorFall': return !!this.emit('fx-meteor',{...common,color:0xffd576,size:1.4,life:Math.min(0.6,e.delay||0.6),delay:Math.max(0,(e.delay||0.6)-0.6),mode:'fall',rise:9,spin:0.6});
@@ -46,13 +56,14 @@ export class CombatEffects {
     }
   }
   update(dt) {
+    this.glow.update(dt);
     for(let i=this.active.length-1;i>=0;i--) {
       const f=this.active[i];f.time+=dt;
       if(f.time<0)continue;
       f.root.visible=true;
       const t=Math.min(1,f.time/f.life);
       if(t>=1) {this.scene.remove(f.root);f.root.visible=false;this.pool.get(f.id).push(f.root);this.active.splice(i,1);continue;}
-      const fade=Math.min(1,t/0.12)*Math.pow(1-t,0.65)*0.72;
+      const fade=Math.min(1,t/0.1)*Math.pow(1-t,0.6);
       f.root.traverse(o=>{if(o.isMesh)o.material.opacity=fade;});
       const expand=f.mode==='fall'?1:f.mode==='slash'?0.85+0.35*t:0.55+0.65*(1-Math.pow(1-t,3));
       f.root.scale.setScalar(f.size*expand);
@@ -60,5 +71,5 @@ export class CombatEffects {
       f.root.rotation.y=f.turn+t*f.spin;
     }
   }
-  dispose() {for(const f of this.active){this.scene.remove(f.root);disposeHeroEffect(f.root);}for(const pool of this.pool.values())for(const root of pool)disposeHeroEffect(root);this.active=[];this.pool.clear();}
+  dispose() {this.glow.dispose();for(const f of this.active){this.scene.remove(f.root);disposeHeroEffect(f.root);}for(const pool of this.pool.values())for(const root of pool)disposeHeroEffect(root);this.active=[];this.pool.clear();}
 }

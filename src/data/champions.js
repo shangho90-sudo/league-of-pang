@@ -153,6 +153,10 @@ export const CHAMPIONS = [
   },
 ];
 
+// 전체 속도 조정 (2026-11-04): 모든 챔피언의 기본 이동 속도·공격 속도 +30%
+export const SPEED_MULT = { ms: 1.3, as: 1.3 };
+for (const c of CHAMPIONS) { c.stats.ms = +(c.stats.ms * SPEED_MULT.ms).toFixed(3); c.stats.as = +(c.stats.as * SPEED_MULT.as).toFixed(3); }
+
 export const CHAMP_BY_ID = Object.fromEntries(CHAMPIONS.map((c) => [c.id, c]));
 
 // 레벨 & 성장
