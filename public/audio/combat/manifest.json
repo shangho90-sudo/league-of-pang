@@ -3,68 +3,12 @@
   "estimatedCredits": 132,
   "assets": [
     {
-      "id": "bang-attack",
-      "label": "방지욱 기본 공격",
-      "file": "public/audio/combat/bang/attack.mp3",
-      "taskId": "cf213957-8bfe-411c-ab9a-7b70eeca1e91",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "bang-E",
-      "label": "방지욱 측면 침투",
-      "file": "public/audio/combat/bang/E.mp3",
-      "taskId": "6755ca29-f15c-4bfc-94c4-39d17b3d8f6f",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
       "id": "bang-hit",
       "label": "방지욱 피격",
       "file": "public/audio/combat/bang/hit.mp3",
       "taskId": "656675f9-3164-422d-85de-19a97a44c3e0",
       "duration": 0.64,
       "bytes": 11327
-    },
-    {
-      "id": "bang-Q",
-      "label": "방지욱 그림자 칼날",
-      "file": "public/audio/combat/bang/Q.mp3",
-      "taskId": "6a67883f-230b-4075-8a82-ed8c54d1d7a5",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "bang-R",
-      "label": "방지욱 허상의 포위",
-      "file": "public/audio/combat/bang/R.mp3",
-      "taskId": "50958432-9d67-4d89-be71-2da2f3fb170c",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "bang-W",
-      "label": "방지욱 잔영 교란",
-      "file": "public/audio/combat/bang/W.mp3",
-      "taskId": "6a703b6b-b9eb-463f-ac5a-5936da2f70b5",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "cha-attack",
-      "label": "사공민 기본 공격",
-      "file": "public/audio/combat/cha/attack.mp3",
-      "taskId": "d7758b29-de27-41b8-ab81-3a395a7cf1e4",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "cha-E",
-      "label": "사공민 회피 기동",
-      "file": "public/audio/combat/cha/E.mp3",
-      "taskId": "9196aff3-01f6-40fb-9e51-faf23a8580dd",
-      "duration": 1.36,
-      "bytes": 23030
     },
     {
       "id": "cha-hit",
@@ -75,92 +19,12 @@
       "bytes": 11327
     },
     {
-      "id": "cha-Q",
-      "label": "사공민 관통 화살",
-      "file": "public/audio/combat/cha/Q.mp3",
-      "taskId": "635ad8f4-9bd5-41a0-9cd8-e6b5d7bc653a",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "cha-R",
-      "label": "사공민 폭풍 사격",
-      "file": "public/audio/combat/cha/R.mp3",
-      "taskId": "57650750-fa36-4fab-9d3a-2c50ccace720",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "cha-W",
-      "label": "사공민 정밀 조준",
-      "file": "public/audio/combat/cha/W.mp3",
-      "taskId": "4b649bca-9818-4fc3-9867-007afdcf175f",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "cho-attack",
-      "label": "조강희 기본 공격",
-      "file": "public/audio/combat/cho/attack.mp3",
-      "taskId": "33e5a931-be28-4d46-baaa-f3752dce0b08",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "cho-E",
-      "label": "조강희 도약 사냥",
-      "file": "public/audio/combat/cho/E.mp3",
-      "taskId": "3065c4b9-966e-4176-87df-790a2f9a3b90",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
       "id": "cho-hit",
       "label": "조강희 피격",
       "file": "public/audio/combat/cho/hit.mp3",
       "taskId": "40f2063b-8532-467b-a4e5-7ef2621394c5",
       "duration": 0.64,
       "bytes": 11327
-    },
-    {
-      "id": "cho-Q",
-      "label": "조강희 송곳니 찌르기",
-      "file": "public/audio/combat/cho/Q.mp3",
-      "taskId": "977d66b4-bd6a-4d21-a520-30fbd558dac2",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "cho-R",
-      "label": "조강희 태고의 추적",
-      "file": "public/audio/combat/cho/R.mp3",
-      "taskId": "a2682e16-60ff-4d81-9ecb-9831e1e229c8",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "cho-W",
-      "label": "조강희 숲의 숨결",
-      "file": "public/audio/combat/cho/W.mp3",
-      "taskId": "64149d82-5328-4278-ac85-5c0c2f48b778",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "choi-attack",
-      "label": "최길용 기본 공격",
-      "file": "public/audio/combat/choi/attack.mp3",
-      "taskId": "a996ac2f-4d92-47c1-9932-4a7823f96ed5",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "choi-E",
-      "label": "최길용 빙판 활주",
-      "file": "public/audio/combat/choi/E.mp3",
-      "taskId": "c2520244-0eeb-4156-90cd-60432d32875a",
-      "duration": 1.36,
-      "bytes": 23030
     },
     {
       "id": "choi-hit",
@@ -171,92 +35,12 @@
       "bytes": 11327
     },
     {
-      "id": "choi-Q",
-      "label": "최길용 냉각 탄환",
-      "file": "public/audio/combat/choi/Q.mp3",
-      "taskId": "10c52e07-0ff0-420e-a0f6-fa90d78bb3d2",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "choi-R",
-      "label": "최길용 절대 영도",
-      "file": "public/audio/combat/choi/R.mp3",
-      "taskId": "569d9900-a7ae-4627-a495-b44c777fd969",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "choi-W",
-      "label": "최길용 서리 장막",
-      "file": "public/audio/combat/choi/W.mp3",
-      "taskId": "77550e08-78d4-4215-b1dc-91ad6c24f54f",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "flame-attack",
-      "label": "불꽃남자 기본 공격",
-      "file": "public/audio/combat/flame/attack.mp3",
-      "taskId": "ff59a89d-bef0-4321-a28c-5e75e6a4ffa9",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "flame-E",
-      "label": "불꽃남자 화염 질주",
-      "file": "public/audio/combat/flame/E.mp3",
-      "taskId": "eba35db8-a189-4c03-9829-7b5ce5e83b49",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
       "id": "flame-hit",
       "label": "불꽃남자 피격",
       "file": "public/audio/combat/flame/hit.mp3",
       "taskId": "f9cc2afa-c6cf-433f-be08-189fe8e38b69",
       "duration": 0.64,
       "bytes": 11327
-    },
-    {
-      "id": "flame-Q",
-      "label": "불꽃남자 화염구",
-      "file": "public/audio/combat/flame/Q.mp3",
-      "taskId": "2c5e5462-7a80-4171-80d2-2e9ba5078a73",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "flame-R",
-      "label": "불꽃남자 업화 폭풍",
-      "file": "public/audio/combat/flame/R.mp3",
-      "taskId": "72462827-63a0-4fb3-ba49-c30098762f0b",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "flame-W",
-      "label": "불꽃남자 불기둥",
-      "file": "public/audio/combat/flame/W.mp3",
-      "taskId": "2423dab1-ea03-4723-8198-9fc4c446acf3",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "jung-attack",
-      "label": "이선용 기본 공격",
-      "file": "public/audio/combat/jung/attack.mp3",
-      "taskId": "cefe49cb-de95-4e0d-874f-a8165c386062",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "jung-E",
-      "label": "이선용 빛의 진입",
-      "file": "public/audio/combat/jung/E.mp3",
-      "taskId": "f330bf25-8bbc-4fa9-aec3-d105b525e291",
-      "duration": 1.36,
-      "bytes": 23030
     },
     {
       "id": "jung-hit",
@@ -267,92 +51,12 @@
       "bytes": 11327
     },
     {
-      "id": "jung-Q",
-      "label": "이선용 여명 베기",
-      "file": "public/audio/combat/jung/Q.mp3",
-      "taskId": "066e5d13-00a4-436c-880e-a94a98c32f82",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "jung-R",
-      "label": "이선용 여명의 성역",
-      "file": "public/audio/combat/jung/R.mp3",
-      "taskId": "2265eb9a-3e3e-47c1-ba43-72ab1fcf1c8e",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "jung-W",
-      "label": "이선용 수호의 맹세",
-      "file": "public/audio/combat/jung/W.mp3",
-      "taskId": "fd9a68c2-226c-42c9-a6e2-1f10b0f1fa07",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "kim-attack",
-      "label": "정석호 기본 공격",
-      "file": "public/audio/combat/kim/attack.mp3",
-      "taskId": "e41f5804-505e-416d-af6e-d5710bd96c46",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "kim-E",
-      "label": "정석호 반동 사격",
-      "file": "public/audio/combat/kim/E.mp3",
-      "taskId": "c3f5f3e1-bdc1-41a4-bc85-d9b1f5c1227f",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
       "id": "kim-hit",
       "label": "정석호 피격",
       "file": "public/audio/combat/kim/hit.mp3",
       "taskId": "eed2385d-bb84-4da5-a776-8829561c466b",
       "duration": 0.64,
       "bytes": 11327
-    },
-    {
-      "id": "kim-Q",
-      "label": "정석호 마력 포탄",
-      "file": "public/audio/combat/kim/Q.mp3",
-      "taskId": "951cfd19-6ae3-4274-9a99-79fc4915d5c0",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "kim-R",
-      "label": "정석호 비전 포격망",
-      "file": "public/audio/combat/kim/R.mp3",
-      "taskId": "014a9457-e7ea-4640-a7ec-229bf141027e",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "kim-W",
-      "label": "정석호 감응 지뢰",
-      "file": "public/audio/combat/kim/W.mp3",
-      "taskId": "cf57eff7-998e-4c01-8e77-5d4a2e508c16",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "koo-attack",
-      "label": "구자현 기본 공격",
-      "file": "public/audio/combat/koo/attack.mp3",
-      "taskId": "b2e9bf61-2d89-4008-906e-c9f9d5424358",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "koo-E",
-      "label": "구자현 중갑 돌진",
-      "file": "public/audio/combat/koo/E.mp3",
-      "taskId": "d9513dc0-3ffc-41b4-9b1e-d877441077d0",
-      "duration": 1.36,
-      "bytes": 23030
     },
     {
       "id": "koo-hit",
@@ -363,92 +67,12 @@
       "bytes": 11327
     },
     {
-      "id": "koo-Q",
-      "label": "구자현 철벽 강타",
-      "file": "public/audio/combat/koo/Q.mp3",
-      "taskId": "40ea4222-7bfb-46b6-907e-4799f20d89da",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "koo-R",
-      "label": "구자현 수호자의 진격",
-      "file": "public/audio/combat/koo/R.mp3",
-      "taskId": "56b42d87-a3c9-46d0-b89d-70502d30dd11",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "koo-W",
-      "label": "구자현 요새 자세",
-      "file": "public/audio/combat/koo/W.mp3",
-      "taskId": "f8b73a0a-1906-4456-95f3-cfb24e10e59f",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "lee-attack",
-      "label": "박철호 기본 공격",
-      "file": "public/audio/combat/lee/attack.mp3",
-      "taskId": "a6ed8757-5b56-439f-8e60-a793fdece68d",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "lee-E",
-      "label": "박철호 행진 박자",
-      "file": "public/audio/combat/lee/E.mp3",
-      "taskId": "4121f8eb-b3c7-422a-9ba0-bff922fbf1e9",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
       "id": "lee-hit",
       "label": "박철호 피격",
       "file": "public/audio/combat/lee/hit.mp3",
       "taskId": "67aeca39-4d55-49bf-95c8-c1a024d1863a",
       "duration": 0.64,
       "bytes": 11327
-    },
-    {
-      "id": "lee-Q",
-      "label": "박철호 파동 선율",
-      "file": "public/audio/combat/lee/Q.mp3",
-      "taskId": "b3833028-6ff5-4338-8c47-576332e054f3",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "lee-R",
-      "label": "박철호 거대한 공명",
-      "file": "public/audio/combat/lee/R.mp3",
-      "taskId": "a164f158-3fa6-4dab-8305-86b2848d2e72",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "lee-W",
-      "label": "박철호 평온의 화음",
-      "file": "public/audio/combat/lee/W.mp3",
-      "taskId": "cd5fab9c-7db4-4435-a23b-e5be1eed8ed9",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "pang-attack",
-      "label": "김두영 기본 공격",
-      "file": "public/audio/combat/pang/attack.mp3",
-      "taskId": "a71c8e4a-ec84-4c97-8499-bd6aaa0d26a8",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "pang-E",
-      "label": "김두영 응고 지대",
-      "file": "public/audio/combat/pang/E.mp3",
-      "taskId": "53d84880-8249-4341-8553-d613a53bb912",
-      "duration": 1.36,
-      "bytes": 23030
     },
     {
       "id": "pang-hit",
@@ -459,92 +83,12 @@
       "bytes": 11327
     },
     {
-      "id": "pang-Q",
-      "label": "김두영 파열 약병",
-      "file": "public/audio/combat/pang/Q.mp3",
-      "taskId": "eafceb13-b5bb-4a7f-90e9-87eeb4f4df5b",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "pang-R",
-      "label": "김두영 생명의 대조제",
-      "file": "public/audio/combat/pang/R.mp3",
-      "taskId": "f45159b3-b496-4cf9-a4b9-e63aa8a1ab0f",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "pang-W",
-      "label": "김두영 생기 처방",
-      "file": "public/audio/combat/pang/W.mp3",
-      "taskId": "3a62b5fd-e3e1-47a9-a85a-3fa796b88361",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "park-attack",
-      "label": "팽재현 기본 공격",
-      "file": "public/audio/combat/park/attack.mp3",
-      "taskId": "137ef7ac-b44f-4d66-ad6b-1783af9655cb",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "park-E",
-      "label": "팽재현 쇄도",
-      "file": "public/audio/combat/park/E.mp3",
-      "taskId": "08c86a8e-dab9-4bfb-904a-d91516836b04",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
       "id": "park-hit",
       "label": "팽재현 피격",
       "file": "public/audio/combat/park/hit.mp3",
       "taskId": "835d70d2-4e66-4c71-b09b-eef7b6a8d810",
       "duration": 0.64,
       "bytes": 11327
-    },
-    {
-      "id": "park-Q",
-      "label": "팽재현 단조 타격",
-      "file": "public/audio/combat/park/Q.mp3",
-      "taskId": "4026d16d-19e2-49ef-b5d4-75addd8cb0ae",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "park-R",
-      "label": "팽재현 거인의 모루",
-      "file": "public/audio/combat/park/R.mp3",
-      "taskId": "bb25fc18-f491-4fe1-a05b-94ea0d300963",
-      "duration": 2.76,
-      "bytes": 45182
-    },
-    {
-      "id": "park-W",
-      "label": "팽재현 담금질",
-      "file": "public/audio/combat/park/W.mp3",
-      "taskId": "05726639-1024-494d-b555-2b555add2555",
-      "duration": 1.36,
-      "bytes": 23030
-    },
-    {
-      "id": "sagong-attack",
-      "label": "차동호 기본 공격",
-      "file": "public/audio/combat/sagong/attack.mp3",
-      "taskId": "c288871e-b100-4454-9f17-f32780da3bee",
-      "duration": 0.88,
-      "bytes": 15089
-    },
-    {
-      "id": "sagong-E",
-      "label": "차동호 궤도 변경",
-      "file": "public/audio/combat/sagong/E.mp3",
-      "taskId": "f936ad20-c754-4d16-af51-f74617661398",
-      "duration": 1.36,
-      "bytes": 23030
     },
     {
       "id": "sagong-hit",
@@ -555,28 +99,607 @@
       "bytes": 11327
     },
     {
-      "id": "sagong-Q",
-      "label": "차동호 유성편",
-      "file": "public/audio/combat/sagong/Q.mp3",
-      "taskId": "754fd34b-862b-4cf7-8f61-10caac66d9f4",
-      "duration": 1.36,
-      "bytes": 23030
+      "id": "pang-attack",
+      "label": "김두영 attack",
+      "file": "public/audio/combat/pang/attack.mp3",
+      "taskId": "f73ac6c6-ecb7-4b5d-af6d-e730fd575403",
+      "prompt": "Alchemical potion bolt with bubbly magical pop",
+      "duration": 1.0,
+      "bytes": 17180,
+      "sha256": "178810e0b501f242549109f7e493b943e3622574d2cb01ca2d2f003db8c0516b"
     },
     {
-      "id": "sagong-R",
-      "label": "차동호 성좌 붕괴",
-      "file": "public/audio/combat/sagong/R.mp3",
-      "taskId": "9509f7f2-6c58-4b9d-aa04-12bbb887f20d",
-      "duration": 2.76,
-      "bytes": 45182
+      "id": "pang-Q",
+      "label": "김두영 Q",
+      "file": "public/audio/combat/pang/Q.mp3",
+      "taskId": "2ca5cde7-d636-4cb1-af2c-e34b3c102e7e",
+      "prompt": "Thrown potion flask swish then bright glass shatter and liquid splash",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "2824886faa16403ca86ced7e359b498525bc01c0dca925c78adbd92392f169fd"
+    },
+    {
+      "id": "pang-W",
+      "label": "김두영 W",
+      "file": "public/audio/combat/pang/W.mp3",
+      "taskId": "08bfa909-6986-416a-bc78-7380ccf0e4c7",
+      "prompt": "Gentle healing potion sparkle with warm ascending crystalline shimmer",
+      "duration": 1.011,
+      "bytes": 17180,
+      "sha256": "4f1807df2785118e3cff52e7661a77b1be112d2c399b6dbed994772caa72e51a"
+    },
+    {
+      "id": "pang-E",
+      "label": "김두영 E",
+      "file": "public/audio/combat/pang/E.mp3",
+      "taskId": "565395eb-ab19-4363-abe7-e47046cb4259",
+      "prompt": "Viscous alchemical goo splash spreading with wet bubbling fizz",
+      "duration": 1.07,
+      "bytes": 18016,
+      "sha256": "24da8c3c8a0ccc047d376ec1c4ceacb09c0674752597855a4ad47aa67cdd9198"
+    },
+    {
+      "id": "pang-R",
+      "label": "김두영 R",
+      "file": "public/audio/combat/pang/R.mp3",
+      "taskId": "58c6b06c-eed7-4fb3-acb1-0bb8f41883f1",
+      "prompt": "Grand life elixir blooms, layered liquid surge and radiant crystalline resonance",
+      "duration": 1.838,
+      "bytes": 30555,
+      "sha256": "dea88c2dc07197f3c5fc652a5730a5b88ec93510d1998ee07427c3d56b8c4d25"
+    },
+    {
+      "id": "koo-attack",
+      "label": "구자현 attack",
+      "file": "public/audio/combat/koo/attack.mp3",
+      "taskId": "42977302-6e62-469f-9b4d-6aee12c99558",
+      "prompt": "Heavy iron shield bash, compact metallic thud",
+      "duration": 0.856,
+      "bytes": 14672,
+      "sha256": "4a3f6388c18500e2e1374584cb75bb860aa44c158b68485a72f58a6320fb525e"
+    },
+    {
+      "id": "koo-Q",
+      "label": "구자현 Q",
+      "file": "public/audio/combat/koo/Q.mp3",
+      "taskId": "d5be438a-0bae-4bf2-bff9-a94c922b031b",
+      "prompt": "Massive shield frontal slam, hard iron clang and weighty impact",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "f918a9b3297c27a868af3b964d3e87223241ac89ab843418e29dfd987099de32"
+    },
+    {
+      "id": "koo-W",
+      "label": "구자현 W",
+      "file": "public/audio/combat/koo/W.mp3",
+      "taskId": "7e94a5cb-6c2c-477b-90b7-f2226c787c5d",
+      "prompt": "Armor plates lock into fortress stance with low protective hum",
+      "duration": 0.476,
+      "bytes": 8821,
+      "sha256": "1c7b6e2185636c369f9e3e21c39eabcf5a760a0fe8b85e2824d910e65b72a296"
+    },
+    {
+      "id": "koo-E",
+      "label": "구자현 E",
+      "file": "public/audio/combat/koo/E.mp3",
+      "taskId": "b86d93a2-83a6-4f22-affe-d505b35a854b",
+      "prompt": "Armored dash, heavy rushing air and iron plate rattle",
+      "duration": 1.427,
+      "bytes": 23867,
+      "sha256": "8197b7a95cb605eea0ee54b604827c10758771a2dcef11e53d6c1d906d1fdc77"
+    },
+    {
+      "id": "koo-R",
+      "label": "구자현 R",
+      "file": "public/audio/combat/koo/R.mp3",
+      "taskId": "059aea79-be96-473f-81f0-edbf3862ad67",
+      "prompt": "Guardian armored charge: rising steel rumble then thunderous shield collision",
+      "duration": 2.224,
+      "bytes": 36824,
+      "sha256": "b82e013812c8e15c971777a1f7e2019121493f80ff64276e9f5aebbf628bfdf9"
+    },
+    {
+      "id": "bang-attack",
+      "label": "방지욱 attack",
+      "file": "public/audio/combat/bang/attack.mp3",
+      "taskId": "c9f2d357-925f-4e3a-8bf3-3bcc18eb3f5b",
+      "prompt": "Two swift dagger slashes, sharp dry metallic swishes",
+      "duration": 0.503,
+      "bytes": 9239,
+      "sha256": "ab8f035278492832d8e040f80a9d3395f9bbb308b2a4d591106b8186e4c744d7"
+    },
+    {
+      "id": "bang-Q",
+      "label": "방지욱 Q",
+      "file": "public/audio/combat/bang/Q.mp3",
+      "taskId": "8951224d-93e1-42b1-9565-7116f10b3ad0",
+      "prompt": "Thrown shadow dagger whipping through air with dark piercing sting",
+      "duration": 0.588,
+      "bytes": 10493,
+      "sha256": "00a00594712b86b647efd5aa9dcab9654283562aa91957c3add1b141cfe07ec3"
+    },
+    {
+      "id": "bang-W",
+      "label": "방지욱 W",
+      "file": "public/audio/combat/bang/W.mp3",
+      "taskId": "0ea3237e-f361-4f6b-a5ed-34b5da9c74d6",
+      "prompt": "Shadow decoy materializes with hollow whispering air and spectral pop",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "f5d94d78428ae5c44d95efbbdb97e27235d865f72642b4011b26eb97e3a791dd"
+    },
+    {
+      "id": "bang-E",
+      "label": "방지욱 E",
+      "file": "public/audio/combat/bang/E.mp3",
+      "taskId": "0cd0e653-d40d-4fc3-ab57-57d4eb2d5777",
+      "prompt": "Assassin short dash, fast tight airy vacuum snap",
+      "duration": 1.144,
+      "bytes": 19270,
+      "sha256": "984eb4112693d53f07c476acebacb6521ef1d581380d5b7d21b03cf6ea0b6acf"
+    },
+    {
+      "id": "bang-R",
+      "label": "방지욱 R",
+      "file": "public/audio/combat/bang/R.mp3",
+      "taskId": "0f7d4369-c280-47e5-b752-b63cc9362958",
+      "prompt": "Four phantom assassins perform rapid circling blade slashes, dark spectral finish",
+      "duration": 1.18,
+      "bytes": 20106,
+      "sha256": "e12d2200b26001359769a458464004aa2bb91d27a61570235b1fb2304bd21590"
+    },
+    {
+      "id": "park-attack",
+      "label": "팽재현 attack",
+      "file": "public/audio/combat/park/attack.mp3",
+      "taskId": "6d348658-0a47-4ee9-be3f-f4429216ef87",
+      "prompt": "Heavy forge hammer swing and compact ringing anvil hit",
+      "duration": 0.457,
+      "bytes": 8403,
+      "sha256": "c38f1a7dba5ed612f4fe6925bda1052f702c873cd5e97ad5759c9f5ba93dab48"
+    },
+    {
+      "id": "park-Q",
+      "label": "팽재현 Q",
+      "file": "public/audio/combat/park/Q.mp3",
+      "taskId": "4f657a9d-cab2-46f3-b4b2-cd0ba332f988",
+      "prompt": "Overhead forging hammer slam, hot metal impact with tiny sparks",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "cc353a53b2efc5fb28beda204ed77c9017e0d4942800563eb5edbebc6701aa68"
+    },
+    {
+      "id": "park-W",
+      "label": "팽재현 W",
+      "file": "public/audio/combat/park/W.mp3",
+      "taskId": "dbc714e3-8d47-48c7-8f5d-4491461c62e7",
+      "prompt": "Hot steel quenched into protective shell: steam hiss and resonant metal ring",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "1714bbd58d30dc52fa5b58471e6a34db6702565c6214f877166d84c7820f7955"
+    },
+    {
+      "id": "park-E",
+      "label": "팽재현 E",
+      "file": "public/audio/combat/park/E.mp3",
+      "taskId": "874145fc-e507-4017-aa54-2516fa8456e0",
+      "prompt": "Hammer warrior rush, heavy whoosh with short fiery scrape",
+      "duration": 0.424,
+      "bytes": 7985,
+      "sha256": "baad7e0f48ccada664949a8431779b2d3009878e0beb0704987c480b8af24a6b"
+    },
+    {
+      "id": "park-R",
+      "label": "팽재현 R",
+      "file": "public/audio/combat/park/R.mp3",
+      "taskId": "2d32d591-3195-4743-b721-83ec6191f5b7",
+      "prompt": "Giant summoned anvil falls after brief ominous rise, massive metallic crash and deep ground rumble",
+      "duration": 1.923,
+      "bytes": 31808,
+      "sha256": "d1715b8391a70697e06f37ac586a59220d7d1aef93a213f30d54dd5dd89c2257"
+    },
+    {
+      "id": "jung-attack",
+      "label": "이선용 attack",
+      "file": "public/audio/combat/jung/attack.mp3",
+      "taskId": "4ae5e737-4c37-4909-94a3-1df1844b7050",
+      "prompt": "Knight sword clean bright steel slash",
+      "duration": 0.504,
+      "bytes": 9239,
+      "sha256": "6f74fd54c362cbcc181370941d6beb8cbf5c9d319fc1404644665d76126fb555"
+    },
+    {
+      "id": "jung-Q",
+      "label": "이선용 Q",
+      "file": "public/audio/combat/jung/Q.mp3",
+      "taskId": "612001c7-3a7e-4072-a79b-7ef84feb99d8",
+      "prompt": "Radiant sword wave, broad metallic slash carrying bright energy",
+      "duration": 0.716,
+      "bytes": 12582,
+      "sha256": "61a03807476d61ecd92a22dc95577348e17d2d6951adf0ef771fd6c2362e046d"
+    },
+    {
+      "id": "jung-W",
+      "label": "이선용 W",
+      "file": "public/audio/combat/jung/W.mp3",
+      "taskId": "a33f965e-11e9-409c-bbae-7bb42a640d69",
+      "prompt": "Holy protective shield forming with clear bell-like crystalline shimmer",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "1671b82a2f6f3f5006a2cd47415189e99f2e4f4d2eae5621ed88a9510b3ef0fe"
+    },
+    {
+      "id": "jung-E",
+      "label": "이선용 E",
+      "file": "public/audio/combat/jung/E.mp3",
+      "taskId": "98c4f567-ba2d-48e5-a9f3-b9527911de25",
+      "prompt": "Knight luminous dash, rising bright airy streak and firm arrival",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "92e2e31859ace04ea206ee419479c133d0d186a099578e6589b1f84bdf9ae6a8"
+    },
+    {
+      "id": "jung-R",
+      "label": "이선용 R",
+      "file": "public/audio/combat/jung/R.mp3",
+      "taskId": "b448e16f-43a3-4883-aff1-d9505516ca8f",
+      "prompt": "Dawn sanctuary expanding, majestic radiant pulse and resonant protective shimmer",
+      "duration": 3.0,
+      "bytes": 48945,
+      "sha256": "e94722ce01c2b8f54a393c530eb04ee1444a3403583e002a8913be857861f1ec"
+    },
+    {
+      "id": "cha-attack",
+      "label": "사공민 attack",
+      "file": "public/audio/combat/cha/attack.mp3",
+      "taskId": "3b938ca5-4767-4d3e-b30c-2d701a37bb8e",
+      "prompt": "Bowstring snap and swift arrow whistle",
+      "duration": 0.5,
+      "bytes": 9239,
+      "sha256": "776af8fee7a90ebdef8190516643e7aeb211b6388d25ed15662302c1a16b2164"
+    },
+    {
+      "id": "cha-Q",
+      "label": "사공민 Q",
+      "file": "public/audio/combat/cha/Q.mp3",
+      "taskId": "ac84111f-50ca-477f-8136-5338ac5c25c6",
+      "prompt": "Powerful piercing arrow release, taut bow snap and cutting wind trail",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "4318398d0865742af9e99e11912a5c24d04e672fcaf8b0662e9fcbfe096869bc"
+    },
+    {
+      "id": "cha-W",
+      "label": "사공민 W",
+      "file": "public/audio/combat/cha/W.mp3",
+      "taskId": "135d90a9-b299-4db3-bc78-b23508da4bb4",
+      "prompt": "Archer precision aim locks in, delicate string tension and clear focus ping",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "b4800fc9c3c119a808885f783d2178c09233486bc825116af2d5e67f72ba7186"
+    },
+    {
+      "id": "cha-E",
+      "label": "사공민 E",
+      "file": "public/audio/combat/cha/E.mp3",
+      "taskId": "3fceb46e-fead-4bbf-9268-5ecd8bf564e0",
+      "prompt": "Quick archer evasive step with cloth swish and light wind rush",
+      "duration": 0.396,
+      "bytes": 7567,
+      "sha256": "6607c72e6585dcd8d3e6ca8bf46de850f0d7771ae2ee723d560f727fe1b7cd4f"
+    },
+    {
+      "id": "cha-R",
+      "label": "사공민 R",
+      "file": "public/audio/combat/cha/R.mp3",
+      "taskId": "dfc89ce7-2a7e-43f3-8b6c-a7ed051033b4",
+      "prompt": "Storm arrow barrage: twelve rapid bow releases and whistling arrows over two seconds",
+      "duration": 1.786,
+      "bytes": 29719,
+      "sha256": "dacd513d9e2f6b0c3a9b84a767ec34526a9b8660289473c298ebf4b171b30f89"
+    },
+    {
+      "id": "sagong-attack",
+      "label": "차동호 attack",
+      "file": "public/audio/combat/sagong/attack.mp3",
+      "taskId": "dd399cda-430e-45c8-85ab-b5e4d696fed6",
+      "prompt": "Small starlight bolt launches with twinkling crystalline zap",
+      "duration": 1.0,
+      "bytes": 17180,
+      "sha256": "00b15ed19191f4c4983515a45913f5ab1c7e83890a87fa17d331464add5f0f6e"
+    },
+    {
+      "id": "sagong-Q",
+      "label": "차동호 Q",
+      "file": "public/audio/combat/sagong/Q.mp3",
+      "taskId": "09c7086e-43b0-4645-9230-4d765afdf362",
+      "prompt": "Meteor shard launch, sharp cosmic chime and sparkling energy streak",
+      "duration": 0.823,
+      "bytes": 14254,
+      "sha256": "75aa588d752ea01bc82d73145613fb4d0d5ff94277a15ffc56667d283f5e4655"
     },
     {
       "id": "sagong-W",
-      "label": "차동호 중력 우물",
+      "label": "차동호 W",
       "file": "public/audio/combat/sagong/W.mp3",
-      "taskId": "6c85bf9d-1e0b-4728-af49-a605aca2c91d",
-      "duration": 1.36,
-      "bytes": 23030
+      "taskId": "62d2ba54-de10-4249-8404-cc2a0dd5d2de",
+      "prompt": "Gravity well opens with descending deep tonal pull and inward rushing air",
+      "duration": 1.418,
+      "bytes": 23867,
+      "sha256": "aea59e8e4017908135752c50d8e3ca767658f937d6ea750ee7827f9aea3f1886"
+    },
+    {
+      "id": "sagong-E",
+      "label": "차동호 E",
+      "file": "public/audio/combat/sagong/E.mp3",
+      "taskId": "b92ac636-c7e6-4f30-8785-650636ede9a4",
+      "prompt": "Short cosmic teleport: vacuum pop and sparkling starburst",
+      "duration": 0.8,
+      "bytes": 13836,
+      "sha256": "f964643f5555d4aa1f708b33c568e541cd0cd261299df6fcb76394c29f4188bb"
+    },
+    {
+      "id": "sagong-R",
+      "label": "차동호 R",
+      "file": "public/audio/combat/sagong/R.mp3",
+      "taskId": "22ddea89-4295-4735-b7da-d3fd62fa49e3",
+      "prompt": "Constellation collapses: seven distinct meteor impacts with cosmic crystalline rumble",
+      "duration": 2.656,
+      "bytes": 43511,
+      "sha256": "edef58702ab17091da037a8d7ad2ee20b6fee0bc43f3cb9ddd33d36edd0ae351"
+    },
+    {
+      "id": "cho-attack",
+      "label": "조강희 attack",
+      "file": "public/audio/combat/cho/attack.mp3",
+      "taskId": "5e4a048d-3d22-45f9-b1dc-d18aa52f10e4",
+      "prompt": "Wooden spear thrust, tight air swish and dry sharp impact",
+      "duration": 0.515,
+      "bytes": 9239,
+      "sha256": "a906d911067dd155f9fb49693a6c5f1160ee61f599477b25a0ded4881ceb4b36"
+    },
+    {
+      "id": "cho-Q",
+      "label": "조강희 Q",
+      "file": "public/audio/combat/cho/Q.mp3",
+      "taskId": "7f2544ab-630a-48cd-a31e-c7d5ca4a3a90",
+      "prompt": "Fang spear powerful piercing thrust with cutting air and solid strike",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "f265e4429d5030213c05a175aeed65ee57d615401e2115242fddbdad3cd16fdd"
+    },
+    {
+      "id": "cho-W",
+      "label": "조강희 W",
+      "file": "public/audio/combat/cho/W.mp3",
+      "taskId": "1ceca865-1b7b-4ef2-a487-07ff14bba0f3",
+      "prompt": "Forest healing breath, soft leaf rustle and warm natural magic shimmer",
+      "duration": 0.988,
+      "bytes": 16762,
+      "sha256": "745b15176ca3c07f921a9e7f4e97f75926c1cbacc7b89c8d5f7203cb0893c6f5"
+    },
+    {
+      "id": "cho-E",
+      "label": "조강희 E",
+      "file": "public/audio/combat/cho/E.mp3",
+      "taskId": "86933b25-40ed-49c2-ac31-f8313794ac01",
+      "prompt": "Hunter leap, airy rising whoosh then earthy landing thump",
+      "duration": 1.222,
+      "bytes": 20524,
+      "sha256": "2fe6523ed3d7625e8e29f00379d62124c489c38afff1bad482102092aa6ba356"
+    },
+    {
+      "id": "cho-R",
+      "label": "조강희 R",
+      "file": "public/audio/combat/cho/R.mp3",
+      "taskId": "34cce76b-523c-442a-848b-2a7aab1c40b4",
+      "prompt": "Primal hunting power awakens with deep beastlike growl and surging forest wind",
+      "duration": 2.546,
+      "bytes": 41839,
+      "sha256": "b7ff2e6171c3cdfc49f2672edc9ed471e478a93a2838f538da5d9e6735258bda"
+    },
+    {
+      "id": "kim-attack",
+      "label": "정석호 attack",
+      "file": "public/audio/combat/kim/attack.mp3",
+      "taskId": "810aa87c-27d8-4cc7-9020-546e3faf3095",
+      "prompt": "Arcane hand cannon short discharge, punchy magical blast",
+      "duration": 0.742,
+      "bytes": 13000,
+      "sha256": "19b455a202a89c8d2c1dd256afdf3b592c44287a5a994581dc1ce98b4481a2bb"
+    },
+    {
+      "id": "kim-Q",
+      "label": "정석호 Q",
+      "file": "public/audio/combat/kim/Q.mp3",
+      "taskId": "5c3d980e-9df8-47be-bfae-604402ff542c",
+      "prompt": "Magic mortar cannon fires, deep launch thump and sparkling energy trail",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "6d0eedfa3fa91fb9a93a5d54daf57273f5bf6501478cfd73ac4e61544914bcc6"
+    },
+    {
+      "id": "kim-W",
+      "label": "정석호 W",
+      "file": "public/audio/combat/kim/W.mp3",
+      "taskId": "051915dc-782b-4cda-ae6d-b572316c1d46",
+      "prompt": "Small arcane mine placement: mechanical click and subtle armed crystal ping",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "b48d92a16b8d5cdabb3f49d4b205b8a179ab7270e9782970653ce14670c3abe0"
+    },
+    {
+      "id": "kim-E",
+      "label": "정석호 E",
+      "file": "public/audio/combat/kim/E.mp3",
+      "taskId": "995005e5-c5ad-4dd8-be49-3284dbba1f58",
+      "prompt": "Close-range recoil cannon blast, compact explosive punch and backward air rush",
+      "duration": 0.852,
+      "bytes": 14672,
+      "sha256": "81d3aa852830ec64ba4fd73427de07be540e02cbaeae4c14f4389ade7fd99702"
+    },
+    {
+      "id": "kim-R",
+      "label": "정석호 R",
+      "file": "public/audio/combat/kim/R.mp3",
+      "taskId": "49b5a471-9bd5-4ac0-9c2e-f0e7a73c3fdd",
+      "prompt": "Arcane artillery barrage, eight staggered deep magical explosions with violet energy crackles",
+      "duration": 2.476,
+      "bytes": 40586,
+      "sha256": "cd26f7988aae545295b50fe657f5ffbe60f516e87166a7ecceaa21a209465cd1"
+    },
+    {
+      "id": "lee-attack",
+      "label": "박철호 attack",
+      "file": "public/audio/combat/lee/attack.mp3",
+      "taskId": "185e40f8-10ca-48c1-a3ae-859b15c3681c",
+      "prompt": "Single resonant sonic pulse, bright plucked tone with punchy attack",
+      "duration": 0.551,
+      "bytes": 10075,
+      "sha256": "7029fcee31f2267e8aa45ab00b0360807628652926a7f82d7f8b2b150a1c24c6"
+    },
+    {
+      "id": "lee-Q",
+      "label": "박철호 Q",
+      "file": "public/audio/combat/lee/Q.mp3",
+      "taskId": "5baacea0-66ba-440a-9d2d-4cee71b72363",
+      "prompt": "Piercing sound wave, clear resonant tonal sweep with shimmering edge",
+      "duration": 1.042,
+      "bytes": 17598,
+      "sha256": "740713bfd8d0627457085fcf770a8077fd80868a594fe7bf4d80e3a786e0b4ae"
+    },
+    {
+      "id": "lee-W",
+      "label": "박철호 W",
+      "file": "public/audio/combat/lee/W.mp3",
+      "taskId": "eb1f4c34-c2d1-489b-98c6-0d9cfdde86c6",
+      "prompt": "Peaceful harmonic shield, gentle layered bell chord blooming outward",
+      "duration": 1.48,
+      "bytes": 24703,
+      "sha256": "79c9c1a14a5ff4e60dea19e676b3fcaca8a446fb920ad30b74835a5b0ea5225b"
+    },
+    {
+      "id": "lee-E",
+      "label": "박철호 E",
+      "file": "public/audio/combat/lee/E.mp3",
+      "taskId": "75be5b7e-5bd2-4b8e-b597-9b3c46c90ce8",
+      "prompt": "Marching speed boost, two brisk percussive magical pulses and airy rise",
+      "duration": 0.47,
+      "bytes": 8821,
+      "sha256": "844f2b79d15a60797c6bc101ba89036dc8470ca4dbf55bd5f56f7fda6f6af563"
+    },
+    {
+      "id": "lee-R",
+      "label": "박철호 R",
+      "file": "public/audio/combat/lee/R.mp3",
+      "taskId": "99af0a77-8d6e-4e81-b0d3-2cd2d2b6e498",
+      "prompt": "Giant resonance wave, powerful layered bell strike and sweeping sonic shockwave",
+      "duration": 3.0,
+      "bytes": 48945,
+      "sha256": "c7f284251887113f4a780cfac19db04220efeceb19a62dd79ee0db03fbd3c483"
+    },
+    {
+      "id": "choi-attack",
+      "label": "최길용 attack",
+      "file": "public/audio/combat/choi/attack.mp3",
+      "taskId": "fcfe08d7-cc1b-4d62-aaa3-25d73cae0066",
+      "prompt": "Ice blaster firing a small crisp frozen bolt",
+      "duration": 0.616,
+      "bytes": 10911,
+      "sha256": "123a6ea88417cc88411004c2c0618343c72914d506a08b1f631e468d8c6a8787"
+    },
+    {
+      "id": "choi-Q",
+      "label": "최길용 Q",
+      "file": "public/audio/combat/choi/Q.mp3",
+      "taskId": "964fa23b-3ab5-464e-8b9b-e08badec6f45",
+      "prompt": "Cryogenic projectile shoots with frosty hiss and sharp crystal crack",
+      "duration": 0.781,
+      "bytes": 13418,
+      "sha256": "a22f9c3ff2f5f65e2368e480d87f8297dad140eebe651e7135042931d82f3703"
+    },
+    {
+      "id": "choi-W",
+      "label": "최길용 W",
+      "file": "public/audio/combat/choi/W.mp3",
+      "taskId": "2dc4d93e-f92a-4dda-b78a-c018e8ec6638",
+      "prompt": "Frost curtain spreads with cold airy gust and fine ice crystal tinkling",
+      "duration": 1.331,
+      "bytes": 22195,
+      "sha256": "b095179f7efd283cabd936938b2fa93866d20a257b320de10ad0a57cf24d2262"
+    },
+    {
+      "id": "choi-E",
+      "label": "최길용 E",
+      "file": "public/audio/combat/choi/E.mp3",
+      "taskId": "9f4ca654-418a-4fef-893e-18fd43ff9c8d",
+      "prompt": "Ice skating dash, swift crystalline scrape and frozen shield snap",
+      "duration": 0.822,
+      "bytes": 14254,
+      "sha256": "cb058a7c24ee2e18eb376663e9a4233165e0f577542b82ec281a3a9427875d5d"
+    },
+    {
+      "id": "choi-R",
+      "label": "최길용 R",
+      "file": "public/audio/combat/choi/R.mp3",
+      "taskId": "b9fa427b-c213-47cd-97ba-1e8aa36f8cbe",
+      "prompt": "Absolute zero detonation, brief sucking cold air then massive ice fracture and crystalline shockwave",
+      "duration": 2.043,
+      "bytes": 33898,
+      "sha256": "3e7dbab851e61397281ea2f9f550abbcb162212112a1cbd9786ad560bb5574cb"
+    },
+    {
+      "id": "flame-attack",
+      "label": "불꽃남자 attack",
+      "file": "public/audio/combat/flame/attack.mp3",
+      "taskId": "b113c920-f03e-4ae7-9267-26807cbe235a",
+      "prompt": "Small fire ember shot, quick fiery puff and dry crackle",
+      "duration": 0.489,
+      "bytes": 8821,
+      "sha256": "d301bca6e1eee944dda6cd6855836f46b1331f2352851fb3d3bc211be17cb58b"
+    },
+    {
+      "id": "flame-Q",
+      "label": "불꽃남자 Q",
+      "file": "public/audio/combat/flame/Q.mp3",
+      "taskId": "b79248cd-6ac6-46c2-86d8-4b2879e575a4",
+      "prompt": "Fireball launch with hot rushing flame and compact fiery burst",
+      "duration": 1.126,
+      "bytes": 19270,
+      "sha256": "811f6c380a080e98fdf8060a6b4f99b860c8d81d9d186c135a61310965454526"
+    },
+    {
+      "id": "flame-W",
+      "label": "불꽃남자 W",
+      "file": "public/audio/combat/flame/W.mp3",
+      "taskId": "bbd9e352-9d54-41b9-a6e9-c6c937da0aad",
+      "prompt": "Flame pillar erupts vertically with deep ignition and roaring fire surge",
+      "duration": 1.022,
+      "bytes": 17598,
+      "sha256": "b64f3a5b9081d943af18228164eed3f2252279f9f490deb309a1337e7cb13caf"
+    },
+    {
+      "id": "flame-E",
+      "label": "불꽃남자 E",
+      "file": "public/audio/combat/flame/E.mp3",
+      "taskId": "aa96e448-2cd5-4d3e-b7b9-4ec26630c71f",
+      "prompt": "Fast fiery dash, searing air rush and trailing crackling embers",
+      "duration": 0.893,
+      "bytes": 15508,
+      "sha256": "558f24c655ad9294de94ac8323f71f63e6deb8cd4207393b23cb871844042638"
+    },
+    {
+      "id": "flame-R",
+      "label": "불꽃남자 R",
+      "file": "public/audio/combat/flame/R.mp3",
+      "taskId": "81d76d5c-53fa-4d19-8c27-78cbafe3c1a3",
+      "prompt": "Inferno storm builds into swirling fire roar and a final powerful flame explosion",
+      "duration": 2.578,
+      "bytes": 42257,
+      "sha256": "230dddc7f88ea32d01d949f1505d6dc38791a61a0f2c35456a26b86231ab51e3"
     }
-  ]
+  ],
+  "version": "20261104-runway-v2",
+  "newGenerationCredits": 120,
+  "mastering": "Mono 44.1kHz 128kbps MP3; silence trimmed, peak normalized, short fades."
 }

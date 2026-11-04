@@ -1,4 +1,5 @@
 // Short Runway one-shots, decoded once and mixed through a bounded voice pool.
+const AUDIO_VERSION='20261104-runway-v2';
 const KINDS=['attack','hit','Q','W','E','R'];
 export class CombatAudio {
   constructor(owner){this.owner=owner;this.buffers=new Map();this.pending=new Map();this.voices=[];this.last=new Map();this.stats={played:0,dropped:0,byKey:{}};}
@@ -9,7 +10,7 @@ export class CombatAudio {
   async loadOne(key){
     if(this.buffers.has(key))return;if(this.pending.has(key))return this.pending.get(key);
     const job=(async()=>{try{
-      const response=await fetch(new URL(`public/audio/combat/${key}.mp3`,document.baseURI));if(!response.ok)throw new Error(String(response.status));
+      const response=await fetch(new URL(`public/audio/combat/${key}.mp3?v=${AUDIO_VERSION}`,document.baseURI));if(!response.ok)throw new Error(String(response.status));
       const buffer=await this.owner.ctx.decodeAudioData(await response.arrayBuffer());
       let peak=0;for(let c=0;c<buffer.numberOfChannels;c++){const a=buffer.getChannelData(c);for(let i=0;i<a.length;i++)peak=Math.max(peak,Math.abs(a[i]));}
       const threshold=Math.max(.0001,peak*.018);let start=buffer.length,end=0;
