@@ -378,7 +378,7 @@ export class World {
       const v = this.views.get(u.id); if (!v) continue;
       let lift = 0;
       if (u.kind === 'champion' && v.v) lift = v.v.container.position.y;
-      const rp = v.root.position; const p = this.project(rp.x, groundHeight(rp.x, rp.z) + v.headY() + lift, rp.z);
+      const rp = v.root.position; const p = this.project(rp.x, groundHeight(rp.x, rp.z) + v.headY() + lift + (u.kind === 'champion' || u.kind === 'decoy' ? 0.25 : 0), rp.z);
       if (p.behind || p.x < -100 || p.x > W + 100 || p.y < -60 || p.y > H + 60) continue;
       list.push({ u, p });
     }
@@ -392,7 +392,9 @@ export class World {
         const isDecoy = u.kind === 'decoy';
         const src = isDecoy ? u.source : u;
         if (isDecoy && !ally) { /* 적 잔영은 실제와 같은 모습으로 표시 */ }
-        const w = 96 * s, h = 12 * s, x = p.x - w / 2 + 8 * s, y = p.y;
+        // Compact overhead UI; leave space below even when the recall bar is visible.
+        const s = Math.max(0.75, Math.min(1, uiScale * 0.78));
+        const w = 96 * s, h = 12 * s, x = p.x - w / 2 + 8 * s, y = p.y - 30 * s - 16;
         // 레벨
         ctx.fillStyle = 'rgba(10,14,20,0.9)'; ctx.fillRect(x - 20 * s, y - 2 * s, 19 * s, h + 7 * s);
         ctx.strokeStyle = '#7a8696'; ctx.lineWidth = 1; ctx.strokeRect(x - 20 * s + 0.5, y - 2 * s + 0.5, 19 * s, h + 7 * s);
