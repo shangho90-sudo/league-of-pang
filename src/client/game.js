@@ -165,6 +165,7 @@ export class Game {
   destroy() {
     clearTimeout(this.endTimer);
     this.welcome.destroy();
+    this.hud.objectiveNotice.destroy();
     if(this.online?.game===this)this.online.game=null;
     this.world.fx.hero.dispose();
     this.world.rangeVisual.dispose();audio.combat.stop();

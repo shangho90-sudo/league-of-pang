@@ -557,3 +557,11 @@ canvas.mm { display: block; border-radius: 4px; cursor: pointer; }
 /* 새 시작 화면: 키 아트 전체 표시 + 좌우 흐린 채움 */
 .keyart-title .keyart-fill { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); object-fit: cover; filter: blur(26px) brightness(0.55) saturate(1.2); pointer-events: none; user-select: none; }
 .keyart-title .title-foot span { display: none; }
+
+/* Boss spawn messages: independent cards, each visible for three seconds. */
+#objective-notices { position: absolute; z-index: 15; top: calc(116px + var(--sat)); left: 50%; transform: translateX(-50%); width: min(440px, 76vw); display: grid; gap: 8px; pointer-events: none; }
+.objective-notice { padding: 12px 20px; border: 1px solid #d8b46a; border-radius: 8px; background: linear-gradient(120deg, #102337f2, #080e1bf2); box-shadow: 0 6px 24px #0008, inset 0 0 18px #d8b46a12; text-align: center; color: #fff0c2; }
+.objective-notice strong { display: block; font-size: clamp(17px, 2.4vw, 23px); text-shadow: 0 2px 5px #000; }
+.objective-notice span { display: block; margin-top: 4px; font-size: clamp(12px, 1.6vw, 14px); color: #dae5f2; word-break: keep-all; }
+.objective-notice.colossus { border-color: #b99aff; background: linear-gradient(120deg, #251b40f2, #0d1224f2); color: #e2d3ff; }
+@media (max-height: 600px) { #objective-notices { top: calc(76px + var(--sat)); width: min(360px, 62vw); gap: 5px; } .objective-notice { padding: 7px 14px; } }

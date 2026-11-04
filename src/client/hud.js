@@ -5,6 +5,7 @@ import { MAP_HALF, LANES, JUNGLE, PITS, BASES, TEAM_COLORS } from '../map/layout
 import { N, walk, sd, rd, brush } from '../map/grid.js';
 import { skillIcon } from './icons.js';
 import { audio } from './audio.js';
+import { ObjectiveNotice } from './objectiveNotice.js';
 
 
 // ---- 상점 장식·아이콘 (SVG) ----
@@ -49,6 +50,7 @@ export class HUD {
     this.cache = {};
     this.msgT = 0; this.annT = 0;
     this.build();
+    this.objectiveNotice = new ObjectiveNotice(this.root);
     this.mmBg = this.renderMinimapBase(256);
   }
   build() {
@@ -118,6 +120,7 @@ export class HUD {
     if (!ok) audio.play('deny', 0.6);
   }
   announce(text, tone = 'neutral') {
+    if (this.objectiveNotice.show(text)) return;
     const a = $('#announce', this.root);
     a.textContent = text; a.style.opacity = 1;
     a.style.color = tone === 'ally' ? '#9ad0ff' : tone === 'enemy' ? '#ffb0a0' : '#ffe6a0';
