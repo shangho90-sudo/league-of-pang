@@ -1,0 +1,21 @@
+{
+  "model": "P1-20260311",
+  "outputParent": "_art/tripo-radiant",
+  "assets": [
+    {
+      "id": "fx-radiant-star",
+      "faces": 1200,
+      "prompt": "Original low poly fantasy spell effect. A solid sculpted eight pointed radiant starburst, four long sharp tapered primary rays and four shorter diagonal rays, small faceted diamond core. Thick bold clean silhouette, thin depth. Flat in XY plane. One connected isolated mesh, no character, no background, no stand, no text. Untextured geometry for saturated emissive game materials."
+    },
+    {
+      "id": "fx-shock-crown",
+      "faces": 1800,
+      "prompt": "Original low poly fantasy spell impact effect. A low wide circular shockwave crown with twelve chunky pointed angular flame petal blades sweeping outward and upward from a thick narrow ring. Large empty center, separated blades with open gaps, clear jagged radial silhouette. Horizontal XZ plane, up is Y. One isolated object, no base, no floor, no character, no text. Untextured game effect mesh."
+    },
+    {
+      "id": "fx-ascend-wings",
+      "faces": 1800,
+      "prompt": "Original low poly fantasy ultimate spell emblem. Symmetrical angelic energy wings made of five solid sharp tapered feather blades per side, fanning upward from a central elongated diamond. Bold sculpted geometric silhouette, open gaps between blades, thin depth. Upright XY plane, Y up. One isolated mesh, no body, no character, no pedestal, no text. Untextured game effect geometry."
+    }
+  ]
+}

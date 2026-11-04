@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {CHAMPIONS} from '../src/data/champions.js';
+import {HERO_ASSETS} from '../src/render/heroAssets.js';
 const root=process.cwd(),mobile=process.argv.includes('--mobile'),errors=[],requests=new Set();
 const mime={'.html':'text/html','.js':'text/javascript','.glb':'model/gltf-binary','.css':'text/css','.json':'application/json','.mp3':'audio/mpeg','.webp':'image/webp'};
 const server=http.createServer((req,res)=>{
@@ -53,7 +54,7 @@ try {
   await page.screenshot({path:`dev/hero-${mobile?'mobile':'desktop'}.png`});
   const cleanup=await page.evaluate(()=>{const fx=GAME.world.fx;fx.hero.update(20);return {active:fx.hero.active.length,pools:[...fx.hero.pool].map(([k,v])=>[k,v.length]),render:GAME.renderer.info.render};});
   for(const c of CHAMPIONS){assert(report.gear[c.id].length>=1,c.id+' missing new gear');for(const slot of ['Q','W','E','R']){assert(report.skills[c.id][slot].ok,`${c.id} ${slot}: ${report.skills[c.id][slot].reason}`);assert(report.skills[c.id][slot].effects>0,`${c.id} ${slot}: missing modeled effect`);}assert(report.basic[c.id]>0,c.id+' basic effect');}
-  assert.equal(requests.size,27);assert(report.active<=report.limit);assert.equal(cleanup.active,0);assert.deepEqual(errors,[]);
+  assert.equal(requests.size,Object.keys(HERO_ASSETS).length);assert(report.active<=report.limit);assert.equal(cleanup.active,0);assert.deepEqual(errors,[]);
   fs.writeFileSync(`dev/hero-${mobile?'mobile':'desktop'}-verification.json`,JSON.stringify({report,cleanup,requests:[...requests],errors},null,2));
   console.log(JSON.stringify({champions:12,skills:48,models:requests.size,cleanup,errors}));
 } finally {await browser.close();await new Promise(resolve=>server.close(resolve));}

@@ -176,7 +176,7 @@ export class World {
           else fx.burst(u.x, y + 0.6, u.z, 6, { color: 0xaaaaaa, tex: 'smoke', additive: false, speed: 1, life: 0.6, size: 0.4 });
           break;
         }
-        case 'proj': if (e.p.src.kind === 'champion' && (e.p.src === player || this.unitVisible(e.p.src))) audio.play(e.p.vis === 'arrow' || e.p.vis === 'pierceArrow' ? 'arrow' : 'zap', e.p.src === player ? 0.7 : 0.25); else if (e.p.vis === 'turret' && this.isVisibleAt(e.p.x, e.p.z)) audio.play('turret', 0.4); break;
+        case 'proj': if (e.p.src.kind === 'champion' && (e.p.src === player || this.unitVisible(e.p.src))) { fx.hero.launch(e.p.src,this.tipOf(e.p.src));audio.play(e.p.vis === 'arrow' || e.p.vis === 'pierceArrow' ? 'arrow' : 'zap', e.p.src === player ? 0.7 : 0.25); } else if (e.p.vis === 'turret' && this.isVisibleAt(e.p.x, e.p.z)) audio.play('turret', 0.4); break;
         case 'cast': if (e.u === player || this.unitVisible(e.u)) { fx.hero.cast(e.u,e.slot); if(!this.combatSound(e.u,e.slot,player))audio.play(e.slot === 'R' ? 'ult' : 'cast', e.u === player ? 1 : 0.4); if (e.slot === 'R') fx.ring(e.u.x, e.u.z, 0.5, 2.2, e.u.def.accent, 0.5, { y: groundHeight(e.u.x, e.u.z) + 0.15 }); } break;
         case 'recall': audio.play('recall', e.u === player ? 1 : 0.2); break;
         case 'recallDone': fx.column(e.u.x, e.u.z, TEAM_COLORS[e.u.team].main, 0.8, 4, 0.9); break;
@@ -274,6 +274,7 @@ export class World {
     }
   }
   zoneFx(dt) {
+    this.fx.hero.syncZones(this.sim,dt,(x,z)=>this.isVisibleAt(x,z),this.playerTeam);
     for (const z of this.sim.zones) {
       if (!z.vis) continue;
       if (z.hiddenFromEnemy && z.team !== this.playerTeam) continue;

@@ -15,6 +15,7 @@ export const HERO_ASSETS = {
   'arcane-backpack': {size:[0.3,0.35,0.14]},
   'fx-crescent': {}, 'fx-bolt': {}, 'fx-rune-ring': {}, 'fx-ward': {},
   'fx-ice-burst': {}, 'fx-flame-vortex': {}, 'fx-meteor': {}, 'fx-anvil': {},
+  'fx-radiant-star': {plane:'upright'}, 'fx-shock-crown': {plane:'ground'}, 'fx-ascend-wings': {plane:'upright'},
 };
 const templates = new Map(), materials = new Map();
 const loader = new GLTFLoader();
@@ -50,6 +51,18 @@ export function loadHeroAssets(base = '', onProgress = () => {}) {
           }
           if(id==='aegis-bracer') for(const p of parts)p.geometry.rotateX(Math.PI/2);
           const def = HERO_ASSETS[id];
+          // Generated effect planes can vary despite prompt axes. Align the thin
+          // axis before normalizing: crowns lie on XZ, stars/wings face +Z.
+          if(def.plane) {
+            const bounds=new THREE.Box3();
+            for(const p of parts){p.geometry.computeBoundingBox();bounds.union(p.geometry.boundingBox);}
+            const d=bounds.getSize(new THREE.Vector3());
+            const thin=d.x<d.y&&d.x<d.z?'x':d.y<d.z?'y':'z';
+            for(const p of parts){
+              if(def.plane==='ground') {if(thin==='z')p.geometry.rotateX(-Math.PI/2);else if(thin==='x')p.geometry.rotateZ(Math.PI/2);}
+              else {if(thin==='x')p.geometry.rotateY(Math.PI/2);else if(thin==='y')p.geometry.rotateX(Math.PI/2);}
+            }
+          }
           // Straighten a generated diagonal weapon before locating the actual hilt.
           if((def.grip!=null && id!=='cryo-blaster') || id==='fx-bolt') {
             const bounds=new THREE.Box3();
@@ -74,7 +87,7 @@ export function loadHeroAssets(base = '', onProgress = () => {}) {
             for(const p of parts){const a=p.geometry.attributes.position;for(let i=0;i<a.count;i++)if(Math.abs(a.getY(i)-center.y)<size.y*0.025){x+=a.getX(i);z+=a.getZ(i);n++;}}
             if(n){center.x=x/n;center.z=z/n;}
           }
-          if(['fx-ward','fx-flame-vortex','fx-ice-burst','fx-anvil'].includes(id)) center.y=box.min.y;
+          if(['fx-ward','fx-flame-vortex','fx-ice-burst','fx-anvil','fx-shock-crown'].includes(id)) center.y=box.min.y;
           for (const p of parts) p.geometry.translate(-center.x,-center.y,-center.z).scale(scale.x,scale.y,scale.z);
           templates.set(id,parts);
         } catch (e) {failures.push(id); console.warn('Hero asset fallback:',id,e.message);}
@@ -110,7 +123,7 @@ export function createHeroAsset(id, accent = 0x78e6df, effect = false) {
   const root = new THREE.Group(); root.name=`tripo-hero-${id}`;
   root.userData.assetId=id;
   for (const p of parts) {
-    const material = effect ? new THREE.MeshBasicMaterial({color:accent,transparent:true,opacity:0.8,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,toneMapped:false}) : equipmentMaterial(p.material,accent);
+    const material = effect ? new THREE.MeshBasicMaterial({color:accent,transparent:false,opacity:1,blending:THREE.NormalBlending,depthWrite:true,side:THREE.DoubleSide,toneMapped:false,fog:false}) : equipmentMaterial(p.material,accent);
     if(effect) {
       material.onBeforeCompile=sh=>{
         sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vEffectNormal;')
@@ -119,11 +132,11 @@ export function createHeroAsset(id, accent = 0x78e6df, effect = false) {
           .replace('#include <opaque_fragment>',`vec3 en=normalize(vEffectNormal);
           float rim=pow(1.0-abs(en.z),2.0);
           float facet=max(0.0,dot(en,normalize(vec3(-0.35,0.7,0.6))));
-          outgoingLight*=0.2+facet*0.42+rim*0.28;
-          diffuseColor.a*=0.55+rim*0.35;
+          outgoingLight*=0.72+facet*0.28;
+          outgoingLight=mix(outgoingLight,vec3(1.0,0.96,0.78),rim*0.12+pow(facet,8.0)*0.32);
           #include <opaque_fragment>`);
       };
-      material.customProgramCacheKey=()=> 'tripo-faceted-energy-v1';
+      material.customProgramCacheKey=()=> 'tripo-solid-energy-v2';
     }
     const mesh = new THREE.Mesh(p.geometry,material); mesh.castShadow=!effect; mesh.frustumCulled=false;
     mesh.userData.sharedHeroGeometry=true; root.add(mesh);

@@ -5,6 +5,7 @@ import { N, height } from '../map/grid.js';
 import { sharedUniforms } from '../render/terrain.js';
 import { CombatEffects } from '../render/combatEffects.js';
 import { createHeroAsset, disposeHeroEffect } from '../render/heroAssets.js';
+import { combatPalette } from '../render/combatPalette.js';
 
 const ATLAS_KEYS = ['soft', 'spark', 'star', 'shard', 'drop', 'ring', 'smoke', 'note'];
 function buildAtlas(tex) {
@@ -166,7 +167,7 @@ export class FX {
     this.teleGeo = new THREE.PlaneGeometry(1, 1, 24, 24).rotateX(-Math.PI / 2);
     this.ringGeo = new THREE.RingGeometry(0.85, 1, 48, 1).rotateX(-Math.PI / 2);
     this.discGeo = new THREE.CircleGeometry(1, 40).rotateX(-Math.PI / 2);
-    this.projGeo = { sphere: new THREE.SphereGeometry(1, 12, 8), cone: new THREE.ConeGeometry(0.5, 1, 6).rotateX(Math.PI / 2), box: new THREE.BoxGeometry(1, 1, 1) };
+    this.projGeo = { sphere: new THREE.SphereGeometry(1, 12, 8), cone: new THREE.ConeGeometry(0.5, 1, 6).rotateX(Math.PI / 2), box: new THREE.BoxGeometry(1, 1, 1), orbit:new THREE.TorusGeometry(0.28,0.035,5,20) };
     this.pool = { ring: [], arc: [] };
     this.pmMat = {};
   }
@@ -232,14 +233,15 @@ export class FX {
   }
   projMat(color, additive = true) {
     const k = color + (additive ? 'a' : 'n');
-    return this.pmMat[k] || (this.pmMat[k] = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.95, blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending, depthWrite: false }));
+    return this.pmMat[k] || (this.pmMat[k] = new THREE.MeshBasicMaterial({ color, transparent: additive, opacity: 1, blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending, depthWrite: !additive, toneMapped:false, fog:false }));
   }
   makeProjView(p) {
     const g = new THREE.Group();
     // 챔피언 탄환: 크기 2배 + 채도·밝기 강화 (전장 배경 위에서 잘 보이게)
     const champ = p.src && p.src.kind === 'champion';
-    const vivid = (c) => { if (!champ) return c; const col = new THREE.Color(c), hsl = {}; col.getHSL(hsl); col.setHSL(hsl.h, Math.min(1, hsl.s * 1.6 + 0.25), Math.min(0.68, Math.max(0.5, hsl.l))); return col.getHex(); };
-    const add = (geo, color, s, pos, add2 = true) => { const m = new THREE.Mesh(geo, this.projMat(vivid(color), add2)); m.scale.copy(s); if (pos) m.position.copy(pos); g.add(m); return m; };
+    const palette=combatPalette(p.src);
+    const vivid = c => !champ?c:c===0xffffff?0xfff1bf:palette.color;
+    const add = (geo, color, s, pos, add2 = !champ) => { const m = new THREE.Mesh(geo, this.projMat(vivid(color), add2)); m.scale.copy(s); if (pos) m.position.copy(pos); g.add(m); return m; };
     const V = (x, y, z) => new THREE.Vector3(x, y, z);
     let trail = null, size = 0.2;
     switch (p.vis) {
@@ -255,17 +257,19 @@ export class FX {
       case 'minion': add(this.projGeo.sphere, p.src.team === 0 ? 0x8ac8ff : 0xffa08a, V(0.1, 0.1, 0.1)); trail = { color: p.src.team === 0 ? 0x6ab0ff : 0xff806a, tex: 'soft', size: 0.16, rate: 20 }; break;
       case 'siege': add(this.projGeo.sphere, 0x3a3a40, V(0.18, 0.18, 0.18), null, false); trail = { color: 0x888888, tex: 'smoke', size: 0.3, rate: 15, normal: true }; break;
       case 'vial': {
-        const v = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, 0.22, 8), new THREE.MeshStandardMaterial({ color: 0xbff8f0, transparent: true, opacity: 0.7, roughness: 0.1 }));
+        const v = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.14, 0.32, 8), new THREE.MeshBasicMaterial({ color: palette.edge, toneMapped:false }));
+        v.userData.ownedProjectileResources=true;
         g.add(v); add(this.projGeo.sphere, 0x6af0d8, V(0.07, 0.07, 0.07)); trail = { color: 0x6af0d8, tex: 'drop', size: 0.16, rate: 25 }; g.userData.spin = true; break;
       }
       case 'shadowBlade': add(this.projGeo.box, 0xb06aff, V(0.6, 0.03, 0.12)); add(this.projGeo.box, 0x6a3aaa, V(0.12, 0.03, 0.6)); trail = { color: 0x8a4adf, tex: 'shard', size: 0.3, rate: 30 }; g.userData.spinY = 18; break;
       case 'dawnWave': {
-        const cr = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.75, 20, 1, -Math.PI / 2.5, Math.PI / 1.25).rotateX(-Math.PI / 2).rotateY(Math.PI / 2), this.projMat(0xffe08a));
+        const cr = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.75, 20, 1, -Math.PI / 2.5, Math.PI / 1.25).rotateX(-Math.PI / 2).rotateY(Math.PI / 2), this.projMat(palette.color,false));
+        cr.userData.ownedProjectileGeometry=true;
         cr.scale.set(1.6, 1, 1.6); g.add(cr); trail = { color: 0xffd86a, tex: 'spark', size: 0.3, rate: 30 }; break;
       }
       case 'starShard': add(this.projGeo.sphere, 0xffe9a0, V(0.16, 0.16, 0.16)); trail = { color: 0xf2c94a, tex: 'star', size: 0.35, rate: 45 }; break;
       case 'soundWave': {
-        for (let i = 0; i < 3; i++) { const cr = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.56, 24, 1, -Math.PI / 3, Math.PI / 1.5).rotateX(-Math.PI / 2).rotateY(Math.PI / 2), this.projMat(i === 1 ? 0xffa6e0 : 0x7af0e0)); cr.position.z = -i * 0.25; cr.scale.setScalar(1.2 + i * 0.1); g.add(cr); }
+        for (let i = 0; i < 3; i++) { const cr = new THREE.Mesh(new THREE.RingGeometry(0.46, 0.58, 24, 1, -Math.PI / 3, Math.PI / 1.5).rotateX(-Math.PI / 2).rotateY(Math.PI / 2), this.projMat(i === 1 ? palette.color : palette.edge,false)); cr.userData.ownedProjectileGeometry=true; cr.position.z = -i * 0.3; cr.scale.setScalar(1.2 + i * 0.1); g.add(cr); }
         trail = { color: 0x7af0e0, tex: 'note', size: 0.25, rate: 12 }; break;
       }
       case 'frost': add(this.projGeo.sphere, 0xbff4ff, V(0.12, 0.12, 0.12)); add(this.projGeo.sphere, 0xffffff, V(0.06, 0.06, 0.06), null, false); trail = { color: 0x8fe0ff, tex: 'shard', size: 0.18, rate: 26 }; break;
@@ -279,22 +283,31 @@ export class FX {
       case 'arcaneShell': add(this.projGeo.sphere, 0xe0a0ff, V(0.22, 0.22, 0.22)); add(this.projGeo.sphere, 0xffffff, V(0.1, 0.1, 0.1), null, false); trail = { color: 0xb05aff, tex: 'soft', size: 0.45, rate: 45 }; break;
       default: add(this.projGeo.sphere, 0xffffff, V(0.12, 0.12, 0.12)); trail = { color: 0xffffff, tex: 'soft', size: 0.2, rate: 20 };
     }
-    if(p.src.kind==='champion' && p.vis!=='vial') {
-      const id=['dawnWave','soundWave','shadowBlade'].includes(p.vis)?'fx-crescent':'fx-bolt';
-      const model=createHeroAsset(id,trail?.color||p.src.def.accent,true);
+    // Preserve arrows, blades, vials and sound waves instead of replacing every
+    // projectile with one generic bolt. Only stars and fireballs use these meshes.
+    const modelId={star:'fx-radiant-star',starShard:'fx-radiant-star',ember:'fx-flame-vortex',fireball:'fx-flame-vortex'}[p.vis];
+    if(champ && modelId) {
+      const model=createHeroAsset(modelId,palette.color,true);
       if(model) {
         g.children.forEach(o=>{o.visible=false;});
-        const strong=['pierceArrow','dawnWave','soundWave','fireball','arcaneShell'].includes(p.vis);
-        model.scale.setScalar(strong?1.1:0.6);g.add(model);g.userData.heroModel=model;
+        const strong=['starShard','fireball'].includes(p.vis);
+        model.scale.setScalar(strong?0.85:0.5);
+        if(modelId==='fx-flame-vortex'){model.rotation.x=Math.PI/2;model.scale.y*=1.6;}
+        else{model.rotation.x=-Math.PI/2;g.userData.spinZ=5;}
+        g.add(model);g.userData.heroModel=model;
       }
     }
     if (champ) {
-      g.scale.setScalar(2);
-      if (trail) trail = { ...trail, color: vivid(trail.color), size: trail.size * 2, rate: trail.rate * 1.3 };
+      g.scale.setScalar(['soundWave','dawnWave'].includes(p.vis)?1.5:2);
+      if(['shell','arcaneShell','alch','wave'].includes(p.vis)){
+        const orbit=new THREE.Mesh(this.projGeo.orbit,this.projMat(palette.edge,false));
+        orbit.rotation.x=Math.PI/3;g.add(orbit);g.userData.orbit=orbit;
+      }
+      if (trail) trail = { ...trail, color: palette.color, size: trail.size * 1.65, rate: trail.rate * 1.25,normal:true };
       // 발광 후광: 탄환 뒤에 밝은 빛 번짐
       const col = vivid(trail ? trail.color : (p.src.def?.accent ?? 0xffffff));
-      const halo = new THREE.Sprite(this.haloMat(col)); halo.scale.setScalar(0.7); g.add(halo);
-      const core = new THREE.Sprite(this.haloMat(0xffffff)); core.scale.setScalar(0.28); g.add(core);
+      const halo = new THREE.Sprite(this.haloMat(col)); halo.scale.setScalar(0.55); g.add(halo);
+      const core = new THREE.Sprite(this.haloMat(0xffe8a0)); core.scale.setScalar(0.16); g.add(core);
     }
     g.userData.trail = trail; g.userData.acc = 0;
     this.scene.add(g);
@@ -318,13 +331,15 @@ export class FX {
       const off = v.userData.off;
       const y = (p.y ?? 1.1);
       const nx = p.x + off.x * k, ny = y + off.y * k, nz = p.z + off.z * k;
-      const prev = v.position.clone();
+      const prev = v.userData.positioned?v.position.clone():new THREE.Vector3(nx,ny,nz);
       v.position.set(nx, ny, nz);
+      v.userData.positioned=true;
       const mv = v.position.clone().sub(prev);
       if (mv.lengthSq() > 1e-6) v.lookAt(v.position.clone().add(mv));
       if (v.userData.spin) v.rotation.x += dt * 14;
       if (v.userData.spinY) v.rotateY(dt * v.userData.spinY);
       if (v.userData.spinZ) v.rotateZ(dt * v.userData.spinZ);
+      if (v.userData.orbit) v.userData.orbit.rotation.y+=dt*8;
       const vis = isVisibleAt(p.x, p.z) || p.src.team === this.playerTeam;
       v.visible = vis;
       const tr = v.userData.trail;
@@ -332,11 +347,16 @@ export class FX {
         v.userData.acc += dt * tr.rate * this.q.particles;
         while (v.userData.acc > 1) {
           v.userData.acc -= 1;
-          this.particle({ x: nx + (Math.random() - 0.5) * 0.1, y: ny + (Math.random() - 0.5) * 0.1, z: nz + (Math.random() - 0.5) * 0.1, color: tr.color, tex: tr.tex, size: tr.size, life: 0.35, additive: !tr.normal, a: 0.85, vy: tr.tex === 'drop' ? -1 : 0.2, g: tr.tex === 'drop' ? 6 : 0 });
+          const blend=Math.random();
+          this.particle({ x: prev.x+(nx-prev.x)*blend, y:prev.y+(ny-prev.y)*blend, z:prev.z+(nz-prev.z)*blend, color: tr.color, tex: tr.tex, size: tr.size, life: 0.3, additive: !tr.normal, a: 1, vy: tr.tex === 'drop' ? -1 : 0.2, g: tr.tex === 'drop' ? 6 : 0 });
         }
       }
     }
-    for (const [id, v] of this.projViews) if (!seen.has(id)) { this.scene.remove(v); if(v.userData.heroModel) disposeHeroEffect(v.userData.heroModel); this.projViews.delete(id); }
+    for (const [id, v] of this.projViews) if (!seen.has(id)) {
+      this.scene.remove(v);if(v.userData.heroModel)disposeHeroEffect(v.userData.heroModel);
+      v.traverse(o=>{if(o.userData.ownedProjectileGeometry||o.userData.ownedProjectileResources)o.geometry.dispose();if(o.userData.ownedProjectileResources)o.material.dispose();});
+      this.projViews.delete(id);
+    }
   }
 
   // ---------- 텔레그래프 ----------

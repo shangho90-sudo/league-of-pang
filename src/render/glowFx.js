@@ -38,7 +38,8 @@ function tex() {
   TEX.beam.wrapS = THREE.RepeatWrapping;
   return TEX;
 }
-const vivid = (c) => { const col = new THREE.Color(c), h = {}; col.getHSL(h); col.setHSL(h.h, Math.min(1, h.s * 1.5 + 0.25), Math.min(0.66, Math.max(0.52, h.l))); return col; };
+const vivid = c => new THREE.Color(c);
+const hold = k => k < 0.65 ? 1 : Math.max(0, (1-k)/0.35);
 
 export class GlowFX {
   constructor(scene, quality) {
@@ -54,11 +55,11 @@ export class GlowFX {
     const T = this.T, pool = this.pools[kind];
     let o = pool.pop();
     if (!o) {
-      const base = { transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false };
+      const base = { transparent: true, depthWrite: false, blending: THREE.NormalBlending, toneMapped: false, fog: false };
       if (kind === 'flash') o = new THREE.Sprite(new THREE.SpriteMaterial({ map: T.flash, ...base }));
       else if (kind === 'ring') o = new THREE.Mesh(this.geo.plane, new THREE.MeshBasicMaterial({ map: T.ring, ...base, side: THREE.DoubleSide }));
       else if (kind === 'pillar') o = new THREE.Mesh(this.geo.cyl, new THREE.MeshBasicMaterial({ map: T.beam, ...base, side: THREE.DoubleSide }));
-      else o = new THREE.Mesh(this.geo.shard, new THREE.MeshBasicMaterial({ ...base }));
+      else o = new THREE.Mesh(this.geo.shard, new THREE.MeshBasicMaterial({ ...base, transparent:false, depthWrite:true }));
       o.renderOrder = 4; o.frustumCulled = false;
     }
     o.material.color.copy(color); o.material.opacity = 0; o.visible = true; o.rotation.set(0, 0, 0);
@@ -75,25 +76,25 @@ export class GlowFX {
   // ---- 구성 요소 ----
   flash(x, y, z, color, size = 1.6, life = 0.28, delay = 0) {
     const c = vivid(color);
-    this.add('flash', c, life, (o, k) => { o.position.set(x, y, z); o.scale.setScalar(size * (0.4 + 0.9 * Math.sqrt(k))); o.material.opacity = (1 - k) * (k < 0.15 ? k / 0.15 : 1); }, delay);
-    this.add('flash', new THREE.Color(0xffffff), life * 0.6, (o, k) => { o.position.set(x, y, z); o.scale.setScalar(size * 0.35 * (0.6 + 0.6 * k)); o.material.opacity = (1 - k) * 0.8; }, delay);
+    this.add('flash', c, life, (o, k) => { o.position.set(x, y, z); o.scale.setScalar(size * (0.45 + 0.7 * Math.sqrt(k))); o.material.opacity = hold(k); }, delay);
+    this.add('flash', new THREE.Color(0xfff4cb), life * 0.5, (o, k) => { o.position.set(x, y, z); o.scale.setScalar(size * 0.2 * (0.6 + 0.6 * k)); o.material.opacity = 1-k; }, delay);
   }
   shock(x, z, color, r = 2, life = 0.45, delay = 0, y) {
     const c = vivid(color), gy = (y ?? groundHeight(x, z)) + 0.14, spin = Math.random() * 6;
-    this.add('ring', c, life, (o, k) => { const e = 1 - Math.pow(1 - k, 3); o.position.set(x, gy, z); o.scale.setScalar(r * 2 * (0.25 + 0.85 * e)); o.rotation.y = spin + k * 0.8; o.material.opacity = Math.pow(1 - k, 1.3); }, delay);
+    this.add('ring', c, life, (o, k) => { const e = 1 - Math.pow(1 - k, 3); o.position.set(x, gy, z); o.scale.setScalar(r * 2 * (0.25 + 0.75 * e)); o.rotation.y = spin + k * 0.8; o.material.opacity = hold(k); }, delay);
   }
   pillar(x, z, color, h = 5, r = 0.8, life = 0.7, delay = 0) {
     const c = vivid(color), gy = groundHeight(x, z);
-    this.add('pillar', c, life, (o, k) => { const up = Math.min(1, k / 0.18); o.position.set(x, gy, z); o.scale.set(r * (1 - 0.5 * k), h * (0.3 + 0.7 * up), r * (1 - 0.5 * k)); o.rotation.y = k * 3; o.material.opacity = (k < 0.18 ? up : Math.pow(1 - (k - 0.18) / 0.82, 1.2)) * 0.62; }, delay);
-    this.add('pillar', new THREE.Color(0xffffff), life * 0.7, (o, k) => { o.position.set(x, gy, z); o.scale.set(r * 0.22, h * 1.05 * Math.min(1, k / 0.15), r * 0.22); o.material.opacity = (1 - k) * 0.45; }, delay);
+    this.add('pillar', c, life, (o, k) => { const up = Math.min(1, k / 0.12); o.position.set(x, gy, z); o.scale.set(r * (1 - 0.5 * k), h * (0.3 + 0.7 * up), r * (1 - 0.5 * k)); o.rotation.y = k * 3; o.material.opacity = hold(k)*0.92; }, delay);
+    this.add('pillar', new THREE.Color(0xffefb0), life * 0.55, (o, k) => { o.position.set(x, gy, z); o.scale.set(r * 0.12, h * 0.9 * Math.min(1, k / 0.12), r * 0.12); o.material.opacity = (1 - k) * 0.8; }, delay);
   }
   shards(x, y, z, color, n = 10, speed = 6, life = 0.7, up = 0.6, delay = 0) {
     const c = vivid(color);
     for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2, el = up * (0.3 + Math.random() * 0.7), sp = speed * (0.6 + Math.random() * 0.6);
       const vx = Math.cos(a) * sp, vz = Math.sin(a) * sp, vy = sp * el * 1.4, rx = Math.random() * 6, rz = Math.random() * 6, sz = 0.35 + Math.random() * 0.45;
-      this.add('shard', i % 3 ? c : new THREE.Color(0xffffff), life * (0.7 + Math.random() * 0.5), (o, k, t) => {
-        o.position.set(x + vx * t, y + vy * t - 7 * t * t, z + vz * t); o.rotation.set(rx + t * 9, 0, rz + t * 7); o.scale.setScalar(sz * (1 - k * 0.6)); o.material.opacity = 1 - k * k;
+      this.add('shard', i % 4 ? c : new THREE.Color(0xffe28a), life * (0.7 + Math.random() * 0.5), (o, k, t) => {
+        o.position.set(x + vx * t, y + vy * t - 7 * t * t, z + vz * t); o.rotation.set(rx + t * 9, 0, rz + t * 7); o.scale.setScalar(sz * (1 - k * 0.6)*hold(k)); o.material.opacity = 1;
       }, delay);
     }
   }
@@ -102,19 +103,17 @@ export class GlowFX {
     const gy = groundHeight(x, z);
     this.flash(x, (y ?? gy + 0.9), z, color, 1.4 + power * 1.2, 0.22 + power * 0.08);
     this.shock(x, z, color, 0.9 + power * 1.3, 0.35 + power * 0.12);
-    if (power >= 0.6) this.shards(x, (y ?? gy + 0.8), z, color, Math.round(5 + power * 8), 4 + power * 3, 0.55, 0.7);
+    if (power >= 0.6) this.shards(x, (y ?? gy + 0.8), z, color, Math.round(4 + power * 4), 3 + power * 2, 0.55, 0.7);
     if (power >= 1.5) this.pillar(x, z, color, 3 + power * 1.5, 0.45 + power * 0.25, 0.55 + power * 0.1);
   }
-  castFlare(u, slot) {
-    const x = u.x, z = u.z, gy = groundHeight(x, z), c = u.def.accent, ult = slot === 'R';
-    if (!ult) { this.flash(x, gy + 1.1, z, c, 1.6, 0.25); this.shock(x, z, c, 1.6, 0.4); this.shards(x, gy + 1.0, z, c, 6, 3.5, 0.5, 0.9); return; }
+  castFlare(u, slot, palette) {
+    const x = u.x, z = u.z, gy = groundHeight(x, z), c = palette.color, ult = slot === 'R';
+    if (!ult) { this.flash(x, gy + 1.1, z, c, 1.3, 0.25); if(slot==='W')this.shock(x,z,c,1.6,0.45); this.shards(x, gy + 1.0, z, palette.edge, 3, 2.5, 0.4, 0.9); return; }
     // 궁극기: 승천 — 빛기둥 + 이중 룬 고리 + 위로 흩날리는 금빛 파편 (참고 이미지 2번째 장면)
-    this.pillar(x, z, c, 7, 1.0, 0.95);
-    this.pillar(x, z, 0xffd27a, 5.5, 0.6, 0.8, 0.05);
+    this.pillar(x, z, c, 4.8, 0.35, 0.8);
     this.flash(x, gy + 2.2, z, c, 2.6, 0.4);
-    this.shock(x, z, c, 3.2, 0.7); this.shock(x, z, 0xffd27a, 2.2, 0.6, 0.12);
-    this.shards(x, gy + 0.6, z, 0xffd27a, 14, 3.2, 1.0, 1.6);
-    this.shards(x, gy + 1.2, z, c, 8, 5, 0.8, 0.8, 0.1);
+    this.shock(x, z, c, 2.8, 0.7); this.shock(x, z, palette.edge, 2.0, 0.6, 0.12);
+    this.shards(x, gy + 0.6, z, palette.edge, 8, 3.2, 0.9, 1.5);
   }
   muzzle(x, y, z, color) { this.flash(x, y, z, color, 1.1, 0.14); }
   update(dt) {
@@ -127,5 +126,10 @@ export class GlowFX {
       if (k >= 1) { this.scene.remove(it.o); it.o.visible = false; this.pools[it.kind].push(it.o); if (it.kind === 'shard') this.shardCount--; this.items.splice(i, 1); }
     }
   }
-  dispose() { for (const it of this.items) this.scene.remove(it.o); this.items = []; }
+  dispose() {
+    const objects=new Set([...this.items.map(it=>it.o),...Object.values(this.pools).flat()]);
+    for(const o of objects){this.scene.remove(o);o.material.dispose();}
+    for(const g of Object.values(this.geo))g.dispose();
+    this.items=[];for(const pool of Object.values(this.pools))pool.length=0;this.shardCount=0;
+  }
 }

@@ -1,0 +1,34 @@
+{
+  "provider": "Tripo",
+  "model": "P1-20260311",
+  "assets": [
+    {
+      "id": "fx-radiant-star",
+      "file": "public/models/heroes/fx-radiant-star.glb",
+      "preview": "public/art/hero-assets/fx-radiant-star.webp",
+      "triangles": 1205,
+      "bytes": 41748,
+      "taskId": "ac8d235d-fbcd-4017-80c6-2af3994638b6",
+      "credits": 30
+    },
+    {
+      "id": "fx-shock-crown",
+      "file": "public/models/heroes/fx-shock-crown.glb",
+      "preview": "public/art/hero-assets/fx-shock-crown.webp",
+      "triangles": 1854,
+      "bytes": 62676,
+      "taskId": "9403c51b-7b71-45db-887c-364f85aebd6b",
+      "credits": 30
+    },
+    {
+      "id": "fx-ascend-wings",
+      "file": "public/models/heroes/fx-ascend-wings.glb",
+      "preview": "public/art/hero-assets/fx-ascend-wings.webp",
+      "triangles": 1870,
+      "bytes": 80228,
+      "taskId": "9c7088bc-781d-4f36-a04b-e9cd7b62f8ee",
+      "credits": 30
+    }
+  ],
+  "totalCredits": 90
+}
