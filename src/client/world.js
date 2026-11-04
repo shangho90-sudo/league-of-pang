@@ -394,7 +394,7 @@ export class World {
         if (isDecoy && !ally) { /* 적 잔영은 실제와 같은 모습으로 표시 */ }
         // Compact overhead UI; leave space below even when the recall bar is visible.
         const s = Math.max(0.75, Math.min(1, uiScale * 0.78));
-        const w = 96 * s, h = 12 * s, x = p.x - w / 2 + 8 * s, y = p.y - 30 * s - 16;
+        const w = 96 * s, h = 12 * s, x = p.x - w / 2 + 8 * s, y = p.y - 30 * s - 6;
         // 레벨
         ctx.fillStyle = 'rgba(10,14,20,0.9)'; ctx.fillRect(x - 20 * s, y - 2 * s, 19 * s, h + 7 * s);
         ctx.strokeStyle = '#7a8696'; ctx.lineWidth = 1; ctx.strokeRect(x - 20 * s + 0.5, y - 2 * s + 0.5, 19 * s, h + 7 * s);
