@@ -2,7 +2,8 @@
 import { LANES, TURRETS, BASES, JUNGLE, PITS, FOUNTAIN_R, MAP_HALF } from '../map/layout.js';
 import { buildGrid, isWalkable, nearestWalkable, findPath, lineWalkable, brushAt, sdAt, toCell, walk, N as GN, cellCenter } from '../map/grid.js';
 import { CHAMPIONS, CHAMP_BY_ID, XP_TABLE, MAX_LEVEL, R_LEVELS, SKILL_ORDER, respawnTime } from '../data/champions.js';
-export const FIRST_SPAWN = 10; // 미니언·정글·대형 몬스터 첫 등장 (초)
+export const FIRST_SPAWN = 10; // 미니언·일반 정글 몬스터 첫 등장 (초)
+export const BOSS_FIRST_SPAWN = { drake: 180, colossus: 300 };
 export const XP_MULT = 1.5;   // 경험치 획득 배율
 import { ITEM_BY_ID, MAX_SLOTS } from '../data/items.js';
 import { hitShape } from './shapes.js';
@@ -95,7 +96,7 @@ export class Sim {
   setupJungle() {
     this.camps = [];
     for (const c of JUNGLE.camps) this.camps.push({ ...c, members: [], respawnAt: FIRST_SPAWN, alive: false });
-    for (const p of PITS) this.camps.push({ ...p, team: 2, members: [], respawnAt: FIRST_SPAWN, alive: false, big: true });
+    for (const p of PITS) this.camps.push({ ...p, team: 2, members: [], respawnAt: BOSS_FIRST_SPAWN[p.kind], alive: false, big: true });
   }
   spawnCamp(c) {
     c.members = [];
